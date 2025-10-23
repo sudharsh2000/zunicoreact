@@ -1,7 +1,7 @@
 
 
 
-export const homeapi='http://zunico.onrender.com/'
+export const homeapi='https://zunico.onrender.com/'
 export const signupapi=homeapi+'api/signup/'
 export const signinapi=homeapi+'signin'
 export const refreshapi=homeapi+'Refresh/'
