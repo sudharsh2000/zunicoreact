@@ -1,0 +1,113 @@
+import React, { useEffect, useState } from 'react'
+import demo from '../assets/demo.jpg'
+import { IndianRupee, ShoppingBag } from 'lucide-react'
+import { useLocation, useParams } from 'react-router'
+import api from '../Redux/Interceptor.jsx'
+import { categoryapi, productapi } from '../Redux/api.jsx'
+function Productlist() {
+  const location=useLocation()
+  const params=new URLSearchParams(location.search)
+  const category=params.get('category')
+  const search=params.get('search')
+  const [products,setproducts]=useState([])
+  const [categorylist,setCategorylist]=useState([])
+  const [categoryfilter,setcategoryfilter]=useState()
+  
+  useEffect(()=>{
+    setcategoryfilter(category)
+    const Loadapi=async()=>{
+      try{
+        let val=''
+        if(category){
+        val=`?category=${categoryfilter}`
+        }
+        if(search){
+          val=`?search=${search}`
+        }
+        const res=await api.get(`${productapi}${val}`)
+        console.log(res.data)
+        setproducts(res.data)
+        const rescateg=await api.get(`${categoryapi}`,{withCredentials:true})
+        setCategorylist(rescateg.data)
+
+      }
+      catch(er){
+console.error(er)
+      }
+
+    }
+    Loadapi();
+
+  },[category,search,categoryfilter])
+
+
+
+
+
+
+  return (
+    <div className='mx-0 my-1 md:x-3.5 md:my-1 '>
+
+            <div className='flex gap-2 md:gap-[3rem]  md:my-[1rem] md: items-center p-1 md:px-[1rem] flex-between mx-1 md:mx-8 rounded-sm shadow-lg bg-white'>
+                <div className='flex row gap-1 md:gap-4 justify-center items-center rounded-lg'>
+                    <h2 className='font-extrabold'>Sort by</h2>
+                    <select className='border-1 border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
+                        <option>Popularity</option>
+                        <option>Price Low to high</option>
+                        <option>Price Low to high</option>
+                        <option>Newest First</option>
+                    </select>
+                    
+                </div>
+                <div className='flex row gap-1 md:gap-4 p-1 md:p-4 justify-center items-center rounded-lg'>
+                    <h2 className='font-extrabold'>Categories</h2>
+                     <select onChange={(e)=>{
+                      console.log(e.target.value)
+                      setcategoryfilter(e.target.value)}} className='border-1 border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
+                       <option value={0}>--Select--</option>
+                        {categorylist&& categorylist.map((categ)=>{
+                        return <option value={categ.id}>{categ.name}</option>
+                       
+                        })}
+                        
+                        
+                    </select>
+                    
+                </div>
+
+            </div>
+            <div className='my-2 md:mx-8 p-1 md:p-5 rounded-sm bg-white'>
+             {products&& products.map((item)=>{
+return <div className='border-y-2 p-1 md:p-5 border-gray-300 flex-row flex justify-around'>
+
+                    <div className='flex w-[65%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-around'>
+                        <img src={item.images[0].image} className='w-[15%] h-fit cursor-pointer hover:scale-105 transition-transform '/>
+                      <div className='flex flex-col justidy-start gap-1 md:gap-[2rem]'> 
+                        <h2 className='text-2xl font-extrabold'>{item.name}</h2>
+                        <p className='w-[60%]'>{item.description}
+                        </p>
+                        </div> 
+                    </div>
+                    <div className='flex w-[35%] gap-2 flex-col md:gap-9 justify-center items-center'>
+                        <h2 className=' flex text-lg font-bold'><IndianRupee/> {item.price}</h2>
+                        <p className='text-green-400 font-bold'>{item.discount}% off</p>
+                      <div className='w-full flex justify-center'> 
+                         <button className='flex justify-center cursor-pointer hover:scale-105 transition-transform p-2 md:p-5 bg-blue-200 rounded-lg w-[60%]  '>Addto cart <ShoppingBag/></button>
+                   </div>
+                    </div>
+                    
+
+
+                </div>
+
+             })}   
+               
+               
+              
+
+            </div>
+    </div>
+  )
+}
+
+export default Productlist
