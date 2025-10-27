@@ -76,12 +76,12 @@ console.error(er)
                 </div>
 
             </div>
-            <div className='my-2 md:mx-8 p-1 md:p-5 rounded-sm bg-white'>
-             {products&& products.map((item)=>{
+            <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[75vh] rounded-sm bg-white'>
+             {products? products.map((item)=>{
 return <div className='border-y-2 p-1 md:p-5 border-gray-300 flex-row flex justify-around'>
 
                     <div className='flex w-[65%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-around'>
-                        <img src={item.images[0].image} className='w-[15%] h-fit cursor-pointer hover:scale-105 transition-transform '/>
+                        <img src={item.images[0].image} className='w-[25%] h-fit cursor-pointer hover:scale-105 transition-transform '/>
                       <div className='flex flex-col justidy-start gap-1 md:gap-[2rem]'> 
                         <h2 className='text-2xl font-extrabold'>{item.name}</h2>
                         <p className='w-[60%]'>{item.description}
@@ -100,7 +100,11 @@ return <div className='border-y-2 p-1 md:p-5 border-gray-300 flex-row flex justi
 
                 </div>
 
-             })}   
+             })
+             :  <div className='flex justify-center h-[30rem]'>
+              <h3 className='text-6xl' >No Items Found</h3>
+             </div>
+             }   
                
                
               

@@ -6,9 +6,10 @@ import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usersave } from '../Redux/UserSlice'
 import api from '../Redux/Interceptor'
-import { User2, User2Icon, UserCircle } from 'lucide-react'
+import { Loader2, Loader2Icon, LoaderCircle, LoaderPinwheel, UploadCloud, User2, User2Icon, UserCircle } from 'lucide-react'
 import { useAuth } from '../Redux/AuthProvider'
 function Admindashboard() {
+    const [loading,setloading]=useState(false)
     const dispatch = useDispatch()
     const { userInfo } = useAuth()
     const User = useSelector(state => state.counter)
@@ -161,8 +162,10 @@ function Admindashboard() {
 
         if (validationCategory()) {
             try {
+                setloading(true)
                 const res = await api.post(categoryapi, CategoryFormdata, { withCredentials: true });
                 console.log(res.data)
+                setloading(false)
                 clearfunction('categories');
 
 
@@ -170,6 +173,7 @@ function Admindashboard() {
             }
             catch (er) {
                 console.error(er)
+                setloading(false)
             }
         }
     }
@@ -183,17 +187,19 @@ function Admindashboard() {
         }
         if (validation()) {
             try {
+                  setloading(true)
                 const res = await api.post(productapi, productFormdata, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 })
                 console.log(res.data)
-
+              setloading(false)
                 clearfunction('products')
 
             }
             catch (er) {
                 console.error(er.response?.data)
+                setloading(false)
             }
         }
 
@@ -201,16 +207,19 @@ function Admindashboard() {
 
     const saveBanner=async()=>{
         try{
+            setloading(true)
             const res=await api.post(bannerapi,bannerform, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 })
                 console.log(res.data)
+                setloading(false)
                 clearfunction('banner')
 
         }
         catch(er){
             console.error('error',er.response?.data)
+            setloading(false)
         }
     }
 
@@ -362,6 +371,10 @@ function Admindashboard() {
                             </div>
                         </div> : ''
                 }
+                {loading&&<div className='absolute '>
+                <LoaderCircle  className='w-[2rem] h-[2rem] animate-spin'/>
+                </div>}
+                
             </div>
 
         </div>

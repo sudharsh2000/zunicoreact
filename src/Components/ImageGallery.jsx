@@ -10,10 +10,10 @@ setmainimage(images[0].image)
     },[images])
  
   return (
-    <div className='w-[82%] flex flex-col gap-2 md:gap-5 '>
+    <div className='w-[100%] md:w-[82%] flex flex-col gap-2 md:gap-5 '>
 
-        <div className='flex border-1 bg-white shadow-2xl md:h-[70%] rounded-lg border-blue-300 justify-center items-center  p-1 md:p-6 transition-transform hover:scale-125'>
-            <img src={mainImage} className='h-[100%]'/>
+        <div className='flex border-1 bg-white shadow-2xl md:h-[70%] rounded-lg border-blue-300 justify-center items-center  p-1 md:p-6 '>
+            <img src={mainImage} className='h-[100%] transition-transform hover:scale-125 hover:z-50 '/>
         </div>
         <div className='flex gap-1 shadow-lg md:gap-8 border-0 p-2 md:p-3 md:h-[20%] rounded-lg'>
            {images&&images.map((image)=>{

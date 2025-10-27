@@ -23,13 +23,13 @@ function Productdetail() {
    loadproducts();
   },[])
   return (
-    <div className='flex justify-around p-3 md:p-8 gap-3 w-[100%] md:gap-10 h-[100vh]'>
-          <ImageGallery images={products.images} className='w-[82%]'/>
-        <div className='flex flex-col justify-center w-[40%] gap-3 md:gap-10'>
+    <div className='flex mb-[2rem] flex-col md:flex-row justify-around p-3 md:p-8 gap-3 w-[100%] md:gap-10 h-[100vh]'>
+          <ImageGallery images={products.images} className='w-[100%] md:w-[82%]'/>
+        <div className='flex flex-col justify-center mb-[2rem] w-[100%] md:w-[40%] gap-3 md:gap-10'>
           <h2 className=' font-bold text-4xl'> {products.name}</h2>
           <div className='w-80% border-1 border-gray-400 rounded-lg p-1 md:p-3'>
             <h2 className='my-1.5 md:my-5 font-extrabold text-lg'> Description</h2>
-            <p>{products.description}</p>
+            <p className='text-xs md:text-lg' >{products.description}</p>
           </div>
           <h1 className='flex gap-0.5 md:gap-2.5 text-green-700'>{parseInt( products.discount)} % <p className='font-bold'>discount</p></h1>
 <div className='w-full flex justify-center items-center'>
