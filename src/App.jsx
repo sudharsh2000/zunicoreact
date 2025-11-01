@@ -16,7 +16,8 @@ import axios from 'axios'
 import { refreshapi } from './Redux/api'
 import { jwtDecode } from 'jwt-decode'
 import ProductList from './Pages/ProductList'
-
+import Cart from './Pages/Cart'
+import { ToastContainer } from 'react-toastify'
 
 
 function App() {
@@ -46,6 +47,16 @@ load();
 },[])
   return (
     <>
+     <ToastContainer
+        position="top-right"
+        autoClose={3000} // closes after 3 seconds
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     <BrowserRouter>
     
     <Routes>
@@ -56,6 +67,7 @@ load();
       <Route path="/admin/dashboard" element={<AdminHome/>}/>
       <Route path='/detail/:id' element={<ProductDetail/>} />
         <Route path='/list' element={<ProductList/>} />
+         <Route path='/cart' element={<Cart/>} />
     </Routes>
   
     </BrowserRouter>

@@ -8,6 +8,7 @@ import { usersave } from '../Redux/UserSlice'
 import api from '../Redux/Interceptor'
 import { Loader2, Loader2Icon, LoaderCircle, LoaderPinwheel, UploadCloud, User2, User2Icon, UserCircle } from 'lucide-react'
 import { useAuth } from '../Redux/AuthProvider'
+import { toast } from 'react-toastify'
 function Admindashboard() {
     const [loading,setloading]=useState(false)
     const dispatch = useDispatch()
@@ -169,11 +170,12 @@ function Admindashboard() {
                 clearfunction('categories');
 
 
-                ;
+                toast.success('Added')
             }
             catch (er) {
                 console.error(er)
                 setloading(false)
+                toast.error('Some error occured')
             }
         }
     }
@@ -195,11 +197,12 @@ function Admindashboard() {
                 console.log(res.data)
               setloading(false)
                 clearfunction('products')
-
+            toast.success('Added')
             }
             catch (er) {
                 console.error(er.response?.data)
                 setloading(false)
+                  toast.error('Not Saved ')
             }
         }
 
@@ -215,6 +218,7 @@ function Admindashboard() {
                 console.log(res.data)
                 setloading(false)
                 clearfunction('banner')
+                  toast.success('Added')
 
         }
         catch(er){

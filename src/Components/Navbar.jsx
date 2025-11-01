@@ -18,8 +18,14 @@ function Navbar() {
 const logoutfunction=async()=>{
     try{
         const res=axios.post(Logoutapi,{},{withCredentials:true})
-        console.log(res.data)
-        navigate('/signin')
+        
+       if(userInfo.superuser){
+        navigate('/admin/signin')
+       }
+       else{
+ navigate('/signin')
+       }
+       
 
     }
     catch(e){
@@ -74,7 +80,7 @@ console.error('logourt error')
            
 
 {accesstoken&&
-<li className='text-white font-extrabold text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
+<li onClick={()=>navigate('/cart')} className='text-white font-extrabold text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
                <ShoppingCart/> 
             </li>
 }

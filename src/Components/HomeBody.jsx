@@ -5,7 +5,7 @@ import demo from '../assets/demo.jpg'
 import Rowitems from './Rowitems'
 function HomeBody() {
   return (
-    <div className='mx-2 md:mx-10  '>
+    <div className='mx-2 md:mx-10 min-h-[100vh]  '>
       <Categories/>
       <Carousel/>
       <Rowitems ali_type={'row'} Title={'Best Deals'} />
