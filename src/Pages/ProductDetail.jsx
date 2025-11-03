@@ -5,7 +5,7 @@ import Navbarmobile from '../Components/Navbarmobile'
 
 function ProductDetail() {
   return (
-    <div>
+    <div className='bg-gradient-to-r from-amber-100 to-blue-300'>
         <Navbar/>
         <Productdetail/>
         <Navbarmobile/>

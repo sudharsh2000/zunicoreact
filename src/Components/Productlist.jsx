@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { IndianRupee, ShoppingBag } from 'lucide-react'
+import { IndianRupee, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import api from '../Redux/Interceptor.jsx'
 import { categoryapi, productapi } from '../Redux/api.jsx'
@@ -51,7 +51,8 @@ const Addcart=async(products)=>{
      { 'Product_id':products.id,
       'quantity':1,
       'price':products.price,
-      'total_price':products.price
+      'total_price':products.price,
+      'discount':(parseFloat(products.discount)*parseFloat(products.price))/100
     }
     ]
 
@@ -96,21 +97,21 @@ const Addcart=async(products)=>{
             </div>
             <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[75vh] rounded-sm bg-white'>
              {products? products.map((item)=>{
-return <div className='border-y-2 p-1 md:p-5 border-gray-300 flex-row flex justify-around'>
+return <div onClick={()=>navigate(`/detail/${item.id}`)}  className='border-y-2 p-1 md:p-5 border-gray-300 flex-row flex justify-around'>
 
-                    <div className='flex w-[85%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
+                    <div  className='flex w-[85%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
                         <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[25%] h-fit cursor-pointer hover:scale-105 transition-transform '/>
                       <div className='flex flex-col justidy-start gap-1 md:gap-[2rem]'> 
-                        <h2 onClick={()=>navigate(`/detail/${item.id}`)}  className='hover:text-blue-400 text-sm md:text-2xl text-center font-extrabold'>{item.name}</h2>
+                        <h2 onClick={()=>navigate(`/detail/${item.id}`)}  className='hover:text-blue-400 text-sm md:text-2xl cursor-pointer text-center font-extrabold'>{item.name}</h2>
                         <p className='w-[100%] overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-lg'>{item.description}
                         </p>
                         </div> 
                     </div>
                     <div className='flex w-[35%] gap-1 flex-col md:gap-9 justify-center items-center'>
-                        <h2 className=' flex font-bold text-sm md:text-lg items-center'><IndianRupee className='h-[50%] md:h-full'/> {item.price}</h2>
+                        <h2 className=' flex font-bold text-xs md:text-lg items-center'><IndianRupee className='h-[50%] md:h-full'/> {item.price}</h2>
                         <p className='text-green-400 text-xs md:text-lg font-bold'>{item.discount}% off</p>
                       <div className='w-full flex justify-center'> 
-                         <button onClick={()=>Addcart(item)} className='flex justify-center text-sm gap-1 md:text-lg cursor-pointer hover:scale-105 transition-transform p-1 md:p-4 bg-blue-200 rounded-lg w-[96%] md:w-[50%] shadow-lg '>Addto cart <ShoppingBag/></button>
+                         <button onClick={()=>Addcart(item)} className='flex justify-center text-sm gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-orange-700 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl w-[96%] md:w-[50%] shadow-xl '>Addto cart <ShoppingCart/></button>
                    </div>
                     </div>
                     

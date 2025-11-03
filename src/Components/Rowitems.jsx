@@ -50,13 +50,13 @@ function Rowitems({ali_type,Title}) {
     
         {products &&
         products.map((product)=>{
-          return <div key={product.id} onClick={()=>navigate(`/detail/${product.id}`)} className='flex md:w-[14rem] m-2 justify-between items-center flex-col cursor-pointer hover:scale-105 transition-transform'>
+          return <div key={product.id} onClick={()=>navigate(`/detail/${product.id}`)} className='flex w-[6rem] md:w-[14rem] m-2 justify-between items-center flex-col cursor-pointer hover:scale-105 transition-transform'>
           <img src={product.main_image} className='w-[6rem] h-[6rem] md:w-[12rem] md:h-[12rem]'/>
          
 <h2 className='text-blue-500 max-w-[5rem] md:max-w-[100%] text-center break-words whitespace-normal text-xs md:text-lg  hover:text-black '>{product.name}</h2>
             
           
-          <h3 className='text-[13px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5'/> {product.price}</h3>
+          <h3 className='text-[10px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5'/> {product.price}</h3>
         </div>
         })
         }

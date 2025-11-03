@@ -1,4 +1,4 @@
-import { CartApi } from "../Redux/api"
+import { CartApi, CartItemApi } from "../Redux/api"
 
 import api from "../Redux/Interceptor"
 
@@ -19,7 +19,7 @@ export const addTocart=async(cartdata,apitype,id)=>{
              retundata=res.data
         }
         if(apitype==='delete'){
-            res=await api.delete(`${CartApi}${id}/`) 
+            res=await api.delete(`${CartItemApi}${id}/`) 
              retundata=res.status
         }
         console.log(retundata)

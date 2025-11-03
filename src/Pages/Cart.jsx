@@ -5,7 +5,7 @@ import CartPage from '../Components/Cart'
 
 function Cart() {
   return (
-    <div>
+    <div className='bg-gradient-to-r from-amber-100 to-blue-300'>
         <Navbar/>
         <CartPage/>
         <Navbarmobile/>
