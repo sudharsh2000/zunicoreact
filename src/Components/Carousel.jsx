@@ -38,7 +38,7 @@ catch(er){
         {
           items.map((item)=>{
             return   <SwiperSlide key={item.id}>
-                <img  src={item.image} className='object-cover w-full h-[180px] md:h-[600px]' />
+                <img  src={item.image} className='object-cover w-full h-[180px] md:h-[800px]' />
             </SwiperSlide>
           })
         }

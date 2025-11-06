@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { DeleteIcon, IndianRupee, IndianRupeeIcon, PlusIcon, Trash, Trash2 } from 'lucide-react'
+import { ClosedCaption, DeleteIcon, IndianRupee, IndianRupeeIcon, PlusIcon, Trash, Trash2 } from 'lucide-react'
 import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate } from 'react-router'
+import Addaddress from './Addaddress'
+import { AddressApi } from '../Redux/api'
+import api from '../Redux/Interceptor'
+
 function CartPage() {
   const navigate=useNavigate()
   const {userInfo}=useAuth()
@@ -23,6 +27,18 @@ const res=await addTocart(null,'get',userInfo.userid);
      setPriceTotal(res[0].total_price)
      setDiscount(res[0].total_discount)
      setFinalAmount(res[0].final_price)
+    
+     try{
+      if(userInfo.userid){
+      const reswait= await api.get(`${AddressApi}?user=${userInfo.userid}`)
+      console.log(reswait.data)
+      SetAddress(reswait.data[0])
+      }
+      
+     }
+     catch(er){
+      console.error(er)
+     }
    
     }
      loadapi(); 
@@ -60,14 +76,17 @@ const res=await addTocart(null,'get',userInfo.userid);
     {
       userInfo?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
 
-            <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex justify-center items-center'>
+            <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
               <div className='w-[80%]'>
-                {address?<p className='text-xs md:text-lg text-blue-500'>{address}</p >:<p className='text-xs md:text-lg text-blue-500'> Select Address before continue</p>
+                {address?<p className='text-xs md:text-lg text-black flex gap-2  flex-col'>
+                  <div>{address.full_name } {address.house_name},{address.landmark},{address.street} {address.district}  {address.state}</div>
+                  <div> pin : {address.pincode }  Mobile :{address.phone}</div>
+                  </p >:<p className='text-xs md:text-lg text-blue-500'> Select Address before continue</p>
                 }
 
               </div>
-              <button className='flex p-1 md:p-2 rounded-lg hover:border-[1px] hover:shadow-lg border-blue-300 '> Add <PlusIcon/> </button>
-
+             {!address? <button onClick={()=>navigate('/address')} className='flex p-1 md:p-2 rounded-lg hover:border-[1px] hover:shadow-lg border-blue-300 '> Add <PlusIcon/> </button>:
+             <button  className='flex p-1 md:p-2 rounded-lg hover:border-[1px] hover:shadow-lg border-blue-300 '> Change </button> }
             </div>
             <div className='w-full  overflow-auto bg-white'>
               {Carts &&
@@ -144,6 +163,7 @@ const res=await addTocart(null,'get',userInfo.userid);
         </div>
        :''
      } 
+    
     </div>
     
   )

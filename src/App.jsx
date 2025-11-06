@@ -18,6 +18,7 @@ import { jwtDecode } from 'jwt-decode'
 import ProductList from './Pages/ProductList'
 import Cart from './Pages/Cart'
 import { ToastContainer } from 'react-toastify'
+import AddressPage from './Pages/AddressPage'
 
 
 function App() {
@@ -68,6 +69,7 @@ load();
       <Route path='/detail/:id' element={<ProductDetail/>} />
         <Route path='/list' element={<ProductList/>} />
          <Route path='/cart' element={<Cart/>} />
+            <Route path='/address' element={<AddressPage/>} />
     </Routes>
   
     </BrowserRouter>
