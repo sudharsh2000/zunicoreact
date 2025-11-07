@@ -15,6 +15,7 @@ function Productlist() {
   const [products,setproducts]=useState([])
   const [categorylist,setCategorylist]=useState([])
   const [categoryfilter,setcategoryfilter]=useState()
+  const [sort,setSort]=useState('')
   const navigate=useNavigate()
   useEffect(()=>{
     setcategoryfilter(category)
@@ -22,10 +23,10 @@ function Productlist() {
       try{
         let val=''
         if(category){
-        val=`?category=${categoryfilter}`
+        val=`?category=${categoryfilter}&ordering=${sort}`
         }
         if(search){
-          val=`?search=${search}`
+          val=`?search=${search}&ordering=${sort}`
         }
         const res=await api.get(`${productapi}${val}`)
         console.log(res.data)
@@ -41,7 +42,7 @@ console.error(er)
     }
     Loadapi();
 
-  },[category,search,categoryfilter])
+  },[category,search,sort])
 
 
 const Addcart=async(products)=>{
@@ -70,19 +71,19 @@ const Addcart=async(products)=>{
             <div className='flex gap-2 md:gap-[3rem]  md:my-[1rem] md: items-center p-1 md:px-[1rem] flex-between mx-1 md:mx-8 rounded-sm shadow-lg bg-white'>
                 <div className='flex  row gap-1 md:gap-4 justify-center items-center rounded-lg'>
                     <h2 className='font-extrabold text-xs md:text-lg'>Sort by</h2>
-                    <select className='border-1 border-gray-100 text-xs md:text-lg shadow-lg p-1 md:p-4 rounded-lg'>
-                        <option>Popularity</option>
-                        <option>Price Low to high</option>
-                        <option>Price Low to high</option>
-                        <option>Newest First</option>
+                    <select value={sort} onChange={(s)=>setSort(s.target.value)} className='border-1 border-gray-100 text-xs md:text-lg shadow-lg p-1 md:p-4 rounded-lg'>
+                        <option value={''}>Popularity</option>
+                        <option value={'price'}>Price Low to high</option>
+                        <option value={'-price'}>Price High to Low</option>
+                        <option value={'updated_at'}>Newest First</option>
                     </select>
                     
                 </div>
                 <div className='flex row gap-1 md:gap-4 p-1 md:p-4 justify-center items-center rounded-lg'>
                     <h2 className='font-extrabold text-xs md:text-lg'>Categories</h2>
-                     <select onChange={(e)=>{
+                     <select value={category} onChange={(e)=>{
                       console.log(e.target.value)
-                      setcategoryfilter(e.target.value)}} className='border-1 text-xs md:text-lg border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
+                      navigate(`/list?category=${e.target.value}`)}} className='border-1 text-xs md:text-lg border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
                        <option value={0}>--Select--</option>
                         {categorylist&& categorylist.map((categ)=>{
                         return <option value={categ.id}>{categ.name}</option>
@@ -97,21 +98,21 @@ const Addcart=async(products)=>{
             </div>
             <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[75vh] rounded-sm bg-white'>
              {products? products.map((item)=>{
-return <div onClick={()=>navigate(`/detail/${item.id}`)}  className='border-y-2 p-1 md:p-5 border-gray-300 flex-row flex justify-around'>
+return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className='border-y-2 p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
 
                     <div  className='flex w-[85%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
-                        <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[25%] h-fit cursor-pointer hover:scale-105 transition-transform '/>
+                        <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[35%] md:w-[25%] h-fit cursor-pointer hover:scale-105 transition-transform '/>
                       <div className='flex flex-col justidy-start gap-1 md:gap-[2rem]'> 
                         <h2 onClick={()=>navigate(`/detail/${item.id}`)}  className='hover:text-blue-400 text-sm md:text-2xl cursor-pointer text-center font-extrabold'>{item.name}</h2>
                         <p className='w-[100%] overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-lg'>{item.description}
                         </p>
                         </div> 
                     </div>
-                    <div className='flex w-[35%] gap-1 flex-col md:gap-9 justify-center items-center'>
+                    <div className='flex w-[35%] gap-3 flex-col md:gap-9 justify-center items-center'>
                         <h2 className=' flex font-bold text-xs md:text-lg items-center'><IndianRupee className='h-[50%] md:h-full'/> {item.price}</h2>
                         <p className='text-green-400 text-xs md:text-lg font-bold'>{item.discount}% off</p>
-                      <div className='w-full flex justify-center'> 
-                         <button onClick={()=>Addcart(item)} className='flex justify-center text-sm gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-orange-700 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl w-[96%] md:w-[50%] shadow-xl '>Addto cart <ShoppingCart/></button>
+                      <div className='w-full flex justify-center items-center'> 
+                         <button onClick={()=>Addcart(item)} className='flex justify-center text-xs gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-orange-700 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl w-[96%] md:w-[50%] shadow-xl '>Addto cart <ShoppingCart/></button>
                    </div>
                     </div>
                     

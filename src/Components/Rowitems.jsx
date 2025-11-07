@@ -50,10 +50,10 @@ function Rowitems({ali_type,Title}) {
     
         {products &&
         products.map((product)=>{
-          return <div key={product.id} onClick={()=>navigate(`/detail/${product.id}`)} className='flex border-1 rounded-xl w-fit md:w-fit min-w-[26rem] m-2 justify-between p-2  items-center flex-col cursor-pointer hover:scale-105 transition-transform'>
+          return <div key={product.id} onClick={()=>navigate(`/detail/${product.id}`)} className='flex border-1 rounded-x max-w-[11rem] md:w-fit md:min-w-[26rem] m-2 rounded-lg justify-between p-2  items-center flex-col cursor-pointer hover:scale-105 transition-transform'>
           <img src={product.main_image} className='w-[10rem] h-[10rem] md:w-[25rem] md:h-[25rem]'/>
          
-<h2 className='text-blue-500 max-w-[5rem] md:max-w-[100%] text-center break-words whitespace-normal text-xs md:text-lg  hover:text-black '>{product.name}</h2>
+<h2 className='text-blue-500 max-w-[100%] md:max-w-[100%] text-center break-words whitespace-normal text-xs md:text-lg  hover:text-black '>{product.name}</h2>
             
           
           <h3 className='bg-yellow-500 p-1 justify-center rounded-lg w-[100%] text-[10px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5'/> {product.price}</h3>
