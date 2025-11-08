@@ -19,6 +19,7 @@ import ProductList from './Pages/ProductList'
 import Cart from './Pages/Cart'
 import { ToastContainer } from 'react-toastify'
 import AddressPage from './Pages/AddressPage'
+import UserHomePage from './Pages/UserHomePage'
 
 
 function App() {
@@ -67,9 +68,10 @@ load();
       <Route path="/admin/signin" element={ <AdminLogin/>} />
       <Route path="/admin/dashboard" element={<AdminHome/>}/>
       <Route path='/detail/:id' element={<ProductDetail/>} />
-        <Route path='/list' element={<ProductList/>} />
-         <Route path='/cart' element={<Cart/>} />
-            <Route path='/address' element={<AddressPage/>} />
+      <Route path='/list' element={<ProductList/>} />
+      <Route path='/cart' element={<Cart/>} />
+      <Route path='/address' element={<AddressPage/>} />
+      <Route path='/profile' element={<UserHomePage/>} />
     </Routes>
   
     </BrowserRouter>

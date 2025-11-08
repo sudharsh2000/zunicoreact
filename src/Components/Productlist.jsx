@@ -6,6 +6,7 @@ import api from '../Redux/Interceptor.jsx'
 import { categoryapi, productapi } from '../Redux/api.jsx'
 import { addTocart } from '../Hooks/Addcart.jsx'
 import { useAuth } from '../Redux/AuthProvider.jsx'
+import LoadingScreen from './LoadingPage.jsx'
 function Productlist() {
   const location=useLocation()
   const params=new URLSearchParams(location.search)
@@ -16,10 +17,12 @@ function Productlist() {
   const [categorylist,setCategorylist]=useState([])
   const [categoryfilter,setcategoryfilter]=useState()
   const [sort,setSort]=useState('')
+  const [loading,SetLoading]=useState(false)
   const navigate=useNavigate()
   useEffect(()=>{
-    setcategoryfilter(category)
+   
     const Loadapi=async()=>{
+       setcategoryfilter(category)
       try{
         let val=''
         if(category){
@@ -28,11 +31,13 @@ function Productlist() {
         if(search){
           val=`?search=${search}&ordering=${sort}`
         }
+        SetLoading(true)
         const res=await api.get(`${productapi}${val}`)
         console.log(res.data)
         setproducts(res.data)
         const rescateg=await api.get(`${categoryapi}`,{withCredentials:true})
         setCategorylist(rescateg.data)
+        SetLoading(false)
 
       }
       catch(er){
@@ -42,7 +47,7 @@ console.error(er)
     }
     Loadapi();
 
-  },[category,search,sort])
+  },[category,categoryfilter, search,sort])
 
 
 const Addcart=async(products)=>{
@@ -81,7 +86,7 @@ const Addcart=async(products)=>{
                 </div>
                 <div className='flex row gap-1 md:gap-4 p-1 md:p-4 justify-center items-center rounded-lg'>
                     <h2 className='font-extrabold text-xs md:text-lg'>Categories</h2>
-                     <select value={category} onChange={(e)=>{
+                     <select value={categoryfilter} onChange={(e)=>{
                       console.log(e.target.value)
                       navigate(`/list?category=${e.target.value}`)}} className='border-1 text-xs md:text-lg border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
                        <option value={0}>--Select--</option>
@@ -97,7 +102,8 @@ const Addcart=async(products)=>{
 
             </div>
             <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[75vh] rounded-sm bg-white'>
-             {products? products.map((item)=>{
+             {loading?
+             <div className='h-[70vh]'><LoadingScreen /></div>: products? products.map((item)=>{
 return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className='border-y-2 p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
 
                     <div  className='flex w-[85%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
@@ -124,6 +130,8 @@ return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className
              :  <div className='flex justify-center h-[30rem]'>
               <h3 className='text-6xl' >No Items Found</h3>
              </div>
+             
+             
              }   
                
                

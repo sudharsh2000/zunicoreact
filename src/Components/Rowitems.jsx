@@ -1,23 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { ArrowBigLeft, IndianRupee, IndianRupeeIcon } from 'lucide-react'
+import { ArrowBigLeft, ArrowRight, IndianRupee, IndianRupeeIcon } from 'lucide-react'
 import api from '../Redux/Interceptor'
 import { productapi } from '../Redux/api'
 import { useNavigate } from 'react-router'
+import LoadingScreen from './LoadingPage'
 function Rowitems({ali_type,Title}) {
     const ref=useRef(null)
     const[products,setProducts]=useState([])
     const navigate=useNavigate()
+    const [loading,setLoading]=useState(false)
     useEffect(()=>{
       const LoadProducts=async()=>{
         try{
+          setLoading(true)
           const res=await api.get(productapi,{withCredentials:true})
           console.log(res.data)
           setProducts(res.data)
-
+          setLoading(false)
+          
         }
         catch(er){
           console.log('Error in product fetching')
+          setLoading(false)
         }
 
       }
@@ -35,9 +40,15 @@ function Rowitems({ali_type,Title}) {
         }
     }
   return (
-    <div>
-        <div className='bg-white  my-2 '>
-        <h1 className='text-lg md:text-2xl pt-2 md:pt-8 ml-4 md:ml-8 my-2 md:my-8 font-bold overflow-auto'>{Title}</h1>
+    <div className='min-h-[12rem] md:min-h-[40rem]'>
+      {loading?
+      <div className='h-[30vh]'><LoadingScreen/></div>:
+        <div className={`bg-white  my-2 ${ali_type==='row'?'':'mt-[3rem] md:mt-[8rem]'} `}>
+      <div className='flex items-center justify-between px-2 md:px-5 gap-2 md:gap-5 '> 
+         <h1 className='text-lg md:text-3xl pt-2 md:pt-8 ml-4 md:ml-8 my-2 md:my-8 font-bold overflow-auto'>{Title}</h1>
+         <p onClick={()=>navigate(`/list?search=`)} className='text-blue-700 cursor-pointer hover:text-blue-300 flex text-sm md:text-lg'>View More </p>
+      
+      </div>
      {ali_type==='row'&&
      <button onClick={()=>scrollfn('left')}  className=' hidden md:block absolute    bg-[#2a272726]  left-[1rem] md:left-[3.5rem] w-[1.6rem] h-[2rem] md:w-[2rem] md:h-[6rem] rounded-sm z-index:10 hover:bg-red-200 hover:scale-125 duration-300 transform-3d  transition-transform  shadow-2xl'>&#9664;</button>
        }
@@ -69,7 +80,7 @@ function Rowitems({ali_type,Title}) {
 
 
         </div>
-      </div>
+      </div>}
     </div>
   )
 }

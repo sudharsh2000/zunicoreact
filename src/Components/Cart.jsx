@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 import Addaddress from './Addaddress'
 import { AddressApi } from '../Redux/api'
 import api from '../Redux/Interceptor'
+import LoadingScreen from './LoadingPage'
 
 function CartPage() {
   const navigate=useNavigate()
@@ -16,10 +17,13 @@ function CartPage() {
   const [pricetotal,setPriceTotal]=useState('-----')
   const [discounttotal,setDiscount]=useState('-----')
   const [FinalAmount,setFinalAmount]=useState('-----')
-
+  const [loading,SetLoading]=useState()
   useEffect(()=>{
-  if(userInfo){
+
  const loadapi=async()=>{
+  
+  if (!userInfo || !userInfo.userid) return;
+   SetLoading(true)
 const res=await addTocart(null,'get',userInfo.userid);
       
      setCarts(res[0].items)
@@ -30,21 +34,24 @@ const res=await addTocart(null,'get',userInfo.userid);
     
      try{
       if(userInfo.userid){
+       
       const reswait= await api.get(`${AddressApi}?user=${userInfo.userid}`)
       console.log(reswait.data)
       SetAddress(reswait.data[0])
+    
       }
       
      }
      catch(er){
       console.error(er)
+      
      }
-   
+     SetLoading(false)
     }
      loadapi(); 
-  } 
+  
     
-  },[userInfo])
+  },[])
  
   const handleIncreaseDecrease = (productid, type) => {
   setCarts(prev => {
@@ -74,7 +81,7 @@ const res=await addTocart(null,'get',userInfo.userid);
   
           <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[90vh] max-h-[95vh]'>
     {
-      userInfo?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
+     loading?<div className='h-[80vh] bg-white w-[100%]'><LoadingScreen/></div>: userInfo?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
 
             <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
               <div className='w-[80%]'>
@@ -140,7 +147,7 @@ const res=await addTocart(null,'get',userInfo.userid);
           </div>
         }
      {
-      userInfo?  <div className='bg-white shadow-lg flex flex-col w-[100%] py-3 px-2  md:px-3 md:py-9 md:w-[20%] h-[80%] gap-1 md:gap-5 pt-1'>
+     !loading&& userInfo?  <div className='bg-white shadow-lg flex flex-col w-[100%] py-3 px-2  md:px-3 md:py-9 md:w-[20%] h-[80%] gap-1 md:gap-5 pt-1'>
           <div className='flex justify-around w-full p-1 md:p-2'>
             <h2 className='w-[40%] text-xs md:text-xl'>Total Price</h2>
             <p> - </p>

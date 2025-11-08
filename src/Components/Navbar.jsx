@@ -34,7 +34,7 @@ console.error('logourt error')
 }
 
   return (
-    <div className='sticky w-full top-0 z-50'>
+    <div className='hidden md:block sticky w-full top-0 z-50'>
     <div className='flex flex-row bg-gradient-to-r from-white to-pink-900 w-[100%] h-[3.5rem] justify-center items-center gap-2 md:h-[4.5rem] md:gap-8 '>
         <div className='flex gap-2 md:gap-14 justify-center items-center'>
             <img onClick={()=>navigate('/')} src={zunicologo} className='w-[25%] md:w-[12rem] h-[100%] p-0' />
@@ -67,7 +67,7 @@ console.error('logourt error')
 
 <div onMouseEnter={()=>setopen(true)}  className=' w-[10rem] absolute z-50 bg-white shadow-lg rounded-lg top-[2.6rem] right-[0rem]'>
         <ul className='text-black  font-medium flex flex-col py-4 justify-center items-center '>
-            <li className='w-full text-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' >Profile</li>
+            <li onClick={()=>navigate('/profile')} className='w-full text-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' >Profile</li>
             <li className='w-full text-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'>Orders</li>
             <li className='w-full text-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'>Wishlist</li>
 

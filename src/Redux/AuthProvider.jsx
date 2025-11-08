@@ -9,7 +9,9 @@ import React from 'react'
 export function AuthProvider({children}) {
 
 const[accesstoken,setAccesstoken]=useState('')
-const [userInfo,setUserInfo]=useState()
+const [userInfo,setUserInfo]=useState({
+
+})
 
 const login=(token,info)=>{
     setAccesstoken(token)

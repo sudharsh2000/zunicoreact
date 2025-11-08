@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Categories from './Categories'
 import Carousel from './Carousel'
 import demo from '../assets/demo.jpg'
 import Rowitems from './Rowitems'
+
 function HomeBody() {
+
   return (
-    <div className=' md:mx-10 min-h-[100vh]  '>
-      <Categories/>
+   
+     <div className=' md:mx-10 min-h-[100vh] '>
+      <Categories  />
       <Carousel/>
-      <Rowitems ali_type={'row'} Title={'Best Deals'} />
-      <Rowitems ali_type={'col'} Title={'Top Categories'}/>
+      <Rowitems  ali_type={'row'} Title={'Best Deals'} />
+      <Rowitems  ali_type={'col'} Title={'Top Categories'}/>
       
     </div>
+    
+    
+    
   )
 }
 

@@ -2,6 +2,7 @@
 
 
 export const homeapi=process.env.NODE_ENV === 'production'?'https://zunico.onrender.com/':'http://localhost:8000/'
+
 export const signupapi=homeapi+'api/signup/'
 export const signinapi=homeapi+'signin'
 export const refreshapi=homeapi+'Refresh/'
