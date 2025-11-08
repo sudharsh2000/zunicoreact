@@ -61,7 +61,7 @@ function Rowitems({ali_type,Title}) {
     
         {products &&
         products.map((product)=>{
-          return <div key={product.id} onClick={()=>navigate(`/detail/${product.id}`)} className='flex border-1 rounded-x max-w-[11rem] md:w-fit md:min-w-[26rem] m-2 rounded-lg justify-between p-2  items-center flex-col cursor-pointer hover:scale-105 transition-transform'>
+          return <div key={product.id} onClick={()=>navigate(`/detail/${product.id}`)} className='flex border-1 rounded-x max-w-[9.6rem] md:w-fit md:min-w-[26rem] m-1 rounded-lg justify-between p-2  items-center flex-col cursor-pointer hover:scale-105 transition-transform'>
           <img src={product.main_image} className='w-[10rem] h-[10rem] md:w-[25rem] md:h-[25rem]'/>
          
 <h2 className='text-blue-500 max-w-[100%] md:max-w-[100%] text-center break-words whitespace-normal text-xs md:text-lg  hover:text-black '>{product.name}</h2>
