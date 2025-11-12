@@ -14,3 +14,5 @@ export const productapi=homeapi+'api/products/'
 export const usersapi=homeapi+'api/users/'
 export const CartItemApi=homeapi+'api/cartitem/'
 export const AddressApi=homeapi+'api/addAdress/'
+export const OrderApi=homeapi+'api/orders/'
+

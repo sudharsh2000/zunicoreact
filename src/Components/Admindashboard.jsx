@@ -101,7 +101,18 @@ function Admindashboard() {
         }
         loadapi();
     }, [window, userInfo])
-
+  const updateUser=async()=>{
+        
+       try{ const res=await api.patch(`${usersapi}${profile.id}/`,profile)
+        console.log(res.data)
+        toast.success('Updated')
+       }
+       catch (er){
+        console.error(er)
+        toast.error('Updation Failed')
+       }
+        
+    }
     const validation = () => {
         let returnvalue = true;
         if (!products.name) {
@@ -270,7 +281,7 @@ function Admindashboard() {
 
 
                             <div className='w-full flex justify-around  mt-[2%]'>
-                                <button className='w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'>Update</button>
+                                <button onClick={updateUser} className='w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'>Update</button>
                                 <button className='w-[10rem] bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
 
                             </div>

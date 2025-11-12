@@ -5,7 +5,7 @@ import Navbarmobile from '../Components/Navbarmobile'
 
 function UserHomePage() {
   return (
-    <div className='bg-gradient-to-r from-amber-100 to-blue-300 h-[100vh]'>
+    <div className='min-h-[100vh] h-auto bg-gradient-to-r from-amber-100 to-blue-300 '>
         <Navbar/>
         <UserHome/>
         <Navbarmobile/>

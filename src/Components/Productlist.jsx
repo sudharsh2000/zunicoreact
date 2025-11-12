@@ -89,7 +89,7 @@ const Addcart=async(products)=>{
                      <select value={categoryfilter} onChange={(e)=>{
                       console.log(e.target.value)
                       navigate(`/list?category=${e.target.value}`)}} className='border-1 text-xs md:text-lg border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
-                       <option value={0}>--Select--</option>
+                       <option value={''}>--All--</option>
                         {categorylist&& categorylist.map((categ)=>{
                         return <option value={categ.id}>{categ.name}</option>
                        

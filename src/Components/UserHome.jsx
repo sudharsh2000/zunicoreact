@@ -4,6 +4,7 @@ import api from '../Redux/Interceptor'
 import { usersapi } from '../Redux/api'
 import LoadingScreen from './LoadingPage'
 import { useAuth } from '../Redux/AuthProvider'
+import { toast } from 'react-toastify'
 
 function UserHome() {
     const [profile,setProfile]=useState({
@@ -35,13 +36,25 @@ function UserHome() {
         }
         loaduser();
     },[userInfo])
+    const updateUser=async()=>{
+        
+       try{ const res=await api.patch(`${usersapi}${profile.id}/`,profile)
+        console.log(res.data)
+        toast.success('Updated')
+       }
+       catch (er){
+        console.error(er)
+        toast.error('Updation Failed')
+       }
+        
+    }
 
   return (
-    <div className='w-[100%] h-[100%] md:h-[90%] p-1 md:p-5 flex justify-center items-center bg-white md:bg-transparent '>
+    <div className='w-[100%] h-[100%] md:h-[100%] p-1 md:p-5 flex justify-center items-center bg-white md:bg-transparent '>
 
         {
             loading?<LoadingScreen/>:
-       <div className='w-full h-full flex justify-center items-center flex-col md:flex-row gap-2 md:p-5'>  <div className=' w-[100%] h-[50%] md:h-auto md:w-[60%] gap-3 md:gap-[3rem] flex justify-center p-3 md:p-4  flex-col items-center md:rounded-xl shadow-xl bg-white '>
+       <div className='w-full h-full flex justify-center items-center flex-col md:flex-row gap-2 md:p-5'>  <div className=' w-[100%] h-[50%] md:h-[100%] md:w-[60%] gap-3 md:gap-[3rem] flex justify-center p-3 md:p-4  flex-col items-center md:rounded-xl shadow-xl bg-white '>
                         <User2Icon className='h-[15%] w-[15%]' />
                         <div className='w-[100%] md:w-[60%] flex flex-col  gap-7 md:gap-9'>
                             <div className='flex flex-row justify-around gap-3 md:gap-5'>
@@ -62,7 +75,7 @@ function UserHome() {
 
 
                             <div className='w-full flex justify-around  mt-[2%]'>
-                                <button className='w-[6rem] md:w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'>Update</button>
+                                <button onClick={updateUser} className='w-[6rem] md:w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'>Update</button>
                                 <button className='w-[6rem] md:w-[10rem] bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
 
                             </div>

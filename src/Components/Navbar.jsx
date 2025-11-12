@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, ChevronDown, DotIcon, DotSquare, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, User } from 'lucide-react'
+import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, User, UserCircle } from 'lucide-react'
 
 import zunicologo from '../assets/zunicologo.png'
 import { useNavigate } from 'react-router'
@@ -18,7 +18,7 @@ function Navbar() {
 const logoutfunction=async()=>{
     try{
         const res=axios.post(Logoutapi,{},{withCredentials:true})
-        
+        logout()
        if(userInfo.superuser){
         navigate('/admin/signin')
        }
@@ -67,9 +67,11 @@ console.error('logourt error')
 
 <div onMouseEnter={()=>setopen(true)}  className=' w-[10rem] absolute z-50 bg-white shadow-lg rounded-lg top-[2.6rem] right-[0rem]'>
         <ul className='text-black  font-medium flex flex-col py-4 justify-center items-center '>
-            <li onClick={()=>navigate('/profile')} className='w-full text-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' >Profile</li>
-            <li className='w-full text-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'>Orders</li>
-            <li className='w-full text-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'>Wishlist</li>
+            <li onClick={()=>{
+                console.log(userInfo)
+                userInfo.superuser?navigate('/admin/dashboard'):navigate('/profile')}} className='w-full text-center flex justify-center gap-2 md:gap-4  items-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' ><UserCircle/> Profile</li>
+            <li onClick={()=>navigate('/orders')} className='w-full text-center flex justify-center gap-2 md:gap-4 items-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'><ListOrdered/> Orders</li>
+            <li className='w-full text-center  transform-3d transition-transform flex justify-center gap-2 md:gap-4  items-center hover:bg-gray-100 py-2.5 cursor-pointer'><Heart/> Wishlist</li>
 
         </ul>
     </div>

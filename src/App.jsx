@@ -20,12 +20,14 @@ import Cart from './Pages/Cart'
 import { ToastContainer } from 'react-toastify'
 import AddressPage from './Pages/AddressPage'
 import UserHomePage from './Pages/UserHomePage'
+import CheckoutPage from './Pages/CheckoutPage'
+import OrderPage from './Pages/OrderPage'
 
 
 function App() {
   
   const auth=useAuth()
-  const {login}=useAuth()
+  const {login,logout}=useAuth()
 useEffect(()=>{
 setupInterceptors(auth);
 const load=async()=>{
@@ -72,6 +74,8 @@ load();
       <Route path='/cart' element={<Cart/>} />
       <Route path='/address' element={<AddressPage/>} />
       <Route path='/profile' element={<UserHomePage/>} />
+      <Route path='/checkout' element={<CheckoutPage/>} />
+      <Route path='/orders' element={<OrderPage/>} />
     </Routes>
   
     </BrowserRouter>
