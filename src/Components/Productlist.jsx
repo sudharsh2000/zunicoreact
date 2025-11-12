@@ -26,7 +26,7 @@ function Productlist() {
       try{
         let val=''
         if(category){
-        val=`?category=${categoryfilter}&ordering=${sort}`
+        val=`?category=${category}&ordering=${sort}`
         }
         if(search){
           val=`?search=${search}&ordering=${sort}`
@@ -107,18 +107,18 @@ const Addcart=async(products)=>{
 return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className='border-y-2 p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
 
                     <div  className='flex w-[85%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
-                        <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[35%] md:w-[25%] h-fit cursor-pointer hover:scale-105 transition-transform '/>
-                      <div className='flex flex-col justidy-start gap-1 md:gap-[2rem]'> 
+                        <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[35%] md:w-[25%]  h-fit cursor-pointer hover:scale-105 transition-transform '/>
+                      <div className='flex flex-col justidy-start gap-1 w-[75%] md:gap-[2rem]'> 
                         <h2 onClick={()=>navigate(`/detail/${item.id}`)}  className='hover:text-blue-400 text-sm md:text-2xl cursor-pointer text-center font-extrabold'>{item.name}</h2>
                         <p className='w-[100%] overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-lg'>{item.description}
                         </p>
-                        </div> 
+                      </div> 
                     </div>
                     <div className='flex w-[35%] gap-3 flex-col md:gap-9 justify-center items-center'>
                         <h2 className=' flex font-bold text-xs md:text-lg items-center'><IndianRupee className='h-[50%] md:h-full'/> {item.price}</h2>
                         <p className='text-green-400 text-xs md:text-lg font-bold'>{item.discount}% off</p>
                       <div className='w-full flex justify-center items-center'> 
-                         <button onClick={()=>Addcart(item)} className='flex justify-center text-xs gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-orange-700 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl w-[96%] md:w-[50%] shadow-xl '>Addto cart <ShoppingCart/></button>
+                         <button onClick={()=>Addcart(item)} className='flex justify-center text-xs gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-[#ed7a29b1] hover:scale-105 transition-transform p-1 md:p-4  rounded-xl w-[96%] md:w-[50%] shadow-xl '>Addto cart <ShoppingCart/></button>
                    </div>
                     </div>
                     
