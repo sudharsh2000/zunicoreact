@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { ClosedCaption, DeleteIcon, IndianRupee, IndianRupeeIcon, PlusIcon, TicketCheck, Trash, Trash2 } from 'lucide-react'
+import { Banknote, ClosedCaption, DeleteIcon, IndianRupee, IndianRupeeIcon, PlusIcon, TicketCheck, Trash, Trash2 } from 'lucide-react'
 import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate, useParams } from 'react-router'
 import Addaddress from './Addaddress'
-import { AddressApi, OrderApi } from '../Redux/api'
+import { AddressApi, OrderApi, VerifyApi } from '../Redux/api'
 import api from '../Redux/Interceptor'
 import LoadingScreen from './LoadingPage'
 import { toast } from 'react-toastify'
-
+import Razorpay from "razorpay";
 function Checkout() {
   const navigate=useNavigate()
   const {userInfo}=useAuth()
@@ -22,7 +22,71 @@ function Checkout() {
   const params=new URLSearchParams(location.search)
   const iscart=params.get('iscart')
   const [successcheck,setsucessCheck]=useState(false)
-  
+  const [paymentmode,setpaymentMode]=useState('COD')
+  // or use window.Razorpay
+
+const handlePayment = async () => {
+  const orderitem=[]
+  Carts.forEach((a)=>{
+    console.log(a)
+    let ord= {
+      "id": a.id,
+      "product_id": a.Product.id,
+      "quantity": a.quantity,
+      "price": a.price,
+      "total_price": a.total_price,
+      "discount": a.discount
+    }
+
+  });
+  console.log(orderitem)
+  const orderdata={
+  "user": userInfo.userid,
+  "total_amount": FinalAmount,
+  "total_discount": discounttotal,
+  "payment_status": "Pending",
+  "payment_method": paymentmode,
+  "order_status": "Processing",
+  "order_items": orderitem,
+  "payment": {
+    "payment_id": "1012",
+    "payment_status": "Pending",
+    "payment_mode": paymentmode
+  }
+}
+  console.log(orderdata)
+try{
+  const response = await api.post(OrderApi,orderdata)
+
+  const data = response.data
+
+  if (data.razorpay_order_id) {
+    const options = {
+      key: data.razorpay_key,
+      amount: data.amount * 100,
+      currency: "INR",
+      name: "Your Shop",
+      order_id: data.razorpay_order_id,
+      handler: async function (response) {
+        // This executes after successful payment
+        await api.post(VerifyApi,response.data)
+      },
+      prefill: {
+        name: "User Name",
+        email: "user@example.com",
+        contact: "9999999999",
+      },
+      theme: { color: "#3399cc" },
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  }
+}
+catch(er){
+console.log(error)
+}
+};
+
   useEffect(()=>{
 
  const loadapi=async()=>{
@@ -67,73 +131,7 @@ setCarts([res[0].items[0]])
     
   },[userInfo,iscart])
  
-  const handleIncreaseDecrease = (productid, type) => {
-  setCarts(prev => {
-    const updated = prev.map(prod => {
-      if (prod.Product.id === productid) {
-        if (type === 'increase') {
-          return { ...prod, quantity: prod.quantity + 1 };
-        } else if (type === 'decrease' && prod.quantity > 1) {
-          return { ...prod, quantity: prod.quantity - 1 };
-        }
-      }
-      return prod;
-    });
 
-    // ✅ calculate total after update
-    const total = updated.reduce((sum, item) => sum + item.quantity * item.price, 0);
-    const totaldiscount=updated.reduce((sum,item)=>sum + ((item.quantity * item.price)*(item.Product.discount) / 100 ),0)
-    setPriceTotal(total);
-    setDiscount(totaldiscount)
-    setFinalAmount(total-totaldiscount)
-    console.log('Total:', total);
-    return updated;
-  });
-};
-
-const AddPurchase=async()=>{
-  const orderitem=[]
-  Carts.forEach((a)=>{
-    console.log(a)
-    let ord= {
-      "id": a.id,
-      "product_id": a.Product.id,
-      "quantity": a.quantity,
-      "price": a.price,
-      "total_price": a.total_price,
-      "discount": a.discount
-    }
-orderitem.push(ord)
-  });
-  console.log(orderitem)
-  const orderdata={
-  "user": userInfo.userid,
-  "total_amount": FinalAmount,
-  "total_discount": discounttotal,
-  "payment_status": "Pending",
-  "payment_method": "COD",
-  "order_status": "Processing",
-  "order_items": orderitem,
-  "payment": {
-    "payment_id": "1012",
-    "payment_status": "Pending",
-    "payment_mode": "COD"
-  }
-}
-  try{
-    console.log(orderdata)
-    const res=await api.post(OrderApi,orderdata)
-    console.log(res.status)
-    setsucessCheck(true)
-    
-
-  }
-  catch(er){
-    console.log(er)
-    toast.error('something error')
-  }
-
-}
 
   return (
   
@@ -165,12 +163,12 @@ orderitem.push(ord)
                 </div>
                 <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex flex-col md:gap-5 justify-center '>
                  <div className='flex gap-3 md:gap-7'>
-                  <input type="radio"  name="payment" checked='true' value="COD" className=' rounded-full ' defaultValue={true} />
+                  <input type="radio"  name="payment" checked={`${paymentmode}==='COD'?${true}:${false}`} onChange={(e)=>setpaymentMode(e.target.value)} value="COD" className=' rounded-full '  />
                   <h2 className='text-sm md:text-lg '>Cash on Delivery </h2>
                   </div>
                   <div className='flex gap-3 md:gap-7'>
-                  <input type="radio"  name="payment" value={'paytm'} className=' rounded-full ' />
-                  <h2 className='text-sm md:text-lg '>Paytm</h2>
+                  <input type="radio"  name="payment" checked={`${paymentmode}==='ONLINE'?${true}:${false}`}  value={'ONLINE'} onChange={(e)=>setpaymentMode(e.target.value)} className=' rounded-full ' />
+                  <h2 className='text-sm md:text-lg flex gap-1 md:gap-2 items-center '>UPI <Banknote/></h2>
                   </div>
                  
                </div>
@@ -185,11 +183,7 @@ orderitem.push(ord)
                 return <div key={cart.id} className='flex px-2 md:px-5 py-2 w-full border-b-1 shadow-lg border-gray-400' >
               <div className='flex flex-col w-[30%] items-center gap-2 md:gap-4 justify-center'>
                 <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[8rem]  h-[6rem] md:w-[10rem] md:h-[7rem]' />
-                <div className='flex justify-center items-center gap-2 md:gap-4'>
-                    <button onClick={()=>handleIncreaseDecrease(cart.Product.id,'decrease')} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>-</button>
-                    <input value={iscart? cart.quantity:1} type="number" className='text-center w-[40%] md:w-[30%] p-1 border-gray-500 border-1 rounded-md '/>
-                    <button onClick={()=>handleIncreaseDecrease(cart.Product.id,'increase')} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>+</button>
-                </div>
+                
               </div>
                 
                 <div className='flex flex-col items-center gap-2 md:gap-5 justify-center w-[60%]'>
@@ -218,7 +212,7 @@ orderitem.push(ord)
                
             </div>
         <div className='shadow-lg min-h-[25%] bg-white flex justify-center items-center py-3 md:py-8'>
-                <button onClick={AddPurchase} className='bg-amber-400 text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Confirm Your Order</button>
+                <button onClick={handlePayment} className='bg-amber-400 text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Confirm Your Order</button>
             </div>  
 
         </div>:

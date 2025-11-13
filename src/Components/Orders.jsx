@@ -5,10 +5,11 @@ import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate } from 'react-router'
 import Addaddress from './Addaddress'
-import { AddressApi, OrderApi } from '../Redux/api'
+import { AddressApi, OrderApi, OrderItemApi } from '../Redux/api'
 import api from '../Redux/Interceptor'
 import LoadingScreen from './LoadingPage'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function Orders() {
   const navigate=useNavigate()
@@ -52,29 +53,20 @@ const res=await api.get(`${OrderApi}?user=${userInfo.userid}`)
     
   },[userInfo])
  
-  const handleIncreaseDecrease = (productid, type) => {
-  setCarts(prev => {
-    const updated = prev.map(prod => {
-      if (prod.Product.id === productid) {
-        if (type === 'increase') {
-          return { ...prod, quantity: prod.quantity + 1 };
-        } else if (type === 'decrease' && prod.quantity > 1) {
-          return { ...prod, quantity: prod.quantity - 1 };
-        }
-      }
-      return prod;
-    });
+  const deleteOrder=async(orderid)=>{
+    try{
+      const res=api.delete(`${OrderItemApi}${orderid}/`)
+      console.log(res.status)
+      toast.success('Canceled')
 
-    // ✅ calculate total after update
-    const total = updated.reduce((sum, item) => sum + item.quantity * item.price, 0);
-    const totaldiscount=updated.reduce((sum,item)=>sum + ((item.quantity * item.price)*(item.Product.discount) / 100 ),0)
-    setPriceTotal(total);
-    setDiscount(totaldiscount)
-    setFinalAmount(total-totaldiscount)
-    console.log('Total:', total);
-    return updated;
-  });
-};
+    }
+    catch(er){
+      console.log(er)
+      toast.error('some error cause')
+    
+    }
+  }
+ 
 
   return (
   
@@ -91,11 +83,7 @@ const res=await api.get(`${OrderApi}?user=${userInfo.userid}`)
                 return <div key={cart.id} className='flex bg-white px-2 mb-[1rem] md:mb-[2rem] md:px-8 py-2 w-full border-b-1 shadow-lg border-gray-400' >
               <div className='flex flex-col w-[30%] items-center gap-2 md:gap-4 justify-center'>
                 <img onClick={()=>navigate(`/detail/${cart.product.id}`)} src={cart.product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
-                {/* <div className='flex justify-center items-center gap-2 md:gap-4'>
-                    <button onClick={()=>handleIncreaseDecrease(cart.product.id,'decrease')} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>-</button>
-                    <input value={cart.quantity} type="number" className='text-center w-[40%] md:w-[30%] p-1 border-gray-500 border-1 rounded-md '/>
-                    <button onClick={()=>handleIncreaseDecrease(cart.product.id,'increase')} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>+</button>
-                </div> */}
+              
               </div>
                 
                 <div className='flex flex-col items-center gap-2 md:gap-5 justify-center w-[60%]'>
@@ -105,7 +93,7 @@ const res=await api.get(`${OrderApi}?user=${userInfo.userid}`)
                 </div>
                 <div className='flex justify-center items-center w-[10%]'>
                     <h2 onClick={()=>{
-                      addTocart(null,'delete',cart.id)
+                      deleteOrder(cart.id)
                       setCarts(prev=>prev.filter(val=>val.id!==cart.id))
                       }}  className='text-xl px-1 md:px-3 py-1 md:py-2 shadow-lg rounded-xl border-1   hover:border-red-900 cursor-pointer border-red-600 '> Cancel</h2>
                 </div>
