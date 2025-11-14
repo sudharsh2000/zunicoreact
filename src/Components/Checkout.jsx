@@ -24,69 +24,6 @@ function Checkout() {
   const [successcheck,setsucessCheck]=useState(false)
   const [paymentmode,setpaymentMode]=useState('COD')
   // or use window.Razorpay
-
-const handlePayment = async () => {
-  const orderitem=[]
-  Carts.forEach((a)=>{
-    console.log(a)
-    let ord= {
-      "id": a.id,
-      "product_id": a.Product.id,
-      "quantity": a.quantity,
-      "price": a.price,
-      "total_price": a.total_price,
-      "discount": a.discount
-    }
-
-  });
-  console.log(orderitem)
-  const orderdata={
-  "user": userInfo.userid,
-  "total_amount": FinalAmount,
-  "total_discount": discounttotal,
-  "payment_status": "Pending",
-  "payment_method": paymentmode,
-  "order_status": "Processing",
-  "order_items": orderitem,
-  "payment": {
-    "payment_id": "1012",
-    "payment_status": "Pending",
-    "payment_mode": paymentmode
-  }
-}
-  console.log(orderdata)
-try{
-  const response = await api.post(OrderApi,orderdata)
-
-  const data = response.data
-
-  if (data.razorpay_order_id) {
-    const options = {
-      key: data.razorpay_key,
-      amount: data.amount * 100,
-      currency: "INR",
-      name: "Your Shop",
-      order_id: data.razorpay_order_id,
-      handler: async function (response) {
-        // This executes after successful payment
-        await api.post(VerifyApi,response.data)
-      },
-      prefill: {
-        name: "User Name",
-        email: "user@example.com",
-        contact: "9999999999",
-      },
-      theme: { color: "#3399cc" },
-    };
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  }
-}
-catch(er){
-console.log(error)
-}
-};
-
   useEffect(()=>{
 
  const loadapi=async()=>{
@@ -96,16 +33,17 @@ console.log(error)
    console.log(iscart)
 const res=await addTocart(null,'get',userInfo.userid);
 
-      if(iscart){
+      if(iscart==='true'){
      setCarts(res[0].items)
-    console.log(res[0])
+    console.log('a')
      setPriceTotal(res[0].total_price)
      setDiscount(res[0].total_discount)
      setFinalAmount(res[0].final_price)
    }
    else{
 setCarts([res[0].items[0]])
-    console.log(res[0].items[0])
+
+    console.log('b')
      setPriceTotal(res[0].items[0].total_price)
      setDiscount(res[0].items[0].discount)
      setFinalAmount(res[0].items[0].total_price - res[0].items[0].discount)
@@ -130,6 +68,76 @@ setCarts([res[0].items[0]])
   
     
   },[userInfo,iscart])
+
+
+
+const handlePayment = async () => {
+  const orderitem=[]
+  Carts.forEach((a)=>{
+    console.log(a)
+    let ord= {
+      "id": a.id,
+      "product_id": a.Product.id,
+      "quantity": a.quantity,
+      "price": a.price,
+      "total_price": a.total_price,
+      "discount": a.discount
+    }
+    orderitem.push(ord)
+
+  });
+  console.log(orderitem)
+  const orderdata={
+  "user": userInfo.userid,
+  "total_amount": FinalAmount,
+  "total_discount": discounttotal,
+  "payment_status": "Pending",
+  "payment_method": paymentmode,
+  "order_status": "Processing",
+  "order_items": orderitem,
+  "payment": {
+    "payment_id": "1012",
+    "payment_status": "Pending",
+    "payment_mode": paymentmode
+  }
+}
+  console.log(orderdata)
+try{
+  const response = await api.post(OrderApi,orderdata)
+
+  const data = response.data
+console.log(data)
+  if (data.razorpay_order_id) {
+    const options = {
+      key: data.razorpay_key,
+      amount: data.amount * 100,
+      currency: "INR",
+      name: "Wisedecore",
+      order_id: data.razorpay_order_id,
+      handler: async function (response) {
+        // This executes after successful payment
+        await api.post(VerifyApi,response.data)
+      },
+      prefill: {
+        name: userInfo.username,
+        email: userInfo.email,
+        contact: '8989121223SS',
+      },
+      theme: { color: "#3399cc" },
+    };
+    console.log(options)
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+    
+  }
+  setsucessCheck(true)
+}
+catch(er){
+console.log(er)
+}
+};
+
+
  
 
 
@@ -163,13 +171,14 @@ setCarts([res[0].items[0]])
                 </div>
                 <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex flex-col md:gap-5 justify-center '>
                  <div className='flex gap-3 md:gap-7'>
-                  <input type="radio"  name="payment" checked={`${paymentmode}==='COD'?${true}:${false}`} onChange={(e)=>setpaymentMode(e.target.value)} value="COD" className=' rounded-full '  />
-                  <h2 className='text-sm md:text-lg '>Cash on Delivery </h2>
+                  <input type="radio"  name="payment"  checked={paymentmode==='COD'} onClick={(e)=>setpaymentMode(e.target.value)} value={'COD'} className=' rounded-full '  />
+                  <h2 className='text-sm md:text-lg '>Cash on Delivery  </h2>
                   </div>
                   <div className='flex gap-3 md:gap-7'>
-                  <input type="radio"  name="payment" checked={`${paymentmode}==='ONLINE'?${true}:${false}`}  value={'ONLINE'} onChange={(e)=>setpaymentMode(e.target.value)} className=' rounded-full ' />
+                  <input type="radio"  name="payment" checked={paymentmode==='ONLINE'}  value={'ONLINE'} onClick={(e)=>setpaymentMode(e.target.value)} className=' rounded-full ' />
                   <h2 className='text-sm md:text-lg flex gap-1 md:gap-2 items-center '>UPI <Banknote/></h2>
                   </div>
+                 
                  
                </div>
             </div>
@@ -212,7 +221,7 @@ setCarts([res[0].items[0]])
                
             </div>
         <div className='shadow-lg min-h-[25%] bg-white flex justify-center items-center py-3 md:py-8'>
-                <button onClick={handlePayment} className='bg-amber-400 text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Confirm Your Order</button>
+                <button onClick={handlePayment} className='bg-amber-400 cursor-pointer text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Confirm Your Order</button>
             </div>  
 
         </div>:
@@ -249,16 +258,19 @@ setCarts([res[0].items[0]])
      } 
      {
       successcheck&&
-      <div className='absolute w-[100%] h-[100%] md:w-[100%] bg-[#2523239b]'>
+      <div className='absolute w-[100%] h-[100vh] md:w-[100%] bg-[#2523239b]'>
       <div className='absolute  w-[17rem] md:w-[40%] left-[2rem] md:left-[28rem] top-[5rem] md:top-[5rem] shadow-lg  bg-[#fffffff2] rounded-lg px-2 md:px-4 h-[60%]'>
-        <div className='flex w-[100%] h-[100%] justify-center items-center gap-2 md:gap-4 flex-col'>
-          <h2 className='text-sm md:text-2xl font-extrabold'>Successfully Orderd</h2>
+        <div className=' w-[100%] h-[100%] '>
+        <div className='flex h-[80%] justify-center items-center gap-2 md:gap-4 flex-col'>
+            <h2 className='text-sm md:text-2xl font-extrabold'>Successfully Orderd</h2>
           <TicketCheck className='text-green-600 font-bold w-[3rem] h-[3rem]' />
-         
+         </div>
+         <div className='h-[20%]'>
 <button onClick={()=>{
   setsucessCheck(false);
   navigate('/orders')
-}} className='w-[100%] mt-[2rem] p-1 md:p-3 md:mt-[4rem] md:text-lg hover:bg-gray-300 cursor-pointer  rounded-lg shadow-lg border-1 border-green-200 bg-gray-200' >Close</button>
+}} className='w-[100%] mt-[2rem] p-1 md:p-3  md:text-lg hover:bg-gray-300 cursor-pointer  rounded-lg shadow-lg border-1 border-green-200 bg-gray-200' >Close</button>
+        </div>
           </div>
           
         </div>

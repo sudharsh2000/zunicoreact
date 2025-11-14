@@ -33,6 +33,9 @@ export const setupInterceptors = (auth) => {
           login(newAccess, {
             'username':decode.username,
         'userid':decode.user_id,
+        
+        'mobile':decode.mobile,
+        'email':decode.Email_address,
         'superuser':decode.is_superuser
             
           });

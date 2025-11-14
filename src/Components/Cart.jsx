@@ -135,7 +135,7 @@ const res=await addTocart(null,'get',userInfo.userid);
                
             </div>
         <div className='shadow-lg min-h-[25%] bg-white flex justify-center items-center py-3 md:py-8'>
-                <button onClick={()=> navigate(`/checkout?iscart=${true}`)} className='bg-amber-400 text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Proceed to Buy</button>
+                <button onClick={()=> navigate(`/checkout?iscart=true`)} className='bg-amber-400 text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Proceed to Buy</button>
             </div>  
 
         </div>:

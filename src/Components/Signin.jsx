@@ -40,6 +40,8 @@ function SigninPage() {
       login(res.data.access_token,{
         'username':decode.username,
         'userid':decode.user_id,
+        'mobile':decode.mobile,
+        'email':decode.Email_address,
         'superuser':false
       })
 
