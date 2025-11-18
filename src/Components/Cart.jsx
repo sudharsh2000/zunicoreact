@@ -12,7 +12,7 @@ import LoadingScreen from './LoadingPage'
 function CartPage() {
   const navigate=useNavigate()
   const {userInfo}=useAuth()
-  const [address,SetAddress]=useState()
+  const [address,SetAddress]=useState([])
   const [Carts,setCarts]=useState()
   const [pricetotal,setPriceTotal]=useState('-----')
   const [discounttotal,setDiscount]=useState('-----')
@@ -25,9 +25,9 @@ function CartPage() {
   if (!userInfo || !userInfo.userid) return;
    SetLoading(true)
 const res=await addTocart(null,'get',userInfo.userid);
-      
+       console.log(res)
      setCarts(res[0].items)
-    console.log(res[0])
+   
      setPriceTotal(res[0].total_price)
      setDiscount(res[0].total_discount)
      setFinalAmount(res[0].final_price)

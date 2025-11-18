@@ -5,7 +5,7 @@ import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate, useParams } from 'react-router'
 import Addaddress from './Addaddress'
-import { AddressApi, OrderApi, VerifyApi } from '../Redux/api'
+import { AddressApi, OrderApi, OrderDeleteApi, VerifyApi } from '../Redux/api'
 import api from '../Redux/Interceptor'
 import LoadingScreen from './LoadingPage'
 import { toast } from 'react-toastify'
@@ -21,6 +21,7 @@ function Checkout() {
   const [loading,SetLoading]=useState()
   const params=new URLSearchParams(location.search)
   const iscart=params.get('iscart')
+  const product_id=params.get('product_id')
   const [successcheck,setsucessCheck]=useState(false)
   const [paymentmode,setpaymentMode]=useState('COD')
   // or use window.Razorpay
@@ -31,9 +32,10 @@ function Checkout() {
   if (!userInfo || !userInfo.userid) return;
    SetLoading(true)
    console.log(iscart)
+      if(iscart==='true'){
 const res=await addTocart(null,'get',userInfo.userid);
 
-      if(iscart==='true'){
+   
      setCarts(res[0].items)
     console.log('a')
      setPriceTotal(res[0].total_price)
@@ -41,12 +43,17 @@ const res=await addTocart(null,'get',userInfo.userid);
      setFinalAmount(res[0].final_price)
    }
    else{
-setCarts([res[0].items[0]])
+    const res=await api.get(`${OrderApi}?id=${product_id}`);
 
-    console.log('b')
-     setPriceTotal(res[0].items[0].total_price)
-     setDiscount(res[0].items[0].discount)
-     setFinalAmount(res[0].items[0].total_price - res[0].items[0].discount)
+    console.log(res.data[0].order_items)
+setCarts(res.data[0].order_items)
+setPriceTotal(res.data[0].order_items[0].total_price)
+    console.log('new',res.data)
+    setDiscount(res.data[0].total_discount)
+     setFinalAmount(parseFloat(res.data[0].order_items[0].total_price-res.data[0].total_discount))
+    
+  
+     
    }
      try{
       if(userInfo.userid){
@@ -65,6 +72,11 @@ setCarts([res[0].items[0]])
      SetLoading(false)
     }
      loadapi(); 
+
+     return async()=>{
+      const ress=await api.delete(`${OrderDeleteApi}?user=${userInfo.userid}&order_status=DRAFT`)
+      console.log(ress.status)
+     }
   
     
   },[userInfo,iscart])
@@ -77,7 +89,7 @@ const handlePayment = async () => {
     console.log(a)
     let ord= {
       "id": a.id,
-      "product_id": a.Product.id,
+      "Product_id": a.Product.id,
       "quantity": a.quantity,
       "price": a.price,
       "total_price": a.total_price,
@@ -170,11 +182,11 @@ console.log(er)
                 <h2 className='text-sm md:text-xl font-extrabold text-white'>Payment Details</h2>
                 </div>
                 <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex flex-col md:gap-5 justify-center '>
-                 <div className='flex gap-3 md:gap-7'>
+                 <div className='flex gap-3 md:gap-7 cursor-pointer' onClick={(e)=>setpaymentMode('COD')}>
                   <input type="radio"  name="payment"  checked={paymentmode==='COD'} onClick={(e)=>setpaymentMode(e.target.value)} value={'COD'} className=' rounded-full '  />
                   <h2 className='text-sm md:text-lg '>Cash on Delivery  </h2>
                   </div>
-                  <div className='flex gap-3 md:gap-7'>
+                  <div className='flex gap-3 md:gap-7 cursor-pointer' onClick={(e)=>setpaymentMode('ONLINE')}>
                   <input type="radio"  name="payment" checked={paymentmode==='ONLINE'}  value={'ONLINE'} onClick={(e)=>setpaymentMode(e.target.value)} className=' rounded-full ' />
                   <h2 className='text-sm md:text-lg flex gap-1 md:gap-2 items-center '>UPI <Banknote/></h2>
                   </div>
@@ -237,7 +249,7 @@ console.log(er)
           <div className='flex justify-around w-full p-1 md:p-2'>
             <h2 className='w-[40%] text-xs md:text-xl'>Total Price</h2>
             <p> - </p>
-            <h2 className='text-sm md:text-xl font-extrabold flex justify-center items-center gap-0 md:gap-2'><IndianRupee className='h-4'/>{pricetotal}</h2>
+            <h2 className='text-sm md:text-xl font-extrabold flex justify-center items-center gap-0 md:gap-2'><IndianRupee className='h-4'/> {pricetotal}</h2>
             
             </div>
              <div className='flex justify-around w-full  p-1 md:p-2'>
@@ -256,26 +268,39 @@ console.log(er)
         </div>
        :''
      } 
-     {
-      successcheck&&
-      <div className='absolute w-[100%] h-[100vh] md:w-[100%] bg-[#2523239b]'>
-      <div className='absolute  w-[17rem] md:w-[40%] left-[2rem] md:left-[28rem] top-[5rem] md:top-[5rem] shadow-lg  bg-[#fffffff2] rounded-lg px-2 md:px-4 h-[60%]'>
-        <div className=' w-[100%] h-[100%] '>
-        <div className='flex h-[80%] justify-center items-center gap-2 md:gap-4 flex-col'>
-            <h2 className='text-sm md:text-2xl font-extrabold'>Successfully Orderd</h2>
-          <TicketCheck className='text-green-600 font-bold w-[3rem] h-[3rem]' />
-         </div>
-         <div className='h-[20%]'>
-<button onClick={()=>{
-  setsucessCheck(false);
-  navigate('/orders')
-}} className='w-[100%] mt-[2rem] p-1 md:p-3  md:text-lg hover:bg-gray-300 cursor-pointer  rounded-lg shadow-lg border-1 border-green-200 bg-gray-200' >Close</button>
-        </div>
+   {
+  successcheck && (
+    <div className="absolute w-full h-[100vh] bg-[#2523239b] flex justify-center items-center 
+                    animate-[fadeIn_0.3s_ease-in-out]">
+
+      <div className="absolute w-[20rem] md:w-[40%] bg-white rounded-lg shadow-lg px-4 
+                      h-[40%] md:h-[60%] 
+                      animate-[slideUp_0.4s_ease-out]">
+
+        <div className="w-full h-full">
+          <div className="flex h-[80%] justify-center items-center flex-col gap-4">
+            <h2 className="text-lg md:text-2xl font-extrabold">Successfully Ordered</h2>
+            <TicketCheck className="text-green-600 w-12 h-12" />
           </div>
-          
+
+          <div className="h-[20%]">
+            <button
+              onClick={() => {
+                setsucessCheck(false);
+                navigate("/orders");
+              }}
+              className="w-full mt-4 p-2 md:p-3 md:text-lg bg-gray-200 hover:bg-gray-300 
+                         rounded-lg shadow-lg"
+            >
+              Close
+            </button>
+          </div>
         </div>
-        </div>
-     }
+      </div>
+    </div>
+  )
+}
+
     
     </div>
     

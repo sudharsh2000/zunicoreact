@@ -6,14 +6,15 @@ import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usersave } from '../Redux/UserSlice'
 import api from '../Redux/Interceptor'
-import { Loader2, Loader2Icon, LoaderCircle, LoaderPinwheel, UploadCloud, User2, User2Icon, UserCircle } from 'lucide-react'
+import { Loader2, Loader2Icon, LoaderCircle, LoaderPinwheel, Pen, Plus, Trash, UploadCloud, User2, User2Icon, UserCircle } from 'lucide-react'
 import { useAuth } from '../Redux/AuthProvider'
 import { toast } from 'react-toastify'
+import AdminProfile from './AdminProfile'
 function Admindashboard() {
     const [loading,setloading]=useState(false)
-    const dispatch = useDispatch()
+  
     const { userInfo } = useAuth()
-    const User = useSelector(state => state.counter)
+    
     const fileref = useRef(null)
     const [resetTrigger, setTrigger] = useState(false)
     const [categoryItems, SetCategoryitems] = useState([])
@@ -68,7 +69,7 @@ function Admindashboard() {
         bannerform.append('image',image)
     })
 
-
+    const [itemlist,setlist]=useState([])
 
     // Functions Start from here
 
@@ -78,8 +79,8 @@ function Admindashboard() {
             try {
 
                 if (window === 'products') {
-                    const res = await api.get(categoryapi, {}, { withCredentials: true })
-                    SetCategoryitems(res.data)
+                    const res = await api.get(productapi, {}, { withCredentials: true })
+                    setlist(res.data)
                     console.log(res.data)
 
                 }
@@ -92,6 +93,16 @@ function Admindashboard() {
                     }
 
                 }
+                if(window==='banners'){
+                    const res = await api.get(`${bannerapi}`)
+                        console.log(res.data)
+                        setlist(res.data)
+                }
+                if(window==='categories'){
+                    const res = await api.get(`${categoryapi}`)
+                        console.log(res.data)
+                        setlist(res.data)
+                }
 
             }
             catch (er) {
@@ -101,18 +112,7 @@ function Admindashboard() {
         }
         loadapi();
     }, [window, userInfo])
-  const updateUser=async()=>{
-        
-       try{ const res=await api.patch(`${usersapi}${profile.id}/`,profile)
-        console.log(res.data)
-        toast.success('Updated')
-       }
-       catch (er){
-        console.error(er)
-        toast.error('Updation Failed')
-       }
-        
-    }
+
     const validation = () => {
         let returnvalue = true;
         if (!products.name) {
@@ -241,7 +241,7 @@ function Admindashboard() {
 
     return (
         <div className=' w-full flex justify-center items-center'>
-            <div className='h-[80vh] bg-white absolute left-[.5rem] md:left-[10rem] top-[5rem] md:top-[8rem] shadow-lg   w-[3.5rem] md:w-[18rem] rounded-2xl'>
+            <div className=' hidden md:block h-[80vh] bg-white absolute left-[.5rem] md:left-[10rem] top-[5rem] md:top-[8rem] shadow-lg   w-[3.5rem] md:w-[18rem] rounded-2xl'>
                 <ul className=' mt-[.5rem] md:mt-[2rem] gap-[.5rem] md:gap-[2rem] flex justify-center items-center flex-col'>
                     <li onClick={() => setwindow('profile')} className={
                         ` ${window === 'profile' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer  px-5 py-4 w-[3rem] md:w-[80%] border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105 `}> My Profile</li>
@@ -259,133 +259,35 @@ function Admindashboard() {
 
             </div>
             <div className=' md:w-[60rem] md:mt-[3.5rem] flex justify-center items-center min-h-[80vh] bg-white shadow-lg md:ml-[20rem] rounded-2xl '>
+               {console.log(window)}
+                {
+                window !== 'profile'?
+                <div className='absolute right-[1rem] md:right-[18rem] h-[3rem] top-[.5rem] md:top-[9rem] p-2 md:p-3 rounded-lg shadow-2xl justify-center items-center border-1 border-green-100     cursor-pointer hover:bg-gray-300'>
+                    <h2 className='flex gap-1 md:gap-2 rounded-lg'>Add<Plus/></h2>
+                </div>:''
+
+                }
                 {window === 'profile' ?
-                    <div className='w-[100%] h-[100%] gap-3 md:gap-[3rem] flex justify-center  flex-col items-center '>
-                        <User2Icon className='h-[15%] w-[15%]' />
-                        <div className='w-[60%] flex flex-col  gap-3 md:gap-9'>
-                            <div className='flex flex-row justify-around gap-5'>
-                                <p className='text-lg font-extrabold w-[35%] '>Username </p>
-                                <p> :</p>
-                                <input value={profile.username || ''} onChange={(e) => setProfile({ ...profile, username: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1    rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' />
+                  <AdminProfile profile={profile} setProfile={setProfile}/>  : 
+                  <div className='w-[100%] max-h-[80vh] h-[100%] gap-3 md:mt-[1rem] md:gap- overflow-x-auto'>
+                    {itemlist&&itemlist.map((item)=>{
+                        return  <div className='p-2 px-[.5rem] md:px-[2rem] md:p-4 flex overflow-auto rounded-lg shadow-lg'>
+                           <div className='w-[55%] flex justify-center items-center h-[]'>
+                           {window==='products'?<img src={item.main_image} className='w-[40%] h-[100%]' />:<img src={item.image} className='w-[40%] h-[100%]' />} 
+                            {window!=='profile'&&<h2 className='w-[60%] text-sm md:text-lg text-center'>{item.name}</h2>}
                             </div>
-                            <div className='flex flex-row justify-around gap-5'>
-                                <p className='text-lg font-extrabold w-[35%] '>E-Mail </p>
-                                <p> :</p>
-                                <input value={profile.email || ''} onChange={(e) => setProfile({ ...profile, email: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' />
-                            </div>
-                            <div className='flex flex-row justify-around gap-5'>
-                                <p className='text-lg font-extrabold w-[35%] '>Mobile Number </p>
-                                <p> :</p>
-                                <input value={profile.mobile || ''} onChange={(e) => setProfile({ ...profile, mobile: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' />
+                            <div className='w-[35%] flex justify-center gap-3 md:gap-9 px-2 items-center py-1 md:py-3'>
+                                <button className='flex h-[1.5rem] cursor-pointer hover:bg-green-500 shadow-xl md:h-[3rem] gap-1 md:gap-3 border-1 border-green-400 p-x-2 md:px-4 py-2 rounded-lg'>edit<Pen/> </button>
+                                <button className='cursor-pointer hover:text-red-500 shadow-xl'><Trash/></button>
                             </div>
 
-
-                            <div className='w-full flex justify-around  mt-[2%]'>
-                                <button onClick={updateUser} className='w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'>Update</button>
-                                <button className='w-[10rem] bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
-
-                            </div>
                         </div>
+                    })
 
-                    </div> : ''
+                    }
+                    </div>
                 }
-                {
-                    window === 'products' ?
-                        <div className='w-[100%] h-[100%] flex justify-center flex-col items-center'>
-                            <div className='w-[50%] gap-3 flex flex-col md:gap-[1rem] p-5' >
-                                <div className='w-full gap-5'>
-                                    <input value={products.name} onChange={(e) => setProducts({ ...products, name: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' placeholder='Product Name' />
-                                    <p></p>
-                                </div>
-                                <div className='w-full gap-5'>
-                                    <select value={products.category || ''} onChange={(e) => setProducts({ ...products, category: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] '>
-                                        <option value={''}>-- Select Category --</option>
-                                        {
-                                            categoryItems &&
-                                            categoryItems.map((item) => {
-                                                return <option value={item.id} key={item.id}>{item.name}</option>
-                                            })
-                                        }
-
-                                    </select>
-                                    <p></p>
-                                </div>
-                                <div className='w-full gap-5'>
-                                    <input value={products.price} onChange={(e) => setProducts({ ...products, price: e.target.value ? parseFloat(e.target.value) : '' })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' type="number" Placeholder='Product Price' />
-                                    <p></p>
-                                </div>
-                                <div className='w-full gap-5'>
-                                    <input value={products.cost} onChange={(e) => setProducts({ ...products, cost: e.target.value ? parseFloat(e.target.value) : '' })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' type="number" Placeholder='Product Cost' />
-                                    <p></p>
-                                </div>
-                                <div className='w-full gap-5'>
-                                    <input value={products.description} onChange={(e) => setProducts({ ...products, description: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Product Description' />
-                                    <p></p>
-                                </div>
-                                <div className='w-full gap-5'>
-                                    <input type="number" value={products.discount} onChange={(e) => setProducts({ ...products, discount: e.target.value ? parseFloat(e.target.value) : '' })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Product discount' />
-
-                                    <p></p>
-                                </div>
-                                <div className='w-full gap-5'>
-                                    <input type="number" value={products.stock} onChange={(e) => setProducts({ ...products, stock: e.target.value ? parseFloat(e.target.value) : '' })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Product Stock' />
-                                    <p></p>
-                                </div>
-                                <div className='w-full  gap-5'>
-                                    <FileUploader fileref={fileref} resettrigger={resetTrigger} onFileselect={(file) => {
-                                        console.log(file); setImages(file); setProducts({ ...products, image: file[0] })
-                                    }} />
-                                </div>
-                                <div className='flex justify-around mt-[2rem] '>
-                                    <button onClick={saveProducts} className='w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Add Product</button>
-                                    <button onClick={() => clearfunction('products')} className='w-[10rem] bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
-                                </div>
-
-                            </div>
-                        </div> : ''
-                }
-                {
-                    window === 'categories' ?
-                        <div className='w-[100%] h-[100%] flex justify-center flex-col items-center'>
-                            <div className='w-[50%] gap-3 flex flex-col md:gap-[1rem] p-5' >
-                                <div className='w-full gap-5'>
-                                    <input value={category.name} onChange={(e) => setcategory({ ...category, name: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Category Name' />
-                                    <p></p>
-                                </div>
-
-                                <div className='w-full  gap-5'>
-
-                                    <FileUploader resettrigger={resetTrigger} fileref={fileref} onFileselect={(file) => { setcategory({ ...category, image: file[0] }) }} />
-                                </div>
-                                <div className='flex justify-around mt-[2rem] '>
-                                    <button onClick={saveCategory} className='w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Add Category</button>
-                                    <button onClick={() => clearfunction('categories')} className='w-[10rem] bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
-                                </div>
-
-                            </div>
-                        </div> : ''
-                }
-                {
-                    window === 'banners' ?
-                        <div className='w-[100%] h-[100%] flex justify-center flex-col items-center'>
-                            <div className='w-[50%] gap-3 flex flex-col md:gap-[1rem] p-5' >
-                                <div className='w-full gap-5'>
-                                    <input value={banner} onChange={(e) => Setbanner( e.target.value )} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Banner Name' />
-                                    <p></p>
-                                </div>
-
-                                <div className='w-full  gap-5'>
-
-                                    <FileUploader resettrigger={resetTrigger} fileref={fileref} onFileselect={(file) => { setImages(file) }} />
-                                </div>
-                                <div className='flex justify-around mt-[2rem] '>
-                                    <button onClick={saveBanner} className='w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Add Banner</button>
-                                    <button onClick={() => clearfunction('banner')} className='w-[10rem] bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
-                                </div>
-
-                            </div>
-                        </div> : ''
-                }
+                
                 {loading&&<div className='absolute '>
                 <LoaderCircle  className='w-[2rem] h-[2rem] animate-spin'/>
                 </div>}

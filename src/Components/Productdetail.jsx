@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ImageGallery from './ImageGallery'
 import { BadgeIndianRupee, IndianRupee, ShoppingBagIcon, ShoppingBasket, ShoppingCart } from 'lucide-react'
 import api from '../Redux/Interceptor'
-import { productapi } from '../Redux/api'
+import { OrderApi, productapi } from '../Redux/api'
 import { useNavigate, useParams } from 'react-router'
 import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
@@ -31,6 +31,45 @@ const Addcart=async(cart)=>{
   
  cart=='cart'?navigate('/cart'):navigate('/checkout?iscart=false')
 }
+
+const addOrdertemperory=async(product)=>{
+  const discountval=parseFloat(product.price*product.discount)/100
+  let ord= {
+      
+      "Product_id": product.id,
+      "quantity": 1,
+      "price": product.price,
+      "total_price": product.price,
+      "discount": discountval
+    }
+    const orderdata={
+  "user": userInfo.userid,
+  "total_amount": product.price,
+  "total_discount": discountval,
+  "payment_status": "Pending",
+  "payment_method": 'DRAFT',
+  "order_status": "DRAFT",
+  "order_items": [ord],
+  "payment": {
+    "payment_id": "1012",
+    "payment_status": "Pending",
+    "payment_mode": 'DRAFT'
+  }
+}
+  console.log(orderdata)
+try{
+  const response = await api.post(OrderApi,orderdata)
+
+  const data = response.data
+  console.log(data)
+  navigate(`/checkout?iscart=false&product_id=${data.id}`)
+}
+catch (er){
+  console.error(er)
+}
+
+}
+
   useEffect(()=>{
     const loadproducts=async()=>{
  try{
@@ -64,7 +103,7 @@ const Addcart=async(cart)=>{
       <div className='w-full flex justify-center items-center'>
 
 
-<button onClick={()=>Addcart('buy')} className='flex gap-1 md:gap-4 text-xl text-white font-extrabold bg-yellow-500 items-center justify-center rounded-lg p-1 md:p-4 w-[80%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Buy Now <BadgeIndianRupee/></button>
+<button onClick={()=>addOrdertemperory(products)} className='flex gap-1 md:gap-4 text-xl text-white font-extrabold bg-yellow-500 items-center justify-center rounded-lg p-1 md:p-4 w-[80%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Buy Now <BadgeIndianRupee/></button>
 </div> 
         </div>
     </div>

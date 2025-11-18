@@ -5,7 +5,8 @@ import wise from '../assets/wise.png'
 import { useNavigate } from 'react-router'
 import { useAuth } from '../Redux/AuthProvider'
 import axios from 'axios'
-import { Logoutapi } from '../Redux/api'
+import { Logoutapi, productapi } from '../Redux/api'
+import api from '../Redux/Interceptor'
 function Navbar() {
     const navigate=useNavigate()
     const {accesstoken}=useAuth()
@@ -14,7 +15,8 @@ function Navbar() {
     const[searchval,setsearchval]=useState('')
     const [open,setopen]=useState(false)
     const [open2,setopen2]=useState(false)
-
+    const [listProducts,SetlistProducts]=useState([])
+    const [cursor,setcursor]=useState(0)
 const logoutfunction=async()=>{
     try{
         const res=axios.post(Logoutapi,{},{withCredentials:true})
@@ -33,6 +35,20 @@ console.error('logourt error')
     }
 }
 
+const SearchProducts=async()=>{
+    try{
+        const res=await api.get(`${productapi}?search=${searchval}`)
+        SetlistProducts(res.data)
+        console.log(res.data)
+
+    }
+    catch(er){
+        console.error(er)
+
+    }
+
+}
+
   return (
     <div className='hidden md:block sticky w-full top-0 z-50'>
     <div className='flex flex-row bg-gradient-to-r from-white to-pink-900 w-[100%] h-[3.5rem] justify-center items-center gap-2 md:h-[4.5rem] md:gap-8 '>
@@ -43,11 +59,42 @@ console.error('logourt error')
                 if(e.key=='Enter'){
                     navigate(`/list?search=${searchval}`);
                 }
+                if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const newcursor=Math.min(cursor + 1, listProducts.length - 1);
+      setcursor(newcursor);
+      if(listProducts[newcursor].name){
+        setsearchval(listProducts[newcursor].name)
+      }
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const newupcursor=Math.max(cursor - 1, 0)
+      setcursor(newupcursor);
+      if(listProducts[newupcursor].name){
+        setsearchval(listProducts[newupcursor].name)
+      }
+    }
             }
 
-            } value={searchval} onChange={(e)=>setsearchval(e.target.value)} className='text-[12px] md:text-md w-[92%] h-[100%] md:text-lg border-none outline-0 pl-2 md:pl-5' placeholder='Search for Products Brands and More' />
+            } value={searchval} onChange={(e)=>{
+                setsearchval(e.target.value);
+                SearchProducts();
+
+                }} className='text-[12px] md:text-md w-[92%] h-[100%] md:text-lg border-none outline-0 pl-2 md:pl-5' placeholder='Search for Products Brands and More' />
             <Search  onClick={()=>navigate(`/list?search=${searchval}`)} className=' h-[90%] mr-1.5 text-gray-400 md:text-gray-600 '/>
             </div>
+            {listProducts&&
+                <div  className='absolute w-[35%] h-full overflow-x-auto left-[23.5%] top-[81%] rounded-lg shadow-lg bg-[#ffffffe6] max-h-[12rem] md:h-auto flex flex-col'>
+                    {
+                        listProducts.map((pro,i)=>{
+                            return <p key={i} onClick={()=>navigate(`/list?search=${pro.name}`)} className={`items-center  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{pro.name}</p >
+                        })
+                    }
+
+                </div>
+            }
         </div>
         <ul className='hidden  md:flex flex-row justify-end items-center w-[30%] gap-[3rem]'>
         

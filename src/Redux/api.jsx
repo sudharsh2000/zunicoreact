@@ -16,6 +16,8 @@ export const CartItemApi=homeapi+'api/cartitem/'
 export const AddressApi=homeapi+'api/addAdress/'
 export const OrderApi=homeapi+'api/orders/'
 export const OrderItemApi=homeapi+'api/orderitems/'
+export const OrderDeleteApi=homeapi+'api/orders/delete-draft'
+
 export const VerifyApi=homeapi+'api/payment/verify/'
 
 
