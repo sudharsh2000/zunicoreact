@@ -23,13 +23,14 @@ const [imageselect,setselected]=useState(false)
     }
    
     if(tempimage && imageselect===false){
-setPreviews(tempimage)
+setPreviews(tempimage);
+onFileselect(tempimage)
     } 
     return ()=>{
       setselected(false)
     }
     
-  }, [resettrigger,tempimage]);
+  }, [resettrigger]);
 
   return (
     <div className="w-full flex flex-col items-center gap-2">

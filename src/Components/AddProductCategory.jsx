@@ -4,7 +4,7 @@ import { categoryapi } from '../Redux/api'
 import api from '../Redux/Interceptor'
 import { toast } from 'react-toastify'
 import { LoaderCircle } from 'lucide-react'
-
+import loadingimg from '../assets/loadingimg.png'
 function AddProductCategory({edititem,setAdditem}) {
         const fileref = useRef(null)
         const [resetTrigger, setTrigger] = useState(false)
@@ -98,7 +98,7 @@ console.log(category.image)
                                 </div>
                                 <div className=' flex justify-center mt-[2rem] gap-2 md:gap-4 '>
                                    {
-                                        edititem?<button onClick={saveCategory} className=' bg-green-600 py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Update Banner</button>:
+                                        edititem?<button onClick={saveCategory} className=' bg-green-600 py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Update Category</button>:
                                      <button onClick={saveCategory} className='bg-green-600  text-white py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg  font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Add Category</button>
                                    }
                                     <button onClick={() => clearfunction()} className='py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg bg-red-600  text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
@@ -108,7 +108,7 @@ console.log(category.image)
 
                             </div>
                                            {loading&&<div className='absolute '>
-                <LoaderCircle  className='w-[2rem] h-[2rem] animate-spin'/>
+                <img src={loadingimg}  className='w-[2rem] h-[2rem] animate-spin'/>
                 </div>} 
                         </div>
                         </div>

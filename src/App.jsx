@@ -76,9 +76,13 @@ load();
       <Route path="/signup" element={ <SignupPage/>} />
       <Route path="/signin" element={ <Signin/>} />
       <Route path="/admin/signin" element={ <AdminLogin/>} />
+
       <Route path="/admin/dashboard" element={<AdminHome/>}/>
+
       <Route path='/detail/:id' element={<ProductDetail/>} />
+      
       <Route path='/list' element={<ProductList/>} />
+
       <Route path='/cart' element={<Cart/>} />
       <Route path='/address' element={<AddressPage/>} />
       <Route path='/profile' element={<UserHomePage/>} />

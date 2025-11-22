@@ -22,7 +22,7 @@ function Admindashboard() {
     const [additem,setAdditem]=useState(false)
     const urlvalue=new URLSearchParams(location.search)
     const tab=urlvalue.get('tab')
-    console.log(tab)
+
     const [categoryItems, SetCategoryitems] = useState([])
     
     const [window, setwindow] = useState(tab || 'profile')
@@ -176,14 +176,14 @@ function Admindashboard() {
                  <div className='flex w-[100%] h-[100%] justify-center items-center'>   <h2 className='flex gap-1 md:gap-1 rounded-2xl justify-center text-sm md:text-lg items-center text-blue-800'>Add<Plus className='w-[30%] h-[30%]'/></h2>
                 </div></div>:''
                 }
-                 {console.log(window)}
+                
                 {
                
                 window === 'profile' ?
                   <AdminProfile profile={profile} setProfile={setProfile}/>  : 
                   <div className='w-[100%] mt-[1rem] max-h-[70vh] h-[100%] gap-3 md:mt-[4rem] md:gap- overflow-x-auto'>
                     {itemlist&&itemlist.map((item)=>{
-                        return  <div className='p-2 px-[.5rem] md:px-[2rem] md:p-4 flex overflow-auto rounded-lg shadow-lg'>
+                        return  <div key={item.id} className='p-2 px-[.5rem] md:px-[2rem] md:p-4 flex overflow-auto rounded-lg shadow-lg'>
                            <div className='w-[75%] flex justify-center items-center h-[]'>
                            {window==='products'?<img src={item.main_image} className='w-[20%] h-[5rem]' />:<img src={item.image} className='w-[20%] h-[5rem]' />} 
                             {window!=='profile'&&<h2 className='w-[70%] text-sm md:text-lg text-center'>{item.name}</h2>}

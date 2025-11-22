@@ -4,7 +4,7 @@ import { bannerapi } from '../Redux/api'
 import { toast } from 'react-toastify'
 import api from '../Redux/Interceptor'
 import { LoaderCircle } from 'lucide-react'
-
+import loadingimg from '../assets/loadingimg.png'
 function AddBanner({setAdditem,edititem}) {
         const [loading,setloading]=useState(false)
         const fileref = useRef(null)
@@ -91,7 +91,7 @@ function AddBanner({setAdditem,edititem}) {
 
                             </div>
                        {loading&&<div className='absolute '>
-                <LoaderCircle  className='w-[2rem] h-[2rem] animate-spin'/>
+                <img src={loadingimg}  className='w-[2rem] h-[2rem] animate-spin'/>
                 </div>} 
                         </div>
                         </div>

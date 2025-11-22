@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import api from '../Redux/Interceptor'
 import FileUploader from './FileUploader'
 import { LoaderCircle } from 'lucide-react'
-
+import loadingimg from '../assets/loadingimg.png'
 function AddProducts({setAdditem,edititem}) {
         const fileref = useRef(null)
         const [resetTrigger, setTrigger] = useState(false)
@@ -32,7 +32,7 @@ function AddProducts({setAdditem,edititem}) {
             productFormdata.append('discount', products.discount || 0)
             productFormdata.append('stock', products.stock)
             productFormdata.append('main_image', products.image)
-            images.forEach((img) => {
+            images?.forEach((img) => {
         
                 productFormdata.append('images', img)
             })
@@ -126,6 +126,8 @@ function AddProducts({setAdditem,edititem}) {
             SetCategoryitems(res.data)
             console.log(edititem)
             if(edititem){
+                 setImages(edititem?.images); 
+            
                 setProducts({
                 name: edititem.name,
                 category: edititem.category,
@@ -134,9 +136,12 @@ function AddProducts({setAdditem,edititem}) {
                 description: edititem.description,
                 discount: edititem.discount,
                 stock: edititem.stock,
+                image: edititem?.main_image
             })
+             
+           
             }
-
+           
             
        
            
@@ -206,7 +211,7 @@ function AddProducts({setAdditem,edititem}) {
                                 </div>
                                 <div className='flex justify-center mt-[2rem] gap-2 md:gap-4 '>
                                   {
-                                        edititem?<button onClick={saveProducts} className=' bg-green-600 py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Update Banner</button>:
+                                        edititem?<button onClick={saveProducts} className=' bg-green-600 py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Update Product</button>:
                                       <button onClick={saveProducts} className=' bg-green-600  text-white text-sm py-1 px-3 md:px-5 md:py-2 md:text-lg font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Add Product</button>
                                   }
                                     <button onClick={() => clearfunction('products')} className=' bg-red-600 py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
@@ -215,7 +220,7 @@ function AddProducts({setAdditem,edititem}) {
 
                             </div>
                                       {loading&&<div className='absolute '>
-                <LoaderCircle  className='w-[2rem] h-[2rem] animate-spin'/>
+                <img src={loadingimg} className='w-[3rem] h-[3rem] md:w-[5rem] md:h-[5rem] animate-spin'/>
                 </div>} 
                         </div>
                         </div>
