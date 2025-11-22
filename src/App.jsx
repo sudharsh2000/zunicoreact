@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 import './App.css'
 import Navbar from './Components/Navbar'
@@ -22,10 +22,11 @@ import AddressPage from './Pages/AddressPage'
 import UserHomePage from './Pages/UserHomePage'
 import CheckoutPage from './Pages/CheckoutPage'
 import OrderPage from './Pages/OrderPage'
+import FlashScreen from './Components/FlashScreen'
 
-
+export const Flashcontext=createContext(null)
 function App() {
-  
+    const [flash,setFlash]=useState(false)
   const auth=useAuth()
   const {login,logout}=useAuth()
 useEffect(()=>{
@@ -33,12 +34,13 @@ setupInterceptors(auth);
 const load=async()=>{
 try{
   const res=await axios.post(refreshapi,{},{withCredentials:true})
-  console.log(res.data)
+
   const decode=jwtDecode(res.data.access_token)
+  console.log(decode.superuser)
   login(res.data.access_token, {
             'username':decode.username,
         'userid':decode.user_id,
-        'superuser':decode.is_superuser
+        'superuser':decode.superuser
             
           });
 
@@ -61,9 +63,15 @@ load();
         draggable
         theme="colored"
       />
+         <Flashcontext.Provider value={setFlash}> 
+         
+          {flash && <FlashScreen />}
     <BrowserRouter>
     
     <Routes>
+    
+          
+       
       <Route path="/" element={ <Homepage/>} />
       <Route path="/signup" element={ <SignupPage/>} />
       <Route path="/signin" element={ <Signin/>} />
@@ -76,9 +84,11 @@ load();
       <Route path='/profile' element={<UserHomePage/>} />
       <Route path='/checkout' element={<CheckoutPage/>} />
       <Route path='/orders' element={<OrderPage/>} />
+
     </Routes>
   
     </BrowserRouter>
+           </Flashcontext.Provider>
      
     </>
   )

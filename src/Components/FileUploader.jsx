@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from "react";
 
-function FileUploader({ onFileselect, fileref, resettrigger }) {
+function FileUploader({tempimage, onFileselect, fileref, resettrigger }) {
   const [previews, setPreviews] = useState([]);
-
+const [imageselect,setselected]=useState(false)
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files); // multiple files
     if (files.length > 0) {
       const urls = files.map((file) => URL.createObjectURL(file));
       setPreviews(urls);
       onFileselect(files); // send all files to parent
+      setselected(true)
     }
   };
 
   useEffect(() => {
+    console.log(previews.length)
+    console.log(tempimage)
     if (fileref?.current) fileref.current.value = null;
-    if (resettrigger) setPreviews([]);
-  }, [resettrigger]);
+    if (resettrigger) {
+      setPreviews([]);
+      return;
+    }
+   
+    if(tempimage && imageselect===false){
+setPreviews(tempimage)
+    } 
+    return ()=>{
+      setselected(false)
+    }
+    
+  }, [resettrigger,tempimage]);
 
   return (
     <div className="w-full flex flex-col items-center gap-2">

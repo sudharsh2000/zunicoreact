@@ -17,7 +17,7 @@ function AdminProfile({profile,setProfile}) {
   return (
     <div className='w-[100%] h-[100%] gap-3 md:gap-[3rem] flex justify-center  flex-col items-center '>
                         <User2Icon className='h-[15%] w-[15%]' />
-                        <div className='w-[60%] flex flex-col  gap-3 md:gap-9'>
+                        <div className='w-[90%] md:w-[60%] flex flex-col  gap-3 md:gap-9'>
                             <div className='flex flex-row justify-around gap-5'>
                                 <p className='text-lg font-extrabold w-[35%] '>Username </p>
                                 <p> :</p>
@@ -35,9 +35,9 @@ function AdminProfile({profile,setProfile}) {
                             </div>
 
 
-                            <div className='w-full flex justify-around  mt-[2%]'>
-                                <button onClick={updateUser} className='w-[10rem] bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'>Update</button>
-                                <button className='w-[10rem] bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
+                            <div className='w-full flex justify-around gap-5 md:gap-2  mt-[2%]'>
+                                <button onClick={updateUser} className='w-[10rem] text-sm md:text-lg bg-green-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'>Update</button>
+                                <button className='w-[10rem] text-sm md:text-lg bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
 
                             </div>
                         </div>

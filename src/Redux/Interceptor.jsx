@@ -30,13 +30,14 @@ export const setupInterceptors = (auth) => {
           const newAccess = res.data.access_token;
 
           const decode = jwtDecode(newAccess);
+          console.log(decode)
           login(newAccess, {
             'username':decode.username,
         'userid':decode.user_id,
         
         'mobile':decode.mobile,
         'email':decode.Email_address,
-        'superuser':decode.is_superuser
+        'superuser':decode.superuser
             
           });
           console.log('username',decode.username)

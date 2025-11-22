@@ -50,7 +50,7 @@ const SearchProducts=async()=>{
 }
 
   return (
-    <div className='hidden md:block sticky w-full top-0 z-50'>
+    <div className='hidden md:block sticky w-full top-0 z-30'>
     <div className='flex flex-row bg-gradient-to-r from-white to-pink-900 w-[100%] h-[3.5rem] justify-center items-center gap-2 md:h-[4.5rem] md:gap-8 '>
         <div className='flex gap-2 md:gap-14 justify-center items-center'>
             <img onClick={()=>navigate('/')} src={wise} className='w-[25%] md:w-[12rem] h-[100%] p-0' />
