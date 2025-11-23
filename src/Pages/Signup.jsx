@@ -22,6 +22,7 @@ function SignupPage() {
         <div className='flex h-[100vh] justify-center '>
          <Signup/>
         </div>
+        <Navbarmobile/>
        
    
     </div>

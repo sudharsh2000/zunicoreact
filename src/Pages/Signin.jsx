@@ -4,6 +4,7 @@ import Signinpage from '../Components/Signin'
 import SigninPage from '../Components/Signin'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate } from 'react-router'
+import Navbarmobile from '../Components/Navbarmobile'
 function Signin() {
   const navigate=useNavigate()
     const {userInfo}=useAuth();
@@ -16,11 +17,11 @@ function Signin() {
     },[userInfo])
   return (
     <div>
-
+      <Navbar/>
 <div className='flex h-[100vh] justify-center p-[.5rem] md:pt-[8rem]'>
 <SigninPage/>
 </div>
-
+<Navbarmobile/>
     </div>
   )
 }

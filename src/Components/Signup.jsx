@@ -2,8 +2,10 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { signupapi } from '../Redux/api'
 import { useNavigate } from 'react-router'
+import { LoaderCircle } from 'lucide-react'
 
 function Signup() {
+  const [loading,setloading]=useState(false)
   const [name,setname]=useState('')
   const [mail,setmail]=useState('')
   const [mobile,setMobile]=useState('')
@@ -27,6 +29,7 @@ function Signup() {
       'mobile':mobile
     }
     if(validation()){
+      setloading(true)
       try{
      const res=await  axios.post(signupapi,userdata,{withCredentials:true})
      console.log(res.data);
@@ -34,6 +37,9 @@ function Signup() {
       }
       catch(er){
         console.error(er)
+      }
+      finally{
+         setloading(false)
       }
     }
     else{
@@ -91,7 +97,7 @@ function Signup() {
   
   }
   return (
-    <div className='h-fit bg-gradient-to-r from-red-900 to-black mx-[.5rem] my-[4rem] rounded-xl shadow-xl py-[1.5rem] px-[.5rem] md:p-[2rem] '>
+    <div className='h-fit bg-gradient-to-r from-emerald-100 to-emerald-800 mx-[.5rem] my-[4rem] rounded-xl shadow-xl py-[1.5rem] px-[.5rem] md:p-[2rem] '>
         <h2 className='text-white mx-[3rem] md:mx-[13rem] tracking-widest  text-lg md:text-3xl font-extrabold'>Signup</h2>
         <form className='flex flex-col gap-[1rem] my-[1rem] md:mx-[3rem] p-3 md:p-6'>
            <div className='w-[20rem] md:w-[30rem] flex flex-col justify-start items-start gap-1.5 md:gap-3.5'>
@@ -164,7 +170,11 @@ function Signup() {
         </form>
         <div className='w-full justify-center items-center flex'>
           <p onClick={()=>navigate('/signin')} className='text-white '>Already have an account ? <i className='text-green-50 cursor-pointer hover:text-green-300 '>Sign In</i></p>
+        {loading&&<div className='absolute left-[50%]  '>
+                       <LoaderCircle  className='text-yellow-600 w-[2rem] h-[2rem] animate-spin'/>
+                       </div>}
         </div>
+      
     </div>
   )
 }
