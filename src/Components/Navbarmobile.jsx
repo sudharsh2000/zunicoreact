@@ -8,7 +8,7 @@ function Navbarmobile() {
   const {userInfo}=useAuth()
   const location=useLocation()
   return (
-    <div className=' border-red-300 rounded-t-2xl shadow-lg md:hidden fixed min-h-[2.5rem] w-full  z-30 bg-gradient-to-r from-emerald-100 to-emerald-600 p-2 bottom-0 border-t-1 '>
+    <div className=' border-red-300 rounded-t-2xl shadow-lg md:hidden fixed min-h-[2.5rem] w-full  z-30 bg-gradient-to-r from-emerald-100 to-emerald-200 p-2 bottom-0 border-t-1 '>
     <ul className=' flex  flex-row justify-between  items-center '>
         <li onClick={()=>navigate('/')} className={`flex flex-col  justify-center items-center gap-2 ${location.pathname==='/'?'text-yellow-600':'text-black'} `} ><Home/> Home</li>
         <li onClick={()=>{

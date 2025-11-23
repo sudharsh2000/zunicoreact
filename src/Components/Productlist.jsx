@@ -101,7 +101,7 @@ const Addcart=async(products)=>{
                 </div>
 
             </div>
-            <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[75vh] rounded-sm bg-white'>
+            <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] rounded-sm bg-white'>
              {loading?
              <div className='h-[90vh]'><LoadingScreen /></div>: products? products.map((item)=>{
 return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className='border-y-2 p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
