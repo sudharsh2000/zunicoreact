@@ -67,7 +67,7 @@ console.error('logourt error')
     }
 }
   return (
-    <div className='w-[100%] h-[100%] md:h-[100%] p-1 md:p-5 flex justify-center items-center bg-white md:bg-transparent '>
+    <div className='w-[100%] h-[100vh] md:h-[100%] p-1 md:p-5 flex justify-center items-center bg-white md:bg-transparent '>
 
         {
             loading?<LoadingScreen/>:
@@ -99,7 +99,7 @@ console.error('logourt error')
                         </div>
 
                     </div>
-                    <div className=' md:hidden w-[100%] h-[40%] md:h-auto md:w-[60%] gap-3 md:gap-[3rem] flex justify-center p-3 md:p-4  flex-col items-center rounded-xl shadow-xl bg-white '>
+                    <div className=' md:hidden w-[100%] h-[50%] md:h-auto md:w-[60%] gap-3 md:gap-[3rem] flex py-5 items-center p-3 md:p-4  flex-col  rounded-xl shadow-xl bg-white '>
                         
                         <div className='w-[100%] md:w-[60%] flex flex-col  gap-6 md:gap-9 p-2'>
                             <div onClick={()=>navigate('/orders')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>

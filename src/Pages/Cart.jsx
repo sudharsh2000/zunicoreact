@@ -9,7 +9,7 @@ function Cart() {
   const {userInfo}=useAuth()
   const navigate=useNavigate()
   useEffect(()=>{
-    if(!userInfo.userid){
+    if(!userInfo?.userid){
       navigate('/signin')
       
     }
