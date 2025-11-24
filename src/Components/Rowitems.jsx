@@ -13,7 +13,7 @@ function Rowitems({ali_type,Title}) {
     const[products,setProducts]=useState([])
     const navigate=useNavigate()
     const [loading,setLoading]=useState(false)
-    const setFlash=useContext(Flashcontext)
+    const {setFlash}=useContext(Flashcontext)
   useEffect(() => {
   let active = true;
 

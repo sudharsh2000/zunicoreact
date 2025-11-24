@@ -1,10 +1,11 @@
-import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, User2Icon } from 'lucide-react'
+import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, Heart, LucideShoppingCart, Power, Store, User2Icon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import api from '../Redux/Interceptor'
-import { usersapi } from '../Redux/api'
+import { Logoutapi, usersapi } from '../Redux/api'
 import LoadingScreen from './LoadingPage'
 import { useAuth } from '../Redux/AuthProvider'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router'
 
 function UserHome() {
     const [profile,setProfile]=useState({
@@ -13,8 +14,8 @@ function UserHome() {
         mobile:''
     })
     const [loading,setLoading]=useState()
-    const {userInfo}=useAuth()
-    
+    const {userInfo,logout}=useAuth()
+    const navigate=useNavigate()
 
     useEffect(()=>{
         const loaduser=async()=>{
@@ -48,7 +49,23 @@ function UserHome() {
        }
         
     }
+const logoutfunction=async()=>{
+    try{
+        const res=api.post(Logoutapi,{},{withCredentials:true})
+        logout()
+       if(userInfo.superuser){
+        navigate('/admin/signin')
+       }
+       else{
+ navigate('/signin')
+       }
+       
 
+    }
+    catch(e){
+console.error('logourt error')
+    }
+}
   return (
     <div className='w-[100%] h-[100%] md:h-[100%] p-1 md:p-5 flex justify-center items-center bg-white md:bg-transparent '>
 
@@ -84,18 +101,22 @@ function UserHome() {
                     </div>
                     <div className=' md:hidden w-[100%] h-[40%] md:h-auto md:w-[60%] gap-3 md:gap-[3rem] flex justify-center p-3 md:p-4  flex-col items-center rounded-xl shadow-xl bg-white '>
                         
-                        <div className='w-[100%] md:w-[60%] flex flex-col  gap-7 md:gap-9 p-2'>
-                            <div className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
+                        <div className='w-[100%] md:w-[60%] flex flex-col  gap-6 md:gap-9 p-2'>
+                            <div onClick={()=>navigate('/orders')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Orders </p>
-                                <ArrowRight className='text-yellow-600 w-[20%]'/>
+                                <Store className='text-yellow-600 w-[20%]'/>
                             </div>
-                            <div className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
+                            <div onClick={()=>navigate('/cart')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Cart </p>
-                                <ArrowRight className='text-yellow-600 w-[20%]'/>
+                                <LucideShoppingCart className='text-yellow-600 w-[20%]'/>
                             </div>
                             <div className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Wishlist </p>
-                                  <ArrowRight className='text-yellow-600 w-[20%]'/>
+                                  <Heart className='text-yellow-600 w-[20%]'/>
+                            </div>
+                            <div onClick={()=>logoutfunction()}  className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
+                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Logout </p>
+                                  <Power className='text-yellow-600 w-[20%]'/>
                             </div>
                             
                             

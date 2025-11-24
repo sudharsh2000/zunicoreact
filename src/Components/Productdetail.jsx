@@ -96,14 +96,14 @@ catch (er){
 <div className='w-full flex justify-center items-center'>
 
 
-<button onClick={()=>Addcart('cart')} className='flex gap-1 text-xl text-white font-extrabold md:gap-4 bg-orange-600 items-center justify-center rounded-lg p-1 md:p-4 w-[50%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Add to cart <ShoppingCart/></button>
+<button onClick={()=>Addcart('cart')} className='flex gap-1 text-xl text-white font-extrabold md:gap-4 bg-gradient-to-r from-emerald-400 to-emerald-600 items-center justify-center rounded-lg p-1 md:p-4 w-[50%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Add to cart <ShoppingCart/></button>
 </div>
     <h1 className='flex gap-0.5 md:gap-2.5 text-2xl  font-extrabold  justify-center items-center'><p className='font-extrabold'> <IndianRupee/> </p>{products.price} </h1>
        
       <div className='w-full flex justify-center items-center'>
 
 
-<button onClick={()=>addOrdertemperory(products)} className='flex gap-1 md:gap-4 text-xl text-white font-extrabold bg-yellow-500 items-center justify-center rounded-lg p-1 md:p-4 w-[80%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Buy Now <BadgeIndianRupee/></button>
+<button onClick={()=>addOrdertemperory(products)} className='flex gap-1 md:gap-4 text-xl text-white font-extrabold bg-gradient-to-r from-yellow-500 to-yellow-700  items-center justify-center rounded-lg p-1 md:p-4 w-[80%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Buy Now <BadgeIndianRupee/></button>
 </div> 
         </div>
     </div>

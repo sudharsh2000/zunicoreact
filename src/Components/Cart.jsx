@@ -79,9 +79,9 @@ const res=await addTocart(null,'get',userInfo.userid);
 
   return (
   
-          <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[90vh] '>
+          <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[96vh] '>
     {
-     loading?<div className='h-[80vh] bg-white w-[100%]'><LoadingScreen/></div>: userInfo?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
+     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: userInfo?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
 
             <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
               <div className='w-[80%]'>

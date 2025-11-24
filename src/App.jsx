@@ -63,7 +63,7 @@ load();
         draggable
         theme="colored"
       />
-         <Flashcontext.Provider value={setFlash}> 
+         <Flashcontext.Provider value={{setFlash,flash}}> 
          
           {flash && <FlashScreen />}
     <BrowserRouter>

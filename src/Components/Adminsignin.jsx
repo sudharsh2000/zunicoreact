@@ -58,7 +58,7 @@ function Adminsignin() {
    
    }
    return (
-     <div className='h-fit bg-gradient-to-r from-red-900 to-black mx-[.5rem] my-[4rem] rounded-xl shadow-xl py-[1.5rem] px-[.5rem] md:p-[2rem] '>
+     <div className='h-fit bg-gradient-to-r from-emerald-100 to-emerald-800 mx-[.5rem] my-[4rem] rounded-xl shadow-xl py-[1.5rem] px-[.5rem] md:p-[2rem] '>
          <h2 className='text-white mx-[3rem] md:mx-[13rem] tracking-widest  text-lg md:text-3xl font-extrabold'> Admin Sign In</h2>
          <form className='flex flex-col gap-[1.3rem] md:gap-[2rem] my-[1rem] md:mx-[3rem] p-3 md:p-6'>
             <div className='w-[20rem] md:w-[30rem] flex flex-col justify-start items-start gap-1.5 md:gap-3.5'>

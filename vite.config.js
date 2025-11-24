@@ -13,7 +13,7 @@ export default defineConfig({
 
       manifest: {
         name: 'Wisedecore',
-        short_name: 'Wise',
+        short_name: 'Wisedecore',
         description: 'A sample PWA React application',
 
         theme_color: '#ffffff',
@@ -23,17 +23,17 @@ export default defineConfig({
 
         icons: [
           {
-            src: 'PWAicon.png',
+            src: 'appicon.jpg',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'PWAicon.png',
+            src: 'appicon.jpg',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'PWAicon.png',
+            src: 'appicon.jpg',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'

@@ -118,7 +118,7 @@ return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className
                         <h2 className=' flex font-bold text-xs md:text-lg items-center'><IndianRupee className='h-[50%] md:h-full'/> {item.price}</h2>
                         <p className='text-green-400 text-xs md:text-lg font-bold'>{item.discount}% off</p>
                       <div className='w-full flex justify-center items-center'> 
-                         <button onClick={()=>Addcart(item)} className='flex justify-center items-center text-xs gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-[#ed7a29b1] hover:scale-105 transition-transform p-1 md:p-4  rounded-xl  md:w-[50%] shadow-xl '>Add cart <ShoppingCart className='w-[20%] h-[20%] md:w-auto md:h-[100%]'/></button>
+                         <button onClick={()=>Addcart(item)} className='flex justify-center items-center text-xs gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-gradient-to-r from-emerald-400 to-emerald-600 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl  md:w-[50%] shadow-xl '>Add cart <ShoppingCart className='w-[20%] h-[20%] md:w-auto md:h-[100%]'/></button>
                    </div>
                     </div>
                     
