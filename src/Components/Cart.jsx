@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { ClosedCaption, DeleteIcon, IndianRupee, IndianRupeeIcon, PlusIcon, Trash, Trash2 } from 'lucide-react'
+import { ClosedCaption, DeleteIcon, Home, IndianRupee, IndianRupeeIcon, PlusIcon, Trash, Trash2 } from 'lucide-react'
 import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate } from 'react-router'
@@ -24,6 +24,8 @@ function CartPage() {
   
   if (!userInfo || !userInfo.userid) return;
    SetLoading(true)
+     
+     try{
 const res=await addTocart(null,'get',userInfo.userid);
        console.log(res)
      setCarts(res[0].items)
@@ -31,8 +33,7 @@ const res=await addTocart(null,'get',userInfo.userid);
      setPriceTotal(res[0].total_price)
      setDiscount(res[0].total_discount)
      setFinalAmount(res[0].final_price)
-    
-     try{
+  
       if(userInfo.userid){
        
       const reswait= await api.get(`${AddressApi}?user=${userInfo.userid}`)
@@ -46,7 +47,10 @@ const res=await addTocart(null,'get',userInfo.userid);
       console.error(er)
       
      }
-     SetLoading(false)
+     finally{
+ SetLoading(false)
+     }
+    
     }
      loadapi(); 
   
@@ -81,7 +85,7 @@ const res=await addTocart(null,'get',userInfo.userid);
   
           <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[96vh] '>
     {
-     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: userInfo?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
+     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
 
             <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
               <div className='w-[80%]'>
@@ -139,15 +143,15 @@ const res=await addTocart(null,'get',userInfo.userid);
             </div>  
 
         </div>:
-        <div className='bg-white min-h-[50%] h-[18rem]  rounded-md min-w-[70%] flex justify-center items-center'>
+        <div className='bg-white md:min-h-[50%] h-[18rem] min-w-[100%] min-h-[88vh]   rounded-md md:min-w-[70%] flex justify-center items-center'>
           <div className='flex justify-around  gap-4 items-center md:gap-5'>
-          <h2 className='text-xs md:text-2xl text-blue-600'> No cartItems Found</h2>
-          <button onClick={()=>navigate(`/signin`)} className='rounded-lg p-1 hover:bg-blue-200 md:p-3 border-1 border-blue-500 shadow-lg'>Login</button>
+          <h2 className='text-xs md:text-2xl text-emerald-600'> No cartItems Found</h2>
+          <button onClick={()=>navigate(`/`)} className='rounded-lg p-1 hover:bg-blue-200 md:p-3 border-1 border-blue-500 shadow-lg'><Home/></button>
           </div>
           </div>
         }
      {
-     !loading&& userInfo?  <div className='bg-white shadow-lg flex flex-col w-[100%] py-3 px-2  md:px-3 md:py-9 md:w-[20%] h-[80%] gap-1 md:gap-5 pt-1'>
+     !loading&& Carts?  <div className='bg-white shadow-lg flex flex-col w-[100%] py-3 px-2  md:px-3 md:py-9 md:w-[20%] h-[80%] gap-1 md:gap-5 pt-1'>
           <div className='flex justify-around w-full p-1 md:p-2'>
             <h2 className='w-[40%] text-xs md:text-xl'>Total Price</h2>
             <p> - </p>

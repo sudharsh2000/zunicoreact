@@ -23,6 +23,7 @@ import UserHomePage from './Pages/UserHomePage'
 import CheckoutPage from './Pages/CheckoutPage'
 import OrderPage from './Pages/OrderPage'
 import FlashScreen from './Components/FlashScreen'
+import SearchSuggestion from './Components/SearchSuggestion'
 
 export const Flashcontext=createContext(null)
 function App() {
@@ -73,6 +74,7 @@ load();
           
        
       <Route path="/" element={ <Homepage/>} />
+       <Route path="/searchsuggest" element={ <SearchSuggestion/>} />
       <Route path="/signup" element={ <SignupPage/>} />
       <Route path="/signin" element={ <Signin/>} />
       <Route path="/admin/signin" element={ <AdminLogin/>} />

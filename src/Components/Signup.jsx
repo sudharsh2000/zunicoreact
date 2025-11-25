@@ -165,7 +165,7 @@ function Signup() {
             <i className='text-red-200 ml-1.5 md:ml-6'>{error.cpassword}</i>
             </div>
 
-            <button type='button' onClick={signupfunction} className='w-100% cursor-pointer mt-[7%] font-extrabold bg-green-700 text-white rounded-lg hover:bg-green-900 p-2'>Sign up</button>
+            <button type='button' onClick={signupfunction} className='w-[98%] cursor-pointer mt-[7%] font-extrabold border-1 border-green-100 hover:bg-green-900 shadow-xl text-white rounded-lg 0 p-2'>Sign up</button>
 
         </form>
         <div className='w-full justify-center items-center flex'>

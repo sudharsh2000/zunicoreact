@@ -29,22 +29,17 @@ function Categories() {
 
   return (
     <div className=' bg-white rounded-md '>
-      <div className=' rounded-sm gap-[1.9rem] md:gap-[6rem] my-5 py-3.5 pl-[5rem] md:px-[4rem] flex-nowrap  flex flex-row justify-center items-center overflow-x-auto '>
+      <div className=' rounded-sm gap-[1rem] md:gap-[6rem] my-5 py-3.5 pl-[1rem] md:px-[4rem]  flex flex-row md:justify-center items-center overflow-x-auto '>
    {loading?<LoadingScreen/>:
      categories&&
    categories.map((categ)=>{
  return <div key={categ.id} onClick={()=>navigate(`/list?category=${categ.id}`)} className='   flex justify-center flex-col items-center gap-1.5'>
             <img src={categ.image} className='W-[5.5rem] h-[4.5rem] md:w-[6rem] md:h-[5rem] hover:scale-110 transform-3d transition-transform' />
             <h3 className='text-[9px] text-center md:text-[14px] text-emerald-900 font-semibold  py-0.5 px-2.5  rounded-2xl hover:scale-110 cursor-pointer transform-3d transition-transform'>{categ.name}</h3>
-            
-        </div>
-       
-   }) 
-     
-        
-      
-        }  
-        </div>
+       </div>
+  })
+  } 
+    </div>
     </div>
     
   )

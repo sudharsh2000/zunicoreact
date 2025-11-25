@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { IndianRupee, ShoppingBag, ShoppingCart } from 'lucide-react'
+import { Heart, IndianRupee, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import api from '../Redux/Interceptor.jsx'
 import { categoryapi, productapi } from '../Redux/api.jsx'
 import { addTocart } from '../Hooks/Addcart.jsx'
 import { useAuth } from '../Redux/AuthProvider.jsx'
 import LoadingScreen from './LoadingPage.jsx'
+import love from '../assets/love.png'
+import lovefill from '../assets/lovefill.png'
 function Productlist() {
   const location=useLocation()
   const params=new URLSearchParams(location.search)
@@ -73,10 +75,10 @@ const Addcart=async(products)=>{
   return (
     <div className='w-full mx-0 my-1 md:mx-3.5 md:my-1 '>
 
-            <div className='flex gap-0 md:gap-[3rem]  md:my-[1rem] md: items-center p-1 md:px-[1rem] flex-between md:justify-start justify-center md:mx-8 rounded-sm shadow-lg bg-white'>
+            <div className='flex gap-0 md:gap-[3rem]  md:my-[1rem] md:items-center py-1 md:px-[1rem] flex-between md:justify-start justify-center md:mx-8 rounded-sm shadow-lg bg-white'>
                 <div className='flex w-[50%] md:w-[30%] row gap-1 md:gap-4 justify-center items-center rounded-lg'>
                     <h2 className='font-extrabold text-xs md:text-lg'>Sort by</h2>
-                    <select value={sort} onChange={(s)=>setSort(s.target.value)} className='border-1 max-w-[60%] md:w-[100%] border-gray-100 text-xs md:text-lg shadow-lg p-1 md:p-4 rounded-lg'>
+                    <select value={sort} onChange={(s)=>setSort(s.target.value)} className='border-1 max-w-[70%] md:w-[100%] border-gray-100 text-xs md:text-lg shadow-lg p-1 md:p-4 rounded-lg'>
                         <option  value={''}>Popularity</option>
                         <option value={'price'}>Price Low to high</option>
                         <option value={'-price'}>Price High to Low</option>
@@ -88,10 +90,10 @@ const Addcart=async(products)=>{
                     <h2 className='font-extrabold text-xs md:text-lg'>Categories</h2>
                      <select value={categoryfilter} onChange={(e)=>{
                       console.log(e.target.value)
-                      navigate(`/list?category=${e.target.value}`)}} className='border-1 max-w-[50%] md:w-[100%] text-xs md:text-lg border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
+                      navigate(`/list?category=${e.target.value}`)}} className='border-1 w-[70%] md:w-[100%] text-xs md:text-lg border-gray-100 shadow-lg p-1 md:p-4 rounded-lg'>
                        <option value={''}>--All--</option>
                         {categorylist&& categorylist.map((categ)=>{
-                        return <option value={categ.id}>{categ.name}</option>
+                        return <option key={categ.id} value={categ.id}>{categ.name}</option>
                        
                         })}
                         
@@ -117,8 +119,9 @@ return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className
                     <div className='flex w-[35%] gap-3 flex-col md:gap-9 justify-center items-center'>
                         <h2 className=' flex font-bold text-xs md:text-lg items-center'><IndianRupee className='h-[50%] md:h-full'/> {item.price}</h2>
                         <p className='text-green-400 text-xs md:text-lg font-bold'>{item.discount}% off</p>
-                      <div className='w-full flex justify-center items-center'> 
-                         <button onClick={()=>Addcart(item)} className='flex justify-center items-center text-xs gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-gradient-to-r from-emerald-400 to-emerald-600 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl  md:w-[50%] shadow-xl '>Add cart <ShoppingCart className='w-[20%] h-[20%] md:w-auto md:h-[100%]'/></button>
+                      <div className='w-full flex justify-center gap-1 md:gap-4 items-center'> 
+                         <button onClick={()=>Addcart(item)} className='flex justify-center items-center text-[10px] gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-gradient-to-r from-emerald-400 to-emerald-600 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl  md:w-[50%] shadow-xl '>Add cart <ShoppingCart className='w-[20%] h-[20%] md:w-auto md:h-[100%]'/></button>
+                   <div> <img src={love} className='w-[1.5rem] md:w-[3rem] cursor-pointer' /> </div>
                    </div>
                     </div>
                     
