@@ -58,11 +58,11 @@ function Rowitems({ali_type,Title}) {
       
       </div>
      {ali_type==='row'&&
-     <button onClick={()=>scrollfn('left')}  className=' hidden md:block absolute    bg-[#2a272726]  left-[1rem] md:left-[3.5rem] w-[1.6rem] h-[2rem] md:w-[2rem] md:h-[6rem] rounded-sm z-index:10 hover:bg-red-200 hover:scale-125 duration-300 transform-3d  transition-transform  shadow-2xl'>&#9664;</button>
+     <button onClick={()=>scrollfn('left')}  className=' hidden md:block absolute    bg-[#ffff]  left-[1rem] md:left-[3.5rem] w-[1.6rem] h-[2rem] md:w-[2rem] md:h-[6rem] rounded-lg z-index:10 hover:bg-emerald-100 hover:scale-125 duration-300 transform-3d  transition-transform  shadow-2xl'>&#9664;</button>
        }
         {
           ali_type==='row'&&
-          <button onClick={()=>scrollfn('right')}  className='hidden md:block  bg-[#2b29292d] absolute right-[1rem] md:right-[3.5rem]  w-[1.6rem] h-[2rem] md:w-[2rem] md:h-[6rem] rounded-sm z-index:10 hover:bg-red-200 hover:scale-125 duration-300 transform-3d  transition-transform  shadow-2xl'>&#9654;</button>
+          <button onClick={()=>scrollfn('right')}  className='hidden md:block  bg-[#ffff] absolute right-[1rem] md:right-[3.5rem]  w-[1.6rem] h-[2rem] md:w-[2rem] md:h-[6rem] rounded-lg z-index:10 hover:bg-emerald-100 hover:scale-125 duration-300 transform-3d  transition-transform  shadow-2xl'>&#9654;</button>
 }
         <div ref={ref} className={`flex    md:mr-[3rem] md:ml-[4rem] p-2 md:p-4 gap-[.5rem] flex-wrap ${ali_type==='row'?'overflow-x-auto md:gap-[6.5rem] md:flex-nowrap ':'md:flex-wrap md:gap-[4.5rem]'}  flex-1 whitespace-nowrap no-scrollbar`}>
     

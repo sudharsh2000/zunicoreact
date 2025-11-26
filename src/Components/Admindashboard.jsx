@@ -120,7 +120,7 @@ function Admindashboard() {
 
     return (
         <div className=' w-full flex-col md:flex-row flex justify-center items-center'>
-            <div className=' hidden md:block h-[80vh] bg-white absolute left-[.5rem] md:left-[10rem] top-[5rem] md:top-[8rem] shadow-lg   w-[3.5rem] md:w-[18rem] rounded-2xl'>
+            <div className=' hidden md:block h-[90vh] bg-white absolute left-[.5rem] md:left-[1rem] top-[5rem] md:top-[5rem] shadow-lg   w-[10%] md:w-[18rem] rounded-2xl'>
                 <ul className=' mt-[.5rem] md:mt-[2rem] gap-[.5rem] md:gap-[2rem] flex justify-center items-center flex-col'>
                     <li onClick={() => {
                         setwindow('profile')
@@ -168,11 +168,11 @@ function Admindashboard() {
                 </ul>
             </div>
 
-            <div className='w-[95%] md:w-[60rem] md:mt-[3.5rem] flex justify-center items-center min-h-[80vh] max-h-[80vh] bg-white shadow-lg md:ml-[20rem] rounded-2xl '>
+            <div className='w-[95%] md:w-[90%] md:mt-[.5rem] flex justify-center items-center min-h-[90vh] max-h-auto bg-white shadow-lg md:ml-[20rem] rounded-2xl '>
                
                 {
                 window !== 'profile'?
-                <div onClick={()=>{setedititem(null);setAdditem(true)}} className='absolute right-[1rem] bg-white md:right-[18rem] h-[2rem] md:h-[3rem] top-[4.8rem] md:top-[8.5rem] p-2 md:p-3 rounded-4xl shadow-2xl justify-center items-center border-1 border-green-100 cursor-pointer hover:bg-gray-300'>
+                <div onClick={()=>{setedititem(null);setAdditem(true)}} className='absolute right-[1rem] bg-white md:right-[1%] h-[2rem] md:h-[3rem] top-[4.8rem] md:top-[10%] p-2 md:p-3 rounded-4xl shadow-2xl justify-center items-center border-1 border-green-100 cursor-pointer hover:bg-gray-300'>
                  <div className='flex w-[100%] h-[100%] justify-center items-center'>   <h2 className='flex gap-1 md:gap-1 rounded-2xl justify-center text-sm md:text-lg items-center text-blue-800'>Add<Plus className='w-[30%] h-[30%]'/></h2>
                 </div></div>:''
                 }
@@ -181,7 +181,7 @@ function Admindashboard() {
                
                 window === 'profile' ?
                   <AdminProfile profile={profile} setProfile={setProfile}/>  : 
-                  <div className='w-[100%] mt-[1rem] max-h-[70vh] h-[100%] gap-3 md:mt-[4rem] md:gap- overflow-x-auto'>
+                  <div className='w-[100%] mt-[1rem] max-h-[80vh] h-[100%] gap-3 md:mt-[4rem] md:gap- overflow-x-auto'>
                     {itemlist&&itemlist.map((item)=>{
                         return  <div key={item.id} className='p-2 px-[.5rem] md:px-[2rem] md:p-4 flex overflow-auto rounded-lg shadow-lg'>
                            <div className='w-[75%] flex justify-center items-center h-[]'>

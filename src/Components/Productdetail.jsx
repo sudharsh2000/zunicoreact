@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react'
 import ImageGallery from './ImageGallery'
 import { BadgeIndianRupee, IndianRupee, ShoppingBagIcon, ShoppingBasket, ShoppingCart } from 'lucide-react'
 import api from '../Redux/Interceptor'
-import { OrderApi, productapi } from '../Redux/api'
+import { OrderApi, productapi, whishlistApi } from '../Redux/api'
 import { useNavigate, useParams } from 'react-router'
 import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
+import love from '../assets/love.png'
+import lovefill from '../assets/lovefill.png'
 function Productdetail() {
   const navigate=useNavigate('')
   const [products,setProducts]=useState({})
   const {id}=useParams()
   const {userInfo}=useAuth()
+  const [wish,setwish]=useState(false)
+  const [wishid,setwishid]=useState()
 const Addcart=async(cart)=>{
   console.log('dis-pric',(parseFloat(products.discount)*parseFloat(products.price))/100)
   const Cartdata={
@@ -74,15 +78,49 @@ catch (er){
     const loadproducts=async()=>{
  try{
       const res=await api.get(`${productapi}?id=${id}`,{withCredentials:true})
-      console.log(res.data)
+    
       setProducts(res.data[0])
+      const wisha= await api.get(`${whishlistApi}?Product_id=${res.data[0].id}&user=${userInfo.userid}`)
+      console.log(wisha.data.length)
+      if(wisha.data.length>0){
+        setwish(true);
+        console.log(wisha.data[0])
+        setwishid(wisha.data[0].id)
+      }
     }
     catch(er){
       console.error(er)
     }
     }
    loadproducts();
+
+    
+
   },[])
+  const AddWishlist=async()=>{
+ try{
+    
+        console.log('ch2')
+        const res=await api.post(whishlistApi,{
+          'user':userInfo.userid,
+          'Product_id':products.id
+        }) 
+        console.log(res.status)
+      }
+    catch(er){
+      console.error(er)
+    }  
+  }
+  const removeWishlist=async()=>{
+ try{
+        const resdel=await api.delete(`${whishlistApi}${wishid}/`)
+        console.log(resdel.status)
+      }
+    
+    catch(er){
+      console.error(er)
+    }
+  }
   return (
     <div className='flex pb-[6rem] flex-col md:flex-row justify-around p-3 md:p-8 gap-3 w-[100%] md:gap-10 h-auto md:h-[100vh]'>
           <ImageGallery images={products.images} className='w-[100%] md:w-[62%]'/>
@@ -100,6 +138,10 @@ catch (er){
 </div>
     <h1 className='flex gap-0.5 md:gap-2.5 text-2xl  font-extrabold  justify-center items-center'><p className='font-extrabold'> <IndianRupee/> </p>{products.price} </h1>
        
+    <div className='flex gap-2 md:gap-4 justify-center items-center'>
+      <p className='text-gray-600 text-xs md:text-lg'>add to favourite</p>
+      <div>{wish?<img src={lovefill} onClick={()=>{setwish(false);removeWishlist();}} className='w-[1.5rem] md:w-[2.4rem] cursor-pointer' />: <img onClick={()=>{setwish(true);AddWishlist();}} src={love} className='w-[1.5rem] md:w-[2.4rem] cursor-pointer' />} </div>
+    </div>
       <div className='w-full flex justify-center items-center'>
 
 

@@ -14,7 +14,7 @@ function AdminHome() {
   // }
   // },[userInfo])
   return (
-    <div className='min-h-[100vh] md:pb-[2rem] bg-gradient-to-r from-amber-100 to-blue-300'>
+    <div className='min-h-[100vh] md:pb-[1rem] bg-gradient-to-r from-amber-100 to-blue-300'>
         <Navbar/>
         <Admindashboard/>
         <Navbarmobile/>

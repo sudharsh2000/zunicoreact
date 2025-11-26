@@ -46,9 +46,9 @@ function SearchSuggestion() {
                 {listProducts&&  <div  className=' w-[100%] gap-[.5rem]   min-h-[50%] h-auto overflow-x-auto  z-50 rounded-lg shadow-lg bg-[#ffffff] max-h-[12rem] md:h-auto flex flex-col'>
                     {
                       listProducts.map((pro,i)=>{
-                            return <div key={pro.id} className='flex justify-between py-2 px-5 border-b-1 border-gray-300'>
+                            return <div key={pro.id} onClick={()=>{SetlistProducts([]);navigate(`/list?search=${pro.name}`)}} className='flex justify-between py-2 px-5 border-b-1 border-gray-300'>
                                 <SearchIcon className='h-[1rem]'/>
-                        <p key={i} onClick={()=>{SetlistProducts([]);navigate(`/list?search=${pro.name}`)}} className={`truncate w-[9rem]  text-xs  py-1 p md:py-3  hover:bg-gray-200 cursor-pointer  `}>{pro.name}</p >
+                        <p key={i}  className={`truncate w-[9rem]  text-xs  py-1 p md:py-3  hover:bg-gray-200 cursor-pointer  `}>{pro.name}</p >
                         <ArrowUpRightFromSquareIcon className='h-[1rem]'/>
                             </div> 
                         })

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, Store, User, UserCircle } from 'lucide-react'
+import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, Bell, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, Store, User, UserCircle } from 'lucide-react'
 
 import wise from '../assets/wise.png'
 import { useNavigate } from 'react-router'
@@ -57,7 +57,8 @@ const SearchProducts=async()=>{
             <div className='shadow-lg flex flex-row border-1 w-[70%] h-[2rem] rounded-md md:w-[40rem] md:h-[2.6rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>
             <input onKeyDown={(e)=>{
                 if(e.key=='Enter'){
-                    navigate(`/list?search=${searchval}`);
+                    
+                   searchval? navigate(`/list?search=${searchval}`):'';
                 }
                 if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -83,7 +84,7 @@ const SearchProducts=async()=>{
                 SearchProducts();
 
                 }} className='text-[12px] md:text-md w-[92%] h-[100%] md:text-lg border-none outline-0 pl-2 md:pl-5' placeholder='Search for Products Brands and More' />
-            <Search  onClick={()=>navigate(`/list?search=${searchval}`)} className=' h-[90%] mr-1.5 text-gray-400 md:text-gray-600 '/>
+            <Search  onClick={()=>searchval? navigate(`/list?search=${searchval}`):''} className={` h-[90%] mr-1.5 text-gray-400 md:text-gray-600 `}/>
             </div>
             {listProducts&&
                 <div  className='absolute w-[35%] h-full overflow-x-auto left-[23.5%] top-[81%] rounded-lg shadow-lg bg-[#ffffffe6] max-h-[12rem] md:h-auto flex flex-col'>
@@ -118,7 +119,7 @@ const SearchProducts=async()=>{
                 console.log(userInfo)
                 userInfo.superuser?navigate('/admin/dashboard'):navigate('/profile')}} className='w-full text-center flex justify-center gap-2 md:gap-6  items-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' ><UserCircle/> Profile</li>
             <li onClick={()=>navigate('/orders')} className='w-full text-center flex justify-center gap-2 md:gap-6 items-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'><Store/> Orders</li>
-            <li className='w-full text-center  transform-3d transition-transform flex justify-center gap-2 md:gap-6  items-center hover:bg-gray-100 py-2.5 cursor-pointer'><Heart/> Wishlist</li>
+            <li onClick={()=>navigate('/wishlist')} className='w-full text-center  transform-3d transition-transform flex justify-center gap-2 md:gap-6  items-center hover:bg-gray-100 py-2.5 cursor-pointer'><Heart/> Wishlist</li>
 
         </ul>
     </div>
@@ -126,12 +127,16 @@ const SearchProducts=async()=>{
         
                  </li>
                  }
-           
-
+ {accesstoken&&          
+<li onClick={()=>navigate('/cart')} className='text-white font-extrabold text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
+               <Bell/> 
+            </li>}
 {accesstoken&&
 <li onClick={()=>navigate('/cart')} className='text-white font-extrabold text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
                <ShoppingCart/> 
             </li>
+
+            
 }
 
             

@@ -18,6 +18,7 @@ export const AddressApi=homeapi+'api/addAdress/'
 export const OrderApi=homeapi+'api/orders/'
 export const OrderItemApi=homeapi+'api/orderitems/'
 export const OrderDeleteApi=homeapi+'api/orders/delete-draft'
+export const whishlistApi=homeapi+'api/wishlist/'
 
 export const VerifyApi=homeapi+'api/payment/verify/'
 

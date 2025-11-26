@@ -24,6 +24,8 @@ import CheckoutPage from './Pages/CheckoutPage'
 import OrderPage from './Pages/OrderPage'
 import FlashScreen from './Components/FlashScreen'
 import SearchSuggestion from './Components/SearchSuggestion'
+import Wishlist from './Pages/Wishlist'
+import WishlistPage from './Pages/Wishlist'
 
 export const Flashcontext=createContext(null)
 function App() {
@@ -90,6 +92,7 @@ load();
       <Route path='/profile' element={<UserHomePage/>} />
       <Route path='/checkout' element={<CheckoutPage/>} />
       <Route path='/orders' element={<OrderPage/>} />
+      <Route path='/wishlist' element={<WishlistPage/>} />
 
     </Routes>
   

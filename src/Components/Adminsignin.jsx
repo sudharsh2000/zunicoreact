@@ -79,7 +79,7 @@ function Adminsignin() {
              </div> 
             
  
-             <button type='button' onClick={signupfunction} className='w-100% cursor-pointer mt-[7%] font-extrabold bg-yellow-500 text-white rounded-lg hover:bg-yellow-700 p-2'>Sign In</button>
+             <button type='button' onClick={signupfunction} className='w-[98%] md:w-[92%] cursor-pointer mt-[7%] font-extrabold border-1 border-green-100 hover:bg-green-900 text-white rounded-lg  p-2'>Sign In</button>
  
          </form>
          {/* <div className='w-full justify-center items-center flex'>

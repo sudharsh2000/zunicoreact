@@ -110,7 +110,7 @@ console.error('logourt error')
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Cart </p>
                                 <LucideShoppingCart className='text-yellow-600 w-[20%]'/>
                             </div>
-                            <div className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
+                            <div onClick={()=>navigate('/wishlist')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Wishlist </p>
                                   <Heart className='text-yellow-600 w-[20%]'/>
                             </div>
