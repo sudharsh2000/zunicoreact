@@ -10,7 +10,9 @@ export const setupInterceptors = (auth) => {
 
   api.interceptors.request.use(
     (config) => {
+      if(auth?.access_token){
       if (accesstoken) config.headers.Authorization = `Bearer ${accesstoken}`;
+      }
       return config;
     },
     (error) => Promise.reject(error)
@@ -26,11 +28,11 @@ export const setupInterceptors = (auth) => {
 
         try {
           const res = await plainAxios.post(refreshapi, { withCredentials: true });
-         console.log('data',res.data)
+       
           const newAccess = res.data.access_token;
 
           const decode = jwtDecode(newAccess);
-          console.log(decode)
+          
           login(newAccess, {
             'username':decode.username,
         'userid':decode.user_id,
@@ -40,15 +42,10 @@ export const setupInterceptors = (auth) => {
         'superuser':decode.superuser
             
           });
-          console.log('username',decode.username)
-console.log('✅ New token from refresh:', newAccess);
-console.log('🚀 Retrying request for:', originalRequest.url);
-console.log('🧾 Retrying headers:', {
-  ...originalRequest.headers,
-  Authorization: `Bearer ${newAccess}`
-});
+        
+
           originalRequest.headers.Authorization = `Bearer ${newAccess}`;
-          console.log(originalRequest)
+    
           return api(originalRequest); // ✅ retry without interceptor
         } catch (err) {
           console.log('refresh error')

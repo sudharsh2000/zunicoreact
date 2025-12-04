@@ -124,14 +124,14 @@ catch (er){
   return (
     <div className='flex pb-[6rem] flex-col md:flex-row justify-around p-3 md:p-8 gap-3 w-[100%] md:gap-10 h-auto md:h-[100vh]'>
           <ImageGallery images={products.images} className='w-[100%] md:w-[62%]'/>
-        <div className='flex flex-col justify-center mb-[2rem] w-[100%] md:w-[40%] gap-3 md:gap-10'>
+        <div className='flex flex-col justify-center mb-[2rem] w-[100%] md:w-[40%] gap-3 md:gap-4'>
           <h2 className=' font-bold text-[22px] md:text-4xl'> {products.name}</h2>
           <div className='w-80% border-1 border-gray-400 rounded-lg p-1 md:p-3'>
             <h2 className='my-1.5 md:my-5 font-extrabold text-lg'> Description</h2>
             <p className='text-xs md:text-lg' >{products.description}</p>
           </div>
           <h1 className='flex gap-0.5 md:gap-2.5 text-green-700'>{parseInt( products.discount)} % <p className='font-bold'>discount</p></h1>
-<div className='w-full flex justify-center items-center'>
+      <div className='w-full flex justify-center items-center'>
 
 
 <button onClick={()=>Addcart('cart')} className='flex gap-1 text-xl text-white font-extrabold md:gap-4 bg-gradient-to-r from-emerald-400 to-emerald-600 items-center justify-center rounded-lg p-1 md:p-4 w-[50%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Add to cart <ShoppingCart/></button>
@@ -143,8 +143,6 @@ catch (er){
       <div>{wish?<img src={lovefill} onClick={()=>{setwish(false);removeWishlist();}} className='w-[1.5rem] md:w-[2.4rem] cursor-pointer' />: <img onClick={()=>{setwish(true);AddWishlist();}} src={love} className='w-[1.5rem] md:w-[2.4rem] cursor-pointer' />} </div>
     </div>
       <div className='w-full flex justify-center items-center'>
-
-
 <button onClick={()=>addOrdertemperory(products)} className='flex gap-1 md:gap-4 text-xl text-white font-extrabold bg-gradient-to-r from-yellow-500 to-yellow-700  items-center justify-center rounded-lg p-1 md:p-4 w-[80%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Buy Now <BadgeIndianRupee/></button>
 </div> 
         </div>

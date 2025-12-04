@@ -26,6 +26,19 @@ function SearchSuggestion() {
 
   useEffect(() => {
     inputRef.current.focus();
+    const loadproducts=async()=>{
+       try{
+        const res=await api.get(`${productapi}?search=${searchval}`)
+        SetlistProducts(res.data)
+        console.log(res.data)
+
+    }
+    catch(er){
+        console.error(er)
+
+    }
+    }
+    loadproducts();
   }, []);
   return (
     <div className='flex justify-center h-[100vh] gap-[1rem] flex-col items-center bg-gray-200   md:hidden'>
@@ -43,7 +56,7 @@ function SearchSuggestion() {
            </div> 
             
               <div className='flex w-full  bg-gradient-to-r from-amber-100 to-blue-300 h-[90%] '>
-                {listProducts&&  <div  className=' w-[100%] gap-[.5rem]   min-h-[50%] h-auto overflow-x-auto  z-50 rounded-lg shadow-lg bg-[#ffffff] max-h-[12rem] md:h-auto flex flex-col'>
+                {listProducts&&  <div  className=' w-[100%] gap-[.5rem]   h-[100%]  overflow-x-auto  z-50 rounded-lg shadow-lg bg-[#ffffff]  md:h-auto flex flex-col'>
                     {
                       listProducts.map((pro,i)=>{
                             return <div key={pro.id} onClick={()=>{SetlistProducts([]);navigate(`/list?search=${pro.name}`)}} className='flex justify-between py-2 px-5 border-b-1 border-gray-300'>

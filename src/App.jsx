@@ -5,7 +5,7 @@ import Navbar from './Components/Navbar'
 import Homepage from './Pages/Homepage'
 
 import SignupPage from './Pages/Signup'
-import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import { BrowserRouter,Routes,Route, useNavigate } from 'react-router-dom'
 import Signin from './Pages/Signin'
 import AdminLogin from './Pages/AdminLogin'
 import AdminHome from './Pages/AdminHome'
@@ -32,14 +32,20 @@ function App() {
     const [flash,setFlash]=useState(false)
   const auth=useAuth()
   const {login,logout}=useAuth()
-useEffect(()=>{
 setupInterceptors(auth);
+useEffect(()=>{
+
+ console.log('app')
+  setFlash(true)
+
 const load=async()=>{
 try{
-  const res=await axios.post(refreshapi,{},{withCredentials:true})
+  
+  const res=await api.post(refreshapi,{},{withCredentials:true})
 
+console.log(res)
   const decode=jwtDecode(res.data.access_token)
-  console.log(decode.superuser)
+  
   login(res.data.access_token, {
             'username':decode.username,
         'userid':decode.user_id,
@@ -50,7 +56,12 @@ try{
 }
 catch(e){
 console.error(e)
+
 }
+finally{
+setFlash(false)
+}
+
 }
 load();
 },[])
@@ -68,7 +79,7 @@ load();
       />
          <Flashcontext.Provider value={{setFlash,flash}}> 
          
-          {flash && <FlashScreen />}
+         {flash && <FlashScreen />}
     <BrowserRouter>
     
     <Routes>

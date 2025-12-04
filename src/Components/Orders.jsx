@@ -55,7 +55,7 @@ SetLoading(false)
      loadapi(); 
   
     
-  },[userInfo])
+  },[userInfo?.userid])
  
   const deleteOrder=async(orderid)=>{
     try{

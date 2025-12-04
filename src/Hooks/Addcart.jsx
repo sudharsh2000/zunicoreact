@@ -10,7 +10,7 @@ export const addTocart=async(cartdata,apitype,id)=>{
        
         if(apitype==='post'){
             console.log(cartdata)
-         res=await api.post(CartApi,cartdata)
+         res=await api.post(CartApi,cartdata,{withCredentials:true})
          console.log(res)
          retundata=res.status
         }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, Bell, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, Store, User, UserCircle } from 'lucide-react'
 
 import wise from '../assets/wise.png'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate, useSearchParams } from 'react-router'
 import { useAuth } from '../Redux/AuthProvider'
 import axios from 'axios'
 import { Logoutapi, productapi } from '../Redux/api'
@@ -17,6 +17,8 @@ function Navbar() {
     const [open2,setopen2]=useState(false)
     const [listProducts,SetlistProducts]=useState([])
     const [cursor,setcursor]=useState(0)
+
+    const cururl=useLocation()
 const logoutfunction=async()=>{
     try{
         const res=axios.post(Logoutapi,{},{withCredentials:true})
@@ -51,10 +53,10 @@ const SearchProducts=async()=>{
 
   return (
     <div className='hidden md:block sticky w-full top-0 z-30'>
-    <div className='flex flex-row bg-gradient-to-r from-emerald-100 to-emerald-800 w-[100%] h-[3.5rem] justify-center items-center gap-2 md:h-[4.5rem] md:gap-8 '>
+    <div className='flex flex-row bg-gradient-to-r from-emerald-100 to-emerald-800 w-[100%] h-[3.5rem] justify-between px-[2%] items-center gap-2 md:h-[4.5rem] md:gap-8 '>
         <div className='flex gap-2 md:gap-14 justify-center items-center'>
             <img onClick={()=>navigate('/')} src={wise} className='w-[25%] md:w-[12rem] h-[100%] p-0' />
-            <div className='shadow-lg flex flex-row border-1 w-[70%] h-[2rem] rounded-md md:w-[40rem] md:h-[2.6rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>
+         {cururl.pathname==='/'&&   <div className='shadow-lg flex flex-row border-1 w-[70%] h-[2rem] rounded-md md:w-[40rem] md:h-[2.6rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>
             <input onKeyDown={(e)=>{
                 if(e.key=='Enter'){
                     
@@ -85,7 +87,7 @@ const SearchProducts=async()=>{
 
                 }} className='text-[12px] md:text-md w-[92%] h-[100%] md:text-lg border-none outline-0 pl-2 md:pl-5' placeholder='Search for Products Brands and More' />
             <Search  onClick={()=>searchval? navigate(`/list?search=${searchval}`):''} className={` h-[90%] mr-1.5 text-gray-400 md:text-gray-600 `}/>
-            </div>
+            </div>}
             {listProducts&&
                 <div  className='absolute w-[35%] h-full overflow-x-auto left-[23.5%] top-[81%] rounded-lg shadow-lg bg-[#ffffffe6] max-h-[12rem] md:h-auto flex flex-col'>
                     {

@@ -79,7 +79,7 @@ setPriceTotal(res.data[0].order_items[0].total_price)
      }
   
     
-  },[userInfo,iscart])
+  },[userInfo?.userid,iscart])
 
 
 
@@ -100,7 +100,7 @@ const handlePayment = async () => {
   });
   console.log(orderitem)
   const orderdata={
-  "user": userInfo.userid,
+  "user_id": userInfo.userid,
   "total_amount": FinalAmount,
   "total_discount": discounttotal,
   "payment_status": "Pending",

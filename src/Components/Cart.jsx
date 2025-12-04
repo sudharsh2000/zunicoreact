@@ -5,7 +5,7 @@ import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate } from 'react-router'
 import Addaddress from './Addaddress'
-import { AddressApi } from '../Redux/api'
+import { AddressApi, CartApi } from '../Redux/api'
 import api from '../Redux/Interceptor'
 import LoadingScreen from './LoadingPage'
 
@@ -27,7 +27,7 @@ function CartPage() {
      
      try{
 const res=await addTocart(null,'get',userInfo.userid);
-       console.log(res)
+      
      setCarts(res[0].items)
    
      setPriceTotal(res[0].total_price)
@@ -37,7 +37,7 @@ const res=await addTocart(null,'get',userInfo.userid);
       if(userInfo.userid){
        
       const reswait= await api.get(`${AddressApi}?user=${userInfo.userid}`)
-      console.log(reswait.data)
+     
       SetAddress(reswait.data[0])
     
       }
@@ -80,26 +80,60 @@ const res=await addTocart(null,'get',userInfo.userid);
     return updated;
   });
 };
+const Addcart=async(Cart,type)=>{
+  let addquantity=0
+  if(type==='inc'){
+    addquantity=1
 
+  }
+  else{
+    addquantity=-1
+  }
+  const Cartdata={
+    'user':parseInt( userInfo.userid),
+    'items':[
+     { 'Product_id':Cart.Product.id,
+      'quantity':addquantity,
+      'price':Cart.Product.price,
+      'total_price':Cart.Product.price,
+      
+     'discount':(parseFloat(Cart.Product.discount)*parseFloat(Cart.Product.price))/100
+    }
+    ]
+
+  }
+  
+  console.log(Cartdata)
+  try{
+ 
+  const res=await addTocart(Cartdata,'post',userInfo.userid)
+
+  }
+  
+  catch(er){
+    console.error(er)
+  }
+
+}
   return (
   
           <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[96vh] '>
     {
-     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-5'>
+     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-2 md:gap-5'>
 
             <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
               <div className='w-[80%]'>
-                {address?<p className='text-xs md:text-lg text-black flex gap-2  flex-col'>
+                {address?<div className='text-xs md:text-lg text-black flex gap-2  flex-col'>
                   <div>{address.full_name } {address.house_name},{address.landmark},{address.street} {address.district}  {address.state}</div>
                   <div> pin : {address.pincode }  Mobile :{address.phone}</div>
-                  </p >:<p className='text-xs md:text-lg text-blue-500'> Select Address before continue</p>
+                  </div >:<p className='text-xs md:text-lg text-blue-500'> Select Address before continue</p>
                 }
 
               </div>
              {!address? <button onClick={()=>navigate('/address')} className='flex p-1 md:p-2 rounded-lg hover:border-[1px] hover:shadow-lg border-blue-300 '> Add <PlusIcon/> </button>:
-             <button  className='flex p-1 md:p-2 rounded-lg hover:border-[1px] hover:shadow-lg border-blue-300 '> Change </button> }
+             <button  className='flex p-1 md:p-2 rounded-lg border-[1px] text-sm md:text-base md:border-0 hover:border-[1px] hover:shadow-lg border-blue-300 '> Change </button> }
             </div>
-            <div className='w-full max-h-[40vh]   overflow-x-auto bg-white'>
+            <div className='w-full max-h-[60vh]   overflow-x-auto bg-white'>
               {Carts &&
               Carts.map((cart)=>{
              
@@ -107,9 +141,9 @@ const res=await addTocart(null,'get',userInfo.userid);
               <div className='flex flex-col w-[30%] items-center gap-2 md:gap-4 justify-center'>
                 <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
                 <div className='flex justify-center items-center gap-2 md:gap-4'>
-                    <button onClick={()=>handleIncreaseDecrease(cart.Product.id,'decrease')} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>-</button>
+                    <button onClick={()=>{handleIncreaseDecrease(cart.Product.id,'decrease');Addcart(cart,'dec')}} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>-</button>
                     <input value={cart.quantity} type="number" className='text-center w-[40%] md:w-[30%] p-1 border-gray-500 border-1 rounded-md '/>
-                    <button onClick={()=>handleIncreaseDecrease(cart.Product.id,'increase')} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>+</button>
+                    <button onClick={()=>{handleIncreaseDecrease(cart.Product.id,'increase');Addcart(cart,'inc')}} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>+</button>
                 </div>
               </div>
                 

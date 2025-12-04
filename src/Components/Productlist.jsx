@@ -105,7 +105,7 @@ const Addcart=async(products)=>{
             </div>
             <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] rounded-sm bg-white'>
              {loading?
-             <div className='h-[90vh]'><LoadingScreen /></div>: products? products.map((item)=>{
+             <div className='h-[90vh]'><LoadingScreen /></div>: products.length>1? products.map((item)=>{
 return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className='border-y-2 p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
 
                     <div  className='flex w-[85%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
@@ -121,7 +121,7 @@ return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className
                         <p className='text-green-400 text-xs md:text-lg font-bold'>{item.discount}% off</p>
                       <div className='w-full flex justify-center gap-1 md:gap-4 items-center'> 
                          <button onClick={()=>Addcart(item)} className='flex justify-center items-center text-[10px] gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-gradient-to-r from-emerald-400 to-emerald-600 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl  md:w-[50%] shadow-xl '>Add cart <ShoppingCart className='w-[20%] h-[20%] md:w-auto md:h-[100%]'/></button>
-                   <div> <img src={love} className='w-[1.5rem] md:w-[3rem] cursor-pointer' /> </div>
+                   
                    </div>
                     </div>
                     
@@ -130,8 +130,8 @@ return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className
                 </div>
 
              })
-             :  <div className='flex justify-center h-[30rem]'>
-              <h3 className='text-6xl' >No Items Found</h3>
+             :  <div className='flex justify-center h-[30rem] items-center'>
+              <h3 className='text-6xl font-sans text-[#f0c399]' >Sorry ! No matching Found.</h3>
              </div>
              
              
