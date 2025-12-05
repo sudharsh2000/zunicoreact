@@ -58,8 +58,12 @@ const res=await addTocart(null,'get',userInfo.userid);
   },[])
  
   const handleIncreaseDecrease = (productid, type) => {
+    
   setCarts(prev => {
-    const updated = prev.map(prod => {
+    let updated;
+    console.log(productid,type)
+    if(type === 'increase'||type === 'decrease'){
+     updated = prev.map(prod => {
       if (prod.Product.id === productid) {
         if (type === 'increase') {
           return { ...prod, quantity: prod.quantity + 1 };
@@ -69,17 +73,26 @@ const res=await addTocart(null,'get',userInfo.userid);
       }
       return prod;
     });
-
-    // ✅ calculate total after update
-    const total = updated.reduce((sum, item) => sum + item.quantity * item.price, 0);
-    const totaldiscount=updated.reduce((sum,item)=>sum + ((item.quantity * item.price)*(item.Product.discount) / 100 ),0)
+ 
+  }
+  else{
+    console.log('s')
+ updated = prev.filter(val=>val.id!==productid)
+  }
+   console.log(updated)
+    const total =parseFloat( updated.reduce((sum, item) => sum + item.quantity * item.price, 0)).toFixed(2);
+    const totaldiscount=parseFloat(updated.reduce((sum,item)=>sum + ((item.quantity * item.price)*(item.Product.discount) / 100 ),0)).toFixed(2)
+    console.log(total)
     setPriceTotal(total);
     setDiscount(totaldiscount)
-    setFinalAmount(total-totaldiscount)
+    setFinalAmount(parseFloat( total-totaldiscount).toFixed(2))
     console.log('Total:', total);
     return updated;
   });
 };
+
+
+
 const Addcart=async(Cart,type)=>{
   let addquantity=0
   if(type==='inc'){
@@ -149,13 +162,14 @@ const Addcart=async(Cart,type)=>{
                 
                 <div className='flex flex-col items-center gap-2 md:gap-5 justify-center w-[60%]'>
                     <h3 onClick={()=>navigate(`/detail/${cart.Product.id}`)} className='text-sm md:text-2xl hover:text-blue-400 cursor-pointer'>{cart.Product.name}</h3>
-                    <h2 className='flex text-xl items-center justify-center gap-1 md:gap-1'><IndianRupeeIcon className='w-5 h-12'/>{cart.quantity * cart.price}</h2>
+                    <h2 className='flex text-xl items-center justify-center gap-1 md:gap-1'><h1 className='text-green-500 mr-1.5 md:mr-6'>{cart.price}</h1> <h1>Total </h1> <IndianRupeeIcon className='w-5 h-12'/> {cart.quantity * cart.price}</h2>
                     <p className='text-green-600'>{cart.Product.discount} % off</p>
                 </div>
                 <div className='flex justify-center items-center w-[10%]'>
                     <Trash2 onClick={()=>{
-                      addTocart(null,'delete',cart.id)
-                      setCarts(prev=>prev.filter(val=>val.id!==cart.id))
+                      addTocart(null,'delete',cart.id);
+                      handleIncreaseDecrease(cart.id,'delete')
+                      
                       }}  className='text-2xl  md:w-[30%] hover:text-red-900 h-[80%] md:h-[40%] text-red-600 '/>
                 </div>
 

@@ -19,7 +19,7 @@ function Homepage() {
    
     <div className='bg-gradient-to-r from-amber-100 to-blue-300 '>
        <Navbar/>
-       <HomeBody/>
+       {flash?'':<HomeBody/>}
        {flash?'': <Footer/>}
         {flash?'':<Navbarmobile/>}
         

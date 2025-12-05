@@ -31,16 +31,17 @@ export const Flashcontext=createContext(null)
 function App() {
     const [flash,setFlash]=useState(false)
   const auth=useAuth()
+  
   const {login,logout}=useAuth()
-setupInterceptors(auth);
+
 useEffect(()=>{
 
- console.log('app')
-  setFlash(true)
+ 
+ 
 
 const load=async()=>{
 try{
-  
+   setFlash(true)
   const res=await api.post(refreshapi,{},{withCredentials:true})
 
 console.log(res)
@@ -52,19 +53,20 @@ console.log(res)
         'superuser':decode.superuser
             
           });
-
+setFlash(false)
 }
 catch(e){
 console.error(e)
-
-}
-finally{
 setFlash(false)
 }
+
 
 }
 load();
 },[])
+useEffect(() => {
+  setupInterceptors(auth);
+}, []); 
   return (
     <>
      <ToastContainer

@@ -20,50 +20,43 @@ function Rowitems({ali_type,Title}) {
     const [carts,setcarts]=useState([])
     const [quantityTocart,setQuantityToCart]=useState({})
     const {userInfo}=useAuth()
-  useEffect(() => {
+ useEffect(() => {
   let active = true;
-setFlash(true);
-  const LoadProducts = async () => {
+
+  const loadEverything = async () => {
     try {
-      
-      const res = await api.get(productapi, { withCredentials: true });
-      if (active) {
-        setProducts(res.data);
+      console.log("FLASH ON");
+     // setFlash(true);
+
+      // load products
+      const productRes = await api.get(productapi, { withCredentials: true });
+      if (active) setProducts(productRes.data);
+
+      // load cart ONLY if logged in
+      if (userInfo?.userid) {
+        const cartRes = await api.get(`${CartApi}?user=${userInfo.userid}`, { withCredentials: true });
+        if (active) setcarts(cartRes.data[0]?.items || []);
       }
-    }
-    catch(er){
-      console.error(er)
+
+    } catch (err) {
+      console.error(err);
     } finally {
-      if (active) setFlash(false);
+      console.log(active)
+      if (active) {
+        console.log("FLASH OFF");
+        setFlash(false);
+      }
     }
   };
 
-const LoadCart=async()=>{
- try {
-      
-      const res = await api.get(`${CartApi}?user=${userInfo.userid}`, { withCredentials: true });
-
-      
-      
-        setcarts(res?.data[0]?.items);
-      
-    } 
-    catch(er){
-      console.error(er)
-    }
-};
-if(userInfo)
-{
-  LoadCart();
-  LoadProducts();
-
- 
-}
+  loadEverything();
 
   return () => {
     active = false;
   };
 }, [userInfo?.userid]);
+
+
 
 useEffect(()=>{
    if (products.length > 0 && carts.length > 0) {

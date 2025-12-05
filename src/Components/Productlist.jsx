@@ -131,7 +131,7 @@ return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className
 
              })
              :  <div className='flex justify-center h-[30rem] items-center'>
-              <h3 className='text-6xl font-sans text-[#f0c399]' >Sorry ! No matching Found.</h3>
+              <h3 className='text-lg md:text-6xl font-sans text-[#f0c399]' >Sorry ! No matching Found.</h3>
              </div>
              
              
