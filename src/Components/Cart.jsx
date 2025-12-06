@@ -132,9 +132,9 @@ const Addcart=async(Cart,type)=>{
   
           <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[96vh] '>
     {
-     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts?    <div className='bg-gray-200 shadow-lg flex flex-col w-[100%] md:w-[69%] gap-2 md:gap-5'>
+     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts?.length>0?    <div className='bg-gray-200 shadow-lg rounded-2xl flex flex-col w-[100%] md:w-[69%] gap-2 md:gap-5'>
 
-            <div className='bg-white min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
+            <div className='bg-white rounded-lg min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
               <div className='w-[80%]'>
                 {address?<div className='text-xs md:text-lg text-black flex gap-2  flex-col'>
                   <div>{address.full_name } {address.house_name},{address.landmark},{address.street} {address.district}  {address.state}</div>
@@ -186,12 +186,12 @@ const Addcart=async(Cart,type)=>{
                 
                
             </div>
-        <div className='shadow-lg min-h-[25%] bg-white flex justify-center items-center py-3 md:py-8'>
+        <div className='shadow-lg min-h-[25%] bg-white rounded-lg flex justify-center items-center py-3 md:py-8'>
                 <button onClick={()=> navigate(`/checkout?iscart=true`)} className='bg-amber-400 text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Proceed to Buy</button>
             </div>  
 
         </div>:
-        <div className='bg-white md:min-h-[50%] h-[18rem] min-w-[100%] min-h-[88vh]   rounded-md md:min-w-[70%] flex justify-center items-center'>
+        <div className='bg-white rounded-lg md:min-h-[50%] h-[18rem] min-w-[100%] min-h-[88vh]    md:min-w-[70%] flex justify-center items-center'>
           <div className='flex justify-around  gap-4 items-center md:gap-5'>
           <h2 className='text-xs md:text-2xl text-emerald-600'> No cartItems Found</h2>
           <button onClick={()=>navigate(`/`)} className='rounded-lg p-1 hover:bg-blue-200 md:p-3 border-1 border-blue-500 shadow-lg'><Home/></button>
@@ -199,7 +199,7 @@ const Addcart=async(Cart,type)=>{
           </div>
         }
      {
-     !loading&& Carts?  <div className='bg-white shadow-lg flex flex-col w-[100%] py-3 px-2  md:px-3 md:py-9 md:w-[20%] h-[80%] gap-1 md:gap-5 pt-1'>
+     !loading&& Carts?.length>0?  <div className='bg-white shadow-lg rounded-xl md:rounded-lg flex flex-col w-[100%] py-3 px-2  md:px-3 md:py-9 md:w-[20%] h-[80%] gap-1 md:gap-5 pt-1'>
           <div className='flex justify-around w-full p-1 md:p-2'>
             <h2 className='w-[40%] text-xs md:text-xl'>Total Price</h2>
             <p> - </p>

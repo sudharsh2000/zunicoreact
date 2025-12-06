@@ -149,8 +149,8 @@ const Addcart=async(prod,type,index)=>{
 <h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words whitespace-normal text-xs md:text-xl  hover:text-black '>{product.name}</h2>
             
         {userInfo?.userid ? ali_type==='row'?'':<div className='flex w-full justify-center gap-2 md:gap-4'>
-          <p onClick={()=>{
-           quantityTocart[i]!==1? Addcart(product,'dec',i):''}} className='rounded-full hover:border-cyan-600 w-[23%]  md:w-[10%] cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center  shadow-gray-500'>-</p>
+          <p onClick={()=>{console.log(quantityTocart[i]);
+           quantityTocart[i]===0?'': Addcart(product,'dec',i)}} className='rounded-full hover:border-cyan-600 w-[23%]  md:w-[10%] cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center  shadow-gray-500'>-</p>
           <input type="number"  value={quantityTocart[i] || 0} className='bg-white w-[40%]  md:w-[30%] text-center rounded-xl outline-none px-2 md:px-3 flex justify-center items-center'/>
            <p onClick={()=>Addcart(product,'inc',i)} className='rounded-full hover:border-cyan-700  w-[23%]  md:w-[10%]  cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center '>+</p>
         </div>:''

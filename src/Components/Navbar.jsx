@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, Bell, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, Store, User, UserCircle } from 'lucide-react'
+import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, Bell, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, Store, StoreIcon, User, UserCircle } from 'lucide-react'
 
 import wise from '../assets/wise.png'
 import { useLocation, useNavigate, useSearchParams } from 'react-router'
@@ -88,8 +88,8 @@ const SearchProducts=async()=>{
                 }} className='text-[12px] md:text-md w-[92%] h-[100%] md:text-lg border-none outline-0 pl-2 md:pl-5' placeholder='Search for Products Brands and More' />
             <Search  onClick={()=>searchval? navigate(`/list?search=${searchval}`):''} className={` h-[90%] mr-1.5 text-gray-400 md:text-gray-600 `}/>
             </div>}
-            {listProducts&&
-                <div  className='absolute w-[35%] h-full overflow-x-auto left-[23.5%] top-[81%] rounded-lg shadow-lg bg-[#ffffffe6] max-h-[12rem] md:h-auto flex flex-col'>
+            {listProducts&&searchval&&
+                <div  className='absolute w-[35%] h-full overflow-x-auto left-[16.5%] top-[81%] rounded-lg shadow-lg bg-[#ffffff] max-h-[12rem] md:h-auto flex flex-col'>
                     {
                         listProducts.map((pro,i)=>{
                             return <p key={i} onClick={()=>navigate(`/list?search=${pro.name}`)} className={`items-center  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{pro.name}</p >
@@ -119,9 +119,22 @@ const SearchProducts=async()=>{
         <ul className='text-black  font-medium flex flex-col py-4 justify-center items-center '>
             <li onClick={()=>{
                 console.log(userInfo)
-                userInfo.superuser?navigate('/admin/dashboard'):navigate('/profile')}} className='w-full text-center flex justify-center gap-2 md:gap-6  items-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' ><UserCircle/> Profile</li>
-            <li onClick={()=>navigate('/orders')} className='w-full text-center flex justify-center gap-2 md:gap-6 items-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'><Store/> Orders</li>
-            <li onClick={()=>navigate('/wishlist')} className='w-full text-center  transform-3d transition-transform flex justify-center gap-2 md:gap-6  items-center hover:bg-gray-100 py-2.5 cursor-pointer'><Heart/> Wishlist</li>
+                userInfo.superuser?navigate('/admin/dashboard'):navigate('/profile')}} className='w-full text-center flex justify-center gap-2 md:gap-0 px-2  items-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' >
+                    <div className='w-[50%] flex justify-center'>
+                        <UserCircle/> 
+                        </div>
+                        <div className='w-[50%] flex justify-start'>Profile</div>
+                    </li>
+            <li onClick={()=>navigate('/orders')} className='w-full text-center flex justify-center gap-2 md:gap-0 px-2 items-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'><div className='w-[50%] flex justify-center'>
+                        <StoreIcon/> 
+                        </div>
+                        <div className='w-[50%] flex justify-start'>Orders</div></li>
+            <li onClick={()=>navigate('/wishlist')} className='w-full text-center  transform-3d transition-transform flex justify-center gap-2 md:gap-0 px-2  items-center hover:bg-gray-100 py-2.5 cursor-pointer'>
+                <div className='w-[50%] flex justify-center'>
+                        <Heart/> 
+                        </div>
+                        <div className='w-[50%] flex justify-start'>Wishlist</div>
+            </li>
 
         </ul>
     </div>
