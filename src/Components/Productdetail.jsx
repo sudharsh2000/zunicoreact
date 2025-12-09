@@ -78,8 +78,8 @@ catch (er){
     const loadproducts=async()=>{
  try{
       const res=await api.get(`${productapi}?id=${id}`,{withCredentials:true})
-    
-      setProducts(res.data[0])
+      console.log(res.data)
+      setProducts(res.data.results[0])
       const wisha= await api.get(`${whishlistApi}?Product_id=${res.data[0].id}&user=${userInfo.userid}`)
       console.log(wisha.data.length)
       if(wisha.data.length>0){

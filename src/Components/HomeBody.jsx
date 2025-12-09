@@ -9,7 +9,7 @@ function HomeBody() {
 
   return (
    
-     <div className='mx-2 md:mx-10 min-h-[100vh] '>
+     <div className='mx-2 md:mx-10 min-h-[100vh] pb-[5rem] md:pb-0 '>
       <Searchbar/>
       <Categories  />
       <Carousel/>

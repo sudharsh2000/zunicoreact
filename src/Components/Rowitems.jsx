@@ -19,41 +19,45 @@ function Rowitems({ali_type,Title}) {
     const [quantity,setquantity]=useState()
     const [carts,setcarts]=useState([])
     const [quantityTocart,setQuantityToCart]=useState({})
+    const [cartpopup,setcartpopup]=useState({})
     const {userInfo}=useAuth()
- useEffect(() => {
-  let active = true;
+    const [next,setNext]=useState(null)
+    const [prev,setPrev]=useState(null)
 
-  const loadEverything = async () => {
-    try {
+    const loadPage = async (url = `${productapi}`) => {
+   
+     try {
       console.log("FLASH ON");
-     // setFlash(true);
-
-      // load products
-      const productRes = await api.get(productapi, { withCredentials: true });
-      if (active) setProducts(productRes.data);
-
-      // load cart ONLY if logged in
+      const productRes = await api.get(url, { withCredentials: true });
+      console.log(productRes.data);
+      setProducts(productRes.data.results);
+    setNext(productRes.data.next);
+    setPrev(productRes.data.previous);
+     
       if (userInfo?.userid) {
         const cartRes = await api.get(`${CartApi}?user=${userInfo.userid}`, { withCredentials: true });
-        if (active) setcarts(cartRes.data[0]?.items || []);
+        setcarts(cartRes.data[0]?.items || []);
       }
 
     } catch (err) {
       console.error(err);
     } finally {
-      console.log(active)
-      if (active) {
-        console.log("FLASH OFF");
+      console.log(`FLASH OFF`);
+   
         setFlash(false);
-      }
+      
     }
-  };
 
-  loadEverything();
+ 
 
-  return () => {
-    active = false;
+    setLoading(false);
   };
+ useEffect(() => {
+
+
+  loadPage();
+
+ 
 }, [userInfo?.userid]);
 
 
@@ -72,6 +76,7 @@ useEffect(()=>{
   }
 },[products,carts])
 const Addcart=async(prod,type,index)=>{
+  setcartpopup({...cartpopup,[index]:true})
   let addquantity=0
   if(type==='inc'){
     addquantity=1
@@ -102,7 +107,7 @@ const Addcart=async(prod,type,index)=>{
     ...prev,[index]:(prev[index]||0)+addquantity
    }))
   
-  
+  setcartpopup({...cartpopup,[index]:false})
   }
   
   catch(er){
@@ -150,12 +155,17 @@ const Addcart=async(prod,type,index)=>{
             
         {userInfo?.userid ? ali_type==='row'?'':<div className='flex w-full justify-center gap-2 md:gap-4'>
           <p onClick={()=>{console.log(quantityTocart[i]);
-           quantityTocart[i]===0?'': Addcart(product,'dec',i)}} className='rounded-full hover:border-cyan-600 w-[23%]  md:w-[10%] cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center  shadow-gray-500'>-</p>
+           quantityTocart[i]===0?'': Addcart(product,'dec',i)}} className='rounded-full   bg-white hover:bg-emerald-200   shadow-2xl border-none  hover:border-cyan-600 w-[23%]  md:w-[10%] cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center  shadow-gray-500'>-</p>
           <input type="number"  value={quantityTocart[i] || 0} className='bg-white w-[40%]  md:w-[30%] text-center rounded-xl outline-none px-2 md:px-3 flex justify-center items-center'/>
-           <p onClick={()=>Addcart(product,'inc',i)} className='rounded-full hover:border-cyan-700  w-[23%]  md:w-[10%]  cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center '>+</p>
+           <p onClick={()=>Addcart(product,'inc',i)} className='rounded-full hover:border-cyan-700 bg-white hover:bg-emerald-200   shadow-2xl border-none  w-[23%]  md:w-[10%]  cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center '>+</p>
+        
+       {cartpopup[i]&& <div className='absolute bg-[#1d18189f] p-1 rounded-xl'>
+          <button className='text-white'>Added to cart</button>
+        </div>
+        }
         </div>:''
         }  
-          <h3 onClick={()=>navigate(`/detail/${product.id}`)} className='bg-yellow-500 p-1 justify-center rounded-lg w-[100%] text-[10px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5'/> {product.price}</h3>
+          <h3 onClick={()=>navigate(`/detail/${product.id}`)} className='bg-yellow-400 p-1 justify-center rounded-2xl w-[100%] text-[10px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5 font-extrabold'/> {product.price}</h3>
         </div>
         })
         }
@@ -169,6 +179,19 @@ const Addcart=async(prod,type,index)=>{
 
         </div>
       </div>:''}
+       {
+          ali_type!=='row'&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
+          <button className={`cursor-pointer  ${prev?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={prev?false:true} onClick={() => loadPage(prev)}>
+        Previous
+      </button>
+
+      <button className={`cursor-pointer  ${next?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={next?false:true} onClick={() => loadPage(next)}>
+        Next
+      </button>
+
+        </div>
+}
+
     </div>
   )
 }

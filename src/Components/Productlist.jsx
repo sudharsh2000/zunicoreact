@@ -36,7 +36,7 @@ function Productlist() {
         SetLoading(true)
         const res=await api.get(`${productapi}${val}`)
         console.log(res.data)
-        setproducts(res.data)
+        setproducts(res.data.results)
         const rescateg=await api.get(`${categoryapi}`,{withCredentials:true})
         setCategorylist(rescateg.data)
         SetLoading(false)
