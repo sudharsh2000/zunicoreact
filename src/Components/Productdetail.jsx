@@ -47,7 +47,7 @@ const addOrdertemperory=async(product)=>{
       "discount": discountval
     }
     const orderdata={
-  "user": userInfo.userid,
+  "user_id": userInfo.userid,
   "total_amount": product.price,
   "total_discount": discountval,
   "payment_status": "Pending",

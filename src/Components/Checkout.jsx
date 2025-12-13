@@ -45,7 +45,7 @@ const res=await addTocart(null,'get',userInfo.userid);
    else{
     const res=await api.get(`${OrderApi}?id=${product_id}`);
 
-    console.log(res.data[0].order_items)
+    console.log(res)
 setCarts(res.data[0].order_items)
 setPriceTotal(res.data[0].order_items[0].total_price)
     console.log('new',res.data)
@@ -58,7 +58,7 @@ setPriceTotal(res.data[0].order_items[0].total_price)
      try{
       if(userInfo.userid){
        
-      const reswait= await api.get(`${AddressApi}?user=${userInfo.userid}`)
+      const reswait= await api.get(`${AddressApi}?user_id=${userInfo.userid}`)
       console.log(reswait.data)
       SetAddress(reswait.data[0])
     
@@ -74,7 +74,7 @@ setPriceTotal(res.data[0].order_items[0].total_price)
      loadapi(); 
 
      return async()=>{
-      const ress=await api.delete(`${OrderDeleteApi}?user=${userInfo.userid}&order_status=DRAFT`)
+      const ress=await api.delete(`${OrderDeleteApi}?user_id=${userInfo.userid}&order_status=DRAFT`)
       console.log(ress.status)
      }
   
