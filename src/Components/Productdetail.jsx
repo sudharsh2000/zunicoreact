@@ -78,15 +78,17 @@ catch (er){
     const loadproducts=async()=>{
  try{
       const res=await api.get(`${productapi}?id=${id}`,{withCredentials:true})
-      console.log(res.data)
+      
       setProducts(res.data.results[0])
-      const wisha= await api.get(`${whishlistApi}?Product_id=${res.data[0].id}&user=${userInfo.userid}`)
-      console.log(wisha.data.length)
+      if(userInfo?.userid){
+      const wisha= await api.get(`${whishlistApi}?Product_id=${res.data.results[0].id}&user=${userInfo.userid}`)
+      console.log(wisha)
       if(wisha.data.length>0){
         setwish(true);
         console.log(wisha.data[0])
         setwishid(wisha.data[0].id)
       }
+    }
     }
     catch(er){
       console.error(er)
@@ -96,7 +98,7 @@ catch (er){
 
     
 
-  },[])
+  },[userInfo?.userid])
   const AddWishlist=async()=>{
  try{
     

@@ -5,7 +5,7 @@ import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate, useParams } from 'react-router'
 import Addaddress from './Addaddress'
-import { AddressApi, OrderApi, OrderDeleteApi, VerifyApi } from '../Redux/api'
+import { AddressApi, CartApi, OrderApi, OrderDeleteApi, VerifyApi } from '../Redux/api'
 import api from '../Redux/Interceptor'
 import LoadingScreen from './LoadingPage'
 import { toast } from 'react-toastify'
@@ -84,6 +84,10 @@ setPriceTotal(res.data[0].order_items[0].total_price)
 
 
 const handlePayment = async () => {
+
+
+deleteDraftOrder();
+
   const orderitem=[]
   Carts.forEach((a)=>{
     console.log(a)
@@ -113,7 +117,9 @@ const handlePayment = async () => {
     "payment_mode": paymentmode
   }
 }
-  console.log(orderdata)
+ 
+
+
 try{
   const response = await api.post(OrderApi,orderdata)
 
@@ -150,7 +156,11 @@ console.log(er)
 };
 
 
- 
+ const deleteDraftOrder=async()=>{
+  const ress=await api.delete(`${CartApi}clear/?user=${userInfo.userid}`)
+  console.log(ress.status)
+  
+ }
 
 
   return (

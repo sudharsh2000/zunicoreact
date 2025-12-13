@@ -76,16 +76,16 @@ SetLoading(false)
   
           <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[90vh] '>
     {
-     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts.length>0 ?  <div className='shadow-lg bg-white flex md:min-h-[70vh] flex-col w-[100%] md:w-[69%] gap-5 md:gap-[3rem]'>
+     loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts.length>0 ?  <div className='shadow-lg bg-white flex md:min-h-[70vh] flex-col w-[100%] md:w-[89%] rounded-xl gap-5 md:gap-[3rem]'>
 
         
-            <div className='w-full flex flex-col gap-2 md:gap-6    overflow-x-auto bg-gray-200 mt-3 md:mt-[3rem] '>
+            <div className='w-full flex flex-col gap-2 md:gap-6    overflow-x-auto  mt-3 md:mt-[3rem] md:px-2 '>
               {
               Carts &&
               Carts.map((cart)=>{
                 {console.log(cart)}
              
-                return <div key={cart.id} className='flex bg-white px-2  md:px-8 py-2 w-full   shadow-lg ' >
+                return <div key={cart.id} className='flex bg-white px-2 rounded-xl  md:px-8 py-2 w-full   shadow-lg ' >
               <div className='flex flex-col w-[30%] items-center gap-2 md:gap-4 justify-center'>
                 <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.order_items[0].Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
               

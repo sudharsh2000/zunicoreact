@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, Bell, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, Store, StoreIcon, User, UserCircle } from 'lucide-react'
 
 import wise from '../assets/wise.png'
@@ -17,7 +17,7 @@ function Navbar() {
     const [open2,setopen2]=useState(false)
     const [listProducts,SetlistProducts]=useState([])
     const [cursor,setcursor]=useState(0)
-
+    const listref=useRef(null)
     const cururl=useLocation()
 const logoutfunction=async()=>{
     try{
@@ -40,7 +40,7 @@ console.error('logourt error')
 const SearchProducts=async()=>{
     try{
         const res=await api.get(`${productapi}?search=${searchval}`)
-        SetlistProducts(res.data)
+        SetlistProducts(res.data.results)
         console.log(res.data)
 
     }
@@ -52,12 +52,13 @@ const SearchProducts=async()=>{
 }
 
   return (
-    <div className='hidden md:block sticky w-full top-0 z-30'>
-    <div className='flex flex-row bg-gradient-to-r from-emerald-100 to-emerald-800 w-[100%] h-[3.5rem] justify-between px-[2%] items-center gap-2 md:h-[4.5rem] md:gap-8 '>
+    <div className='hidden md:block sticky w-auto py-2  mx-3 top-0 z-30'>
+    <div className='flex flex-row bg-gradient-to-r rounded-xl from-emerald-200 to-emerald-700 w-[100%] h-[3.5rem] justify-between px-[2%] items-center gap-2 md:h-[4.5rem] md:gap-8 '>
         <div className='flex gap-2 md:gap-14 justify-center items-center'>
             <img onClick={()=>navigate('/')} src={wise} className='w-[25%] md:w-[12rem] h-[100%] p-0' />
          {cururl.pathname==='/'&&   <div className='shadow-lg flex flex-row border-1 w-[70%] h-[2rem] rounded-md md:w-[40rem] md:h-[2.6rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>
-            <input onKeyDown={(e)=>{
+            <input onBlur={()=>setsearchval('')} onKeyDown={(e)=>{
+                setcursor(-1);
                 if(e.key=='Enter'){
                     
                    searchval? navigate(`/list?search=${searchval}`):'';
@@ -68,7 +69,9 @@ const SearchProducts=async()=>{
       setcursor(newcursor);
       if(listProducts[newcursor].name){
         setsearchval(listProducts[newcursor].name)
+        listref.current?.scrollBy({top:30, behavior:'smooth'});
       }
+    
     }
 
     if (e.key === "ArrowUp") {
@@ -77,6 +80,7 @@ const SearchProducts=async()=>{
       setcursor(newupcursor);
       if(listProducts[newupcursor].name){
         setsearchval(listProducts[newupcursor].name)
+         listref.current?.scrollBy({top:-30, behavior:'smooth'});
       }
     }
             }
@@ -89,10 +93,10 @@ const SearchProducts=async()=>{
             <Search  onClick={()=>searchval? navigate(`/list?search=${searchval}`):''} className={` h-[90%] mr-1.5 text-gray-400 md:text-gray-600 `}/>
             </div>}
             {listProducts&&searchval&&
-                <div  className='absolute w-[35%] h-full overflow-x-auto left-[16.5%] top-[81%] rounded-lg shadow-lg bg-[#ffffff] max-h-[12rem] md:h-auto flex flex-col'>
+                <div ref={listref}   className='absolute w-[35%] h-full overflow-x-auto  left-[16.5%] top-[81%] rounded-lg shadow-lg bg-emerald-50 max-h-[22rem] md:h-auto flex flex-col'>
                     {
                         listProducts.map((pro,i)=>{
-                            return <p key={i} onClick={()=>navigate(`/list?search=${pro.name}`)} className={`items-center  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{pro.name}</p >
+                            return <p key={i} onClick={()=>navigate(`/list?search=${pro.name}`)} className={`items-center border-b-1 border-gray-300  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{pro.name}</p >
                         })
                     }
 

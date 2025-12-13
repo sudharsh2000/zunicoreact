@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { ArrowBigLeft, ArrowRight, CpuIcon, IndianRupee, IndianRupeeIcon } from 'lucide-react'
+import { ArrowBigLeft, ArrowRight, CpuIcon, IndianRupee, IndianRupeeIcon, Loader } from 'lucide-react'
 import api from '../Redux/Interceptor'
 import { CartApi, productapi } from '../Redux/api'
 import { useNavigate } from 'react-router'
@@ -23,7 +23,8 @@ function Rowitems({ali_type,Title}) {
     const {userInfo}=useAuth()
     const [next,setNext]=useState(null)
     const [prev,setPrev]=useState(null)
-
+    const [cartstatus,setcartstatus]=useState(null)
+    const scrollref=useRef(null)
     const loadPage = async (url = `${productapi}`) => {
    
      try {
@@ -61,7 +62,6 @@ function Rowitems({ali_type,Title}) {
 }, [userInfo?.userid]);
 
 
-
 useEffect(()=>{
    if (products.length > 0 && carts.length > 0) {
     const q = {};
@@ -73,16 +73,24 @@ useEffect(()=>{
     });
    
     setQuantityToCart(q);
+
   }
+  if(prev){
+  if(products.length>0){
+     scrollref.current?.scrollIntoView({behavior:'smooth'})
+  }
+}
 },[products,carts])
 const Addcart=async(prod,type,index)=>{
   setcartpopup({...cartpopup,[index]:true})
   let addquantity=0
   if(type==='inc'){
+    setcartstatus('adding to cart')
     addquantity=1
 
   }
   else{
+    setcartstatus('removing from cart')
     addquantity=-1
   }
   const Cartdata={
@@ -129,9 +137,11 @@ const Addcart=async(prod,type,index)=>{
     <div className={`min-h-[12rem] md:min-h-[40rem] ${ali_type==='row'?'hidden md:block':''}`}>
       {loading?
       <div className='h-[30vh]'><LoadingScreen/></div>:
-        products.length>0?<div className={`bg-white  my-2 ${ali_type==='row'?'hidden md:block':'mt-[3rem] md:mt-[8rem]'} `}>
-      <div className='flex items-center justify-between px-2 md:px-5 gap-2 md:gap-5 '> 
-         <h1 className='text-lg md:text-3xl pt-2 md:pt-8 ml-4 md:ml-8 my-2 md:my-8 font-bold overflow-auto'>{Title}</h1>
+        products.length>0?<div ref={scrollref} className={`bg-white  my-2 ${ali_type==='row'?'hidden md:block':'mt-[3rem] md:mt-[8rem]'} `}>
+       
+
+      <div  className='flex items-center justify-between px-2 md:px-5 gap-2 md:gap-5 '> 
+         <h1  className='text-lg md:text-3xl pt-2 md:pt-8 ml-4 md:ml-8 my-2 md:my-8 font-bold overflow-auto'>{Title}</h1>
          <p onClick={()=>navigate(`/list?search=`)} className='text-blue-700 cursor-pointer hover:text-blue-300 flex text-sm md:text-lg'>View More </p>
       
       </div>
@@ -148,7 +158,7 @@ const Addcart=async(prod,type,index)=>{
         {products &&
         products.map((product,i)=>{
         
-          return <div key={product.id}  className={`flex flex-nowrap border-1 gap-4 rounded-x w-[46%] ${ali_type==='row'?'md:min-w-[22rem]':'md:w-[28%] '}  m-1 rounded-lg justify-between p-2  items-center-safe flex-col bg-gradient-to-r from-emerald-100 to-emerald-600 cursor-pointer hover:scale-105 transition-transform`}>
+          return <div key={product.id}  className={`flex outline-0 border-0 flex-nowrap  gap-4 rounded-x w-[46%] ${ali_type==='row'?'md:min-w-[22rem]':'md:w-[28%] '}  m-1 rounded-lg justify-between p-2  items-center-safe flex-col bg-gradient-to-r from-emerald-100 to-emerald-200 cursor-pointer hover:scale-105 transition-transform`}>
           <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] h-[50%] md:h-[70%] md:w-[25rem] '/>
          
 <h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words whitespace-normal text-xs md:text-xl  hover:text-black '>{product.name}</h2>
@@ -159,8 +169,8 @@ const Addcart=async(prod,type,index)=>{
           <input type="number"  value={quantityTocart[i] || 0} className='bg-white w-[40%]  md:w-[30%] text-center rounded-xl outline-none px-2 md:px-3 flex justify-center items-center'/>
            <p onClick={()=>Addcart(product,'inc',i)} className='rounded-full hover:border-cyan-700 bg-white hover:bg-emerald-200   shadow-2xl border-none  w-[23%]  md:w-[10%]  cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center '>+</p>
         
-       {cartpopup[i]&& <div className='absolute bg-[#1d18189f] p-1 rounded-xl'>
-          <button className='text-white'>Added to cart</button>
+       {cartpopup[i]&& <div className='absolute bg-[#1d1818c2] p-1 md:p-2 rounded-xl'>
+          <button className='text-white flex'>{cartstatus}<Loader className='animate-spin'/> </button>
         </div>
         }
         </div>:''
@@ -181,11 +191,11 @@ const Addcart=async(prod,type,index)=>{
       </div>:''}
        {
           ali_type!=='row'&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
-          <button className={`cursor-pointer  ${prev?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={prev?false:true} onClick={() => loadPage(prev)}>
+          <button className={`cursor-pointer  ${prev?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={prev?false:true} onClick={() =>{ loadPage(prev);}}>
         Previous
       </button>
 
-      <button className={`cursor-pointer  ${next?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={next?false:true} onClick={() => loadPage(next)}>
+      <button className={`cursor-pointer  ${next?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={next?false:true} onClick={() =>{ loadPage(next);}}>
         Next
       </button>
 

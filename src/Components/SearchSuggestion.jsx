@@ -6,15 +6,15 @@ import api from '../Redux/Interceptor';
 import { productapi } from '../Redux/api';
 function SearchSuggestion() {
  const [searchval,setsearchval]=useState('')
-  const [listProducts,SetlistProducts]=useState()
+  const [listProducts,SetlistProducts]=useState([])
   const [isSearch,setSearch]=useState(false)
     const inputRef = useRef(null);
   const navigate=useNavigate()
   const SearchProducts=async()=>{
     try{
         const res=await api.get(`${productapi}?search=${searchval}`)
-        SetlistProducts(res.data)
-        console.log(res.data)
+        SetlistProducts(res.data.results)
+        console.log(res.data.results)
 
     }
     catch(er){
@@ -29,8 +29,8 @@ function SearchSuggestion() {
     const loadproducts=async()=>{
        try{
         const res=await api.get(`${productapi}?search=${searchval}`)
-        SetlistProducts(res.data)
-        console.log(res.data)
+        SetlistProducts(res.data.results)
+        console.log(res.data.results)
 
     }
     catch(er){

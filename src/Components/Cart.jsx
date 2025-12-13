@@ -193,7 +193,7 @@ const Addcart=async(Cart,type)=>{
         </div>:
         <div className='bg-white rounded-lg md:min-h-[50%] h-[18rem] min-w-[100%] min-h-[88vh]    md:min-w-[70%] flex justify-center items-center'>
           <div className='flex justify-around  gap-4 items-center md:gap-5'>
-          <h2 className='text-xs md:text-2xl text-emerald-600'> No cartItems Found</h2>
+          <h2 className='text-xs md:text-2xl text-emerald-600'> Sorry ! No cartItems Found</h2>
           <button onClick={()=>navigate(`/`)} className='rounded-lg p-1 hover:bg-blue-200 md:p-3 border-1 border-blue-500 shadow-lg'><Home/></button>
           </div>
           </div>

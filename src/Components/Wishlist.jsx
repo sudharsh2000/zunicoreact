@@ -86,21 +86,21 @@ const Addcart=async(products)=>{
             <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] rounded-sm bg-white'>
              {loading?
              <div className='h-[90vh]'><LoadingScreen /></div>: products.length>0? products.map((item)=>{
-return <div key={item.id} className='border-b-2 p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
+return <div key={item.id} className='border-b-2 p-1 md:p-5 min-h-[6rem] shadow-lg rounded-xl border-gray-300 flex-row flex justify-around'>
 
                     <div  className='flex w-[85%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
-                        <img onClick={()=>navigate(`/detail/${item.Product.id}`)} src={item.Product.images[0].image} className='w-[35%] md:w-[25%]  h-fit cursor-pointer hover:scale-105 transition-transform '/>
+                        <img onClick={()=>navigate(`/detail/${item.Product.id}`)} src={item.Product.images[0].image} className='w-[35%] md:w-[10%]  h-fit cursor-pointer hover:scale-105 transition-transform '/>
                       <div className='flex flex-col justidy-start gap-1 w-[75%] md:gap-[2rem]'> 
-                        <h2 onClick={()=>navigate(`/detail/${item.Product.id}`)}  className='hover:text-blue-400 text-sm md:text-2xl cursor-pointer text-center font-extrabold'>{item.Product.name}</h2>
-                        <p className='hidden md:block w-[100%] overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-lg'>{item.Product.description}
+                        <h2 onClick={()=>navigate(`/detail/${item.Product.id}`)}  className='hover:text-blue-400 text-sm md:text-xl cursor-pointer text-center font-medium'>{item.Product.name}</h2>
+                        <p className='hidden md:block w-[100%] overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-base'>{item.Product.description}
                         </p>
                       </div> 
                     </div>
-                    <div className='flex w-[35%] gap-3 flex-col md:gap-9 justify-center items-center'>
+                    <div className='flex w-[45%] gap-2 md:gap-4 flex-col md:flex-row  justify-center items-center'>
                         <h2 className=' flex font-bold text-xs md:text-lg items-center'><IndianRupee className='h-[50%] md:h-full'/> {item.Product.price}</h2>
-                        <p className='text-green-400 text-xs md:text-lg font-bold'>{item.discount}% off</p>
-                      <div className='w-full flex justify-center gap-2 md:gap-6 items-center'> 
-                         <button onClick={()=>Addcart(item)} className='flex justify-center items-center text-[10px] gap-1 md:text-lg cursor-pointer text-white font-extrabold bg-gradient-to-r from-emerald-400 to-emerald-600 hover:scale-105 transition-transform p-1 md:p-4  rounded-xl  md:w-[50%] shadow-xl '>Add cart <ShoppingCart className='w-[20%] h-[20%] md:w-auto md:h-[100%]'/></button>
+                        <p className='text-green-600 text-xs md:text-base font-medium'>{item.Product.discount}% off</p>
+                      <div className='w-[25%] flex justify-center gap-2 md:gap-3 items-center'> 
+                         <button onClick={()=>Addcart(item)} className='flex justify-center items-center text-[10px] gap-1 md:text-base cursor-pointer text-white font-semibold bg-gradient-to-r from-emerald-400 to-emerald-600 hover:scale-105 transition-transform p-1 md:p-2  rounded-xl  md:w-[90%] shadow-xl '>Add cart <ShoppingCart className='w-[20%] h-[20%] md:w-auto md:h-[100%]'/></button>
                     <Trash onClick={()=>{
                         removeWishlist(item.id);
                         setproducts(prev=>prev.filter((it)=>it.id!==item.id));
