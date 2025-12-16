@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import demo from '../assets/demo.jpg'
-import { ClosedCaption, DeleteIcon, Home, IndianRupee, IndianRupeeIcon, PlusIcon, Trash, Trash2 } from 'lucide-react'
+import { CircleDot, ClosedCaption, DeleteIcon, Home, IndianRupee, IndianRupeeIcon, PlusIcon, Trash, Trash2 } from 'lucide-react'
 import { addTocart } from '../Hooks/Addcart'
 import { useAuth } from '../Redux/AuthProvider'
 import { useNavigate } from 'react-router'
@@ -20,6 +20,7 @@ function Orders() {
   const [discounttotal,setDiscount]=useState('-----')
   const [FinalAmount,setFinalAmount]=useState('-----')
   const [loading,SetLoading]=useState()
+  const [orderStatus,setOrderStatus]=useState()
   useEffect(()=>{
 
  const loadapi=async()=>{
@@ -30,6 +31,7 @@ function Orders() {
 const res=await api.get(`${OrderApi}?user=${userInfo.userid}`)
       console.log(res.data)
      setCarts(res.data)
+     setOrderStatus(res.data.order_status)
     
      
     
@@ -71,7 +73,17 @@ SetLoading(false)
     }
   }
  
-
+const CancellOrder=async(orderid,nowstatus)=>{
+    try{
+        const res=await api.patch(`${OrderApi}${orderid}/`,{
+            'order_status':nowstatus
+        })
+        console.log(res.data)
+    }
+    catch(er){
+        console.log(er)
+    }
+}
   return (
   
           <div className='flex flex-col md:flex-row  p-2 md:p-8 items-start md:justify-center gap-2 md:gap-[1rem] w-full min-h-[90vh] '>
@@ -86,22 +98,24 @@ SetLoading(false)
                 {console.log(cart)}
              
                 return <div key={cart.id} className='flex bg-white px-2 rounded-xl  md:px-8 py-2 w-full   shadow-lg ' >
-              <div className='flex flex-col w-[30%] items-center gap-2 md:gap-4 justify-center'>
+              <div className='flex flex-col w-[20%] items-center gap-2 md:gap-4 justify-center'>
                 <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.order_items[0].Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
               
               </div>
                 
-                <div className='flex flex-col items-center gap-2 md:gap-5 justify-center w-[50%]'>
-                    <h3 onClick={()=>navigate(`/detail/${cart.order_items[0].Product.id}`)} className='text-sm md:text-2xl hover:text-blue-400 cursor-pointer'>{cart.order_items[0].Product.name}</h3>
-                    <h2 className='flex text-xl items-center justify-center gap-1 md:gap-1'><IndianRupeeIcon className='w-5 h-12'/>{cart.total_amount}</h2>
-                    <p className='text-green-600'>{cart.order_items[0].Product.discount} % off</p>
+                <div className='flex flex-col md:flex-row items-center gap-2 md:gap-5 justify-center w-[50%]'>
+                    <h3 onClick={()=>navigate(`/detail/${cart.order_items[0].Product.id}`)} className='md:w-[80%] text-center text-sm md:text-xl hover:text-blue-400 cursor-pointer'>{cart.order_items[0].Product.name}</h3>
+                    <h2 className='md:w-[20%] flex text-lg items-center  justify-center gap-1 md:gap-0'><IndianRupeeIcon className='w-5 h-12'/>{cart.total_amount}</h2>
+                    
                 </div>
-                <div className='flex justify-center items-center w-[20%]'>
-                    <h2 onClick={()=>{
-                      deleteOrder(cart.id)
-                      setCarts(prev=>prev.filter(val=>val.id!==cart.id))
-                      }}  className='text-sm md:text-lg px-1 md:px-3 py-1 md:py-2 shadow-lg rounded-xl border-1   hover:border-red-900 cursor-pointer border-red-600 '> Cancel Order</h2>
+                <div className='flex flex-col md:flex-row items-center gap-2 md:gap-5 justify-center w-[25%]'>
+                 {cart.order_status==='Processing' ? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-gray-500'/> Yor item is Processing</p>:cart.order_status==='Confirmed'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-green-600'/> Your Item has been Confirmed</p>:cart.order_status==='Cancelled'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/>Your Item has been Cancelled</p>:<p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/> {cart.order_status}</p>}
+                  </div>
+              {cart.order_status!=='Cancelled' && <div className='flex justify-center items-center w-[15%]'>
+                    <h2 onClick={()=>{CancellOrder(cart.id,'Cancelled')
+                      }} disabled={cart.order_status==='Cancelled'}  className={`${cart.order_status==='Cancelled'?'border-0 text-gray-500':'border-1 shadow-lg rounded-xl    hover:border-red-900 cursor-pointer border-red-600 '} text-sm md:text-base px-1 md:px-3 py-1 md:py-2 `}> Cancel Order</h2>
                 </div>
+                    }
 
             </div>
           

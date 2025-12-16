@@ -14,7 +14,7 @@ function UserHome() {
         mobile:''
     })
     const [loading,setLoading]=useState()
-    const {userInfo,logout}=useAuth()
+    const {userInfo,logout,login}=useAuth()
     const navigate=useNavigate()
 
     useEffect(()=>{
@@ -41,7 +41,19 @@ function UserHome() {
         
        try{ const res=await api.patch(`${usersapi}${profile.id}/`,profile)
         console.log(res.data)
+       if(res?.data && userInfo?.accesstoken){ console.log(userInfo.accesstoken,{'username':res.data.username,
+        'userid':res.data.id,
+        'mobile':res.data.mobile,
+        'email':res.data.email,
+        'superuser':false})
+        
+        login(userInfo.accesstoken,{'username':res.data.username,
+        'userid':res.data.user_id,
+        'mobile':res.data.mobile,
+        'email':res.data.email,
+        'superuser':false})
         toast.success('Updated')
+        }
        }
        catch (er){
         console.error(er)

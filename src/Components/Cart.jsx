@@ -55,7 +55,7 @@ const res=await addTocart(null,'get',userInfo.userid);
      loadapi(); 
   
     
-  },[])
+  },[userInfo?.userid])
  
   const handleIncreaseDecrease = (productid, type) => {
     

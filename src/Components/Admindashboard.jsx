@@ -74,7 +74,7 @@ if(userInfo?.userid) {
             
                 if (window === 'products') {
                     const res = await api.get(productapi, {}, { withCredentials: true })
-                    setlist(res.data)
+                    setlist(res.data.results)
                  }
                 if (window === 'profile') {
                     if (userInfo) {

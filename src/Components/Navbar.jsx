@@ -96,7 +96,7 @@ const SearchProducts=async()=>{
                 <div ref={listref}   className='absolute w-[35%] h-full overflow-x-auto  left-[16.5%] top-[81%] rounded-lg shadow-lg bg-emerald-50 max-h-[22rem] md:h-auto flex flex-col'>
                     {
                         listProducts.map((pro,i)=>{
-                            return <p key={i} onClick={()=>navigate(`/list?search=${pro.name}`)} className={`items-center border-b-1 border-gray-300  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{pro.name}</p >
+                            return <p key={i} onMouseDown={()=>navigate(`/list?search=${pro.name}`)} className={`items-center border-b-1 border-gray-300  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{pro.name}</p >
                         })
                     }
 
@@ -169,7 +169,7 @@ const SearchProducts=async()=>{
             <li className='transform-3d transition-transform hover:scale-115 cursor-pointer'>About</li>
             <li className='transform-3d transition-transform hover:scale-115 cursor-pointer'>Help</li>
          
-<li onClick={logoutfunction} className='transform-3d transition-transform hover:scale-115 cursor-pointer'>Logout</li>
+{accesstoken&&<li onClick={logoutfunction} className='transform-3d transition-transform hover:scale-115 cursor-pointer'>Logout</li>}
         
 
         </ul>

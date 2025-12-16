@@ -108,11 +108,11 @@ const Addcart=async(products)=>{
              <div className='h-[90vh]'><LoadingScreen /></div>: products.length>0? products.map((item)=>{
 return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className='border-y-2 p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
 
-                    <div  className='flex w-[80%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
+                    <div  className='flex w-[75%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
                         <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[25%] md:w-[15%]  h-fit cursor-pointer hover:scale-105 transition-transform '/>
                       <div className='flex flex-col justidy-start gap-1 w-[75%] md:gap-[2rem]'> 
-                        <h2 onClick={()=>navigate(`/detail/${item.id}`)}  className='hover:text-blue-400 text-sm md:text-2xl cursor-pointer text-center font-extrabold'>{item.name}</h2>
-                        <p className='hidden md:block w-[100%] overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-lg'>{item.description}
+                        <h2 onClick={()=>navigate(`/detail/${item.id}`)}  className='hover:text-blue-400 text-sm md:text-2xl cursor-pointer text-center font-semibold'>{item.name}</h2>
+                        <p className='hidden md:block w-[100%] break-words line-clamp-3 truncate overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-lg'>{item.description}
                         </p>
                       </div> 
                     </div>

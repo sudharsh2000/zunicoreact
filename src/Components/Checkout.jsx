@@ -159,6 +159,8 @@ console.log(er)
  const deleteDraftOrder=async()=>{
   const ress=await api.delete(`${CartApi}clear/?user=${userInfo.userid}`)
   console.log(ress.status)
+  const redraft=await api.delete(`${OrderDeleteApi}?user=${userInfo.userid}&order_status=DRAFT`)
+  console.log(redraft.status)
   
  }
 

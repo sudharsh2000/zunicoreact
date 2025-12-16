@@ -14,14 +14,14 @@ function Cart() {
   const {flash}=useContext(Flashcontext)
   useEffect(()=>{
     console.log(userInfo)
-    if(login){
-    if(!userInfo?.userid){
-      navigate('/signin')
+  //   if(login){
+  //   if(!userInfo?.userid){
+  //     navigate('/signin')
       
 
       
-    }
-  }
+  //   }
+  // }
     
   },[userInfo?.userid,login])
   return (

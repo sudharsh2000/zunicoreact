@@ -15,6 +15,7 @@ function Productdetail() {
   const {userInfo}=useAuth()
   const [wish,setwish]=useState(false)
   const [wishid,setwishid]=useState()
+  const [discountprice,setdiscountprice]=useState(0)
 const Addcart=async(cart)=>{
   console.log('dis-pric',(parseFloat(products.discount)*parseFloat(products.price))/100)
   const Cartdata={
@@ -42,13 +43,13 @@ const addOrdertemperory=async(product)=>{
       
       "Product_id": product.id,
       "quantity": 1,
-      "price": product.price,
-      "total_price": product.price,
+      "price": discountprice,
+      "total_price": discountprice,
       "discount": discountval
     }
     const orderdata={
   "user_id": userInfo.userid,
-  "total_amount": product.price,
+  "total_amount": discountprice,
   "total_discount": discountval,
   "payment_status": "Pending",
   "payment_method": 'DRAFT',
@@ -80,6 +81,7 @@ catch (er){
       const res=await api.get(`${productapi}?id=${id}`,{withCredentials:true})
       
       setProducts(res.data.results[0])
+      setdiscountprice(res.data.results[0].price-(parseFloat(res.data.results[0].price)*parseFloat(res.data.results[0].discount))/100)
       if(userInfo?.userid){
       const wisha= await api.get(`${whishlistApi}?Product_id=${res.data.results[0].id}&user=${userInfo.userid}`)
       console.log(wisha)
@@ -144,8 +146,13 @@ navigate('/signin')
   
   }} className='flex gap-1 text-xl text-white font-extrabold md:gap-4 bg-gradient-to-r from-emerald-400 to-emerald-600 items-center justify-center rounded-lg p-1 md:p-4 w-[50%] shadow-lg cursor-pointer transition-transform hover:scale-105'>Add to cart <ShoppingCart/></button>
 </div>
-    <h1 className='flex gap-0.5 md:gap-2.5 text-2xl  font-extrabold  justify-center items-center'><p className='font-extrabold'> <IndianRupee/> </p>{products.price} </h1>
-       
+<div className='flex gap-2 md:gap-4 justify-center'>
+
+
+    <h1 className='flex gap-0.5 md:gap-2.5 text-2xl  font-extrabold  justify-center items-center'><p className='font-extrabold'> <IndianRupee/> </p>{discountprice} </h1>
+     
+         <h1 className='flex text-decoration-line: line-through gap-0.5 text-gray-400 md:gap-0 text-2xl  font-extrabold  justify-center items-center'><p className='font-extrabold'> <IndianRupee/> </p>{products.price} </h1>
+ </div> 
     <div className='flex gap-2 md:gap-4 justify-center items-center'>
       <p className='text-gray-600 text-xs md:text-lg'>add to favourite</p>
       <div>{wish?<img src={lovefill} onClick={()=>{setwish(false);removeWishlist();}} className='w-[1.5rem] md:w-[2.4rem] cursor-pointer' />: <img onClick={()=>{setwish(true);AddWishlist();}} src={love} className='w-[1.5rem] md:w-[2.4rem] cursor-pointer' />} </div>
