@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { LoaderCircle } from 'lucide-react'
 import loadingimg from '../assets/loadingimg.png'
 function AddProductCategory({edititem,setAdditem}) {
+    console.log('edititem',edititem)
         const fileref = useRef(null)
         const [resetTrigger, setTrigger] = useState(false)
           const [images, setImages] = useState([])
@@ -32,14 +33,14 @@ const CategoryFormdata = new FormData()
             res = await api.post(categoryapi, CategoryFormdata, { withCredentials: true });
                 }
                 
-                console.log(res.data)
+                
                 setloading(false)
                 clearfunction();
              toast.success('Added')
              setAdditem(false)
             }
             catch (er) {
-                console.error(er)
+               
                 setloading(false)
                 toast.error('Some error occured')
             }
@@ -71,7 +72,9 @@ const validationCategory = () => {
         return returnvalue
     }
 useEffect(()=>{
+    
     if(edititem){
+        console.log('in edit',edititem.image)
         setcategory({
             name:edititem.name,
             image:edititem.image
@@ -80,7 +83,7 @@ useEffect(()=>{
     }
 
 },[edititem])
-console.log(category.image)
+
 
   return (
        <div className='absolute w-[100%] h-[100%] bg-[#090909a3]'>
@@ -91,7 +94,7 @@ console.log(category.image)
                                     <input value={category.name} onChange={(e) => setcategory({ ...category, name: e.target.value })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Category Name' />
                                     <p></p>
                                 </div>
-
+                               
                                 <div className='w-full  gap-5'>
 
                                     <FileUploader tempimage={[category.image]} resettrigger={resetTrigger} fileref={fileref} onFileselect={(file) => { setcategory({ ...category, image: file[0] }) }} />

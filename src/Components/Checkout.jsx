@@ -24,6 +24,7 @@ function Checkout() {
   const product_id=params.get('product_id')
   const [successcheck,setsucessCheck]=useState(false)
   const [paymentmode,setpaymentMode]=useState('COD')
+  const [warning,setWarning]=useState('')
   // or use window.Razorpay
   useEffect(()=>{
 
@@ -47,10 +48,10 @@ const res=await addTocart(null,'get',userInfo.userid);
 
     console.log(res)
 setCarts(res.data[0].order_items)
-setPriceTotal(res.data[0].order_items[0].total_price)
+setPriceTotal(parseFloat(res.data[0].order_items[0].total_price).toFixed(2))
     console.log('new',res.data)
-    setDiscount(res.data[0].total_discount)
-     setFinalAmount(parseFloat(res.data[0].order_items[0].total_price-res.data[0].total_discount))
+    setDiscount(parseFloat(res.data[0].total_discount).toFixed(2))
+     setFinalAmount(parseFloat(res.data[0].order_items[0].total_price-res.data[0].total_discount).toFixed(2))
     
   
      
@@ -58,11 +59,14 @@ setPriceTotal(res.data[0].order_items[0].total_price)
      try{
       if(userInfo.userid){
        
-      const reswait= await api.get(`${AddressApi}?user_id=${userInfo.userid}`)
+      const reswait= await api.get(`${AddressApi}?user=${userInfo.userid}`)
       console.log(reswait.data)
       SetAddress(reswait.data[0])
+      if(!reswait.data[0]){
+        setWarning('Please add address before continue')
     
       }
+    }
       
      }
      catch(er){
@@ -244,8 +248,9 @@ console.log(er)
                 
                
             </div>
-        <div className='shadow-lg min-h-[25%] bg-white flex justify-center items-center py-3 md:py-8'>
-                <button onClick={handlePayment} className='bg-amber-400 cursor-pointer text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Confirm Your Order</button>
+        <div className='shadow-lg min-h-[25%] bg-white flex flex-col gap-1 md:gap-2 justify-center items-center py-3 md:py-8'>
+                <button onClick={address&& handlePayment} className='bg-amber-400 cursor-pointer text-xs md:text-lg hover:bg-amber-500 w-[30%] py-1 px-2 md:h-[3rem] rounded-2xl shadow-lg' >Confirm Your Order</button>
+          {warning && <p className='text-red-600'>{warning}</p>}
             </div>  
 
         </div>:

@@ -23,19 +23,7 @@ function AddProducts({setAdditem,edititem}) {
                 image: ''
             })
             const [categoryItems,SetCategoryitems]=useState([])
-        const productFormdata = new FormData
-            productFormdata.append('name', products.name)
-            productFormdata.append('category', products.category)
-            productFormdata.append('price', products.price)
-            productFormdata.append('description', products.description)
-            productFormdata.append('cost_price', products.cost || 0)
-            productFormdata.append('discount', products.discount || 0)
-            productFormdata.append('stock', products.stock)
-            productFormdata.append('main_image', products.image)
-            images?.forEach((img) => {
         
-                productFormdata.append('images', img)
-            })
 
           const validation = () => {
         let returnvalue = true;
@@ -80,6 +68,19 @@ function AddProducts({setAdditem,edititem}) {
 
 
       const saveProducts = async () => {
+        const productFormdata = new FormData
+            productFormdata.append('name', products.name)
+            productFormdata.append('category', products.category)
+            productFormdata.append('price', products.price)
+            productFormdata.append('description', products.description)
+            productFormdata.append('cost_price', products.cost || 0)
+            productFormdata.append('discount', products.discount || 0)
+            productFormdata.append('stock', products.stock)
+            productFormdata.append('main_image', products.image)
+            images?.forEach((img) => {
+        
+                productFormdata.append('images', img)
+            })
         console.log(images)
         for (let pair of productFormdata.entries()) {
             console.log(pair[0], pair[1]);
@@ -111,9 +112,9 @@ function AddProducts({setAdditem,edititem}) {
             setAdditem(false)
             }
             catch (er) {
-                console.error(er.response?.data)
+                console.error(er)
                 setloading(false)
-                  toast.error('Not Saved ')
+                  toast.error('something went wrong')
             }
         }
 

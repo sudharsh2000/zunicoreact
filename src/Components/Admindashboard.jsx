@@ -69,7 +69,7 @@ const ConfirmOrder=async(orderid,nowstatus)=>{
         
         const loadapi = async () => {
             try {
-                console.log(window)
+                
 if(userInfo?.userid) {
             
                 if (window === 'products') {
@@ -134,7 +134,6 @@ if(userInfo?.userid) {
 
  
 
-console.log(itemlist)
 
   
 
@@ -154,7 +153,7 @@ console.log(itemlist)
 
     return (
         <div className=' w-full flex-col md:flex-row flex justify-center items-center'>
-            <div className=' hidden md:block h-[90vh] bg-white absolute left-[.5rem] md:left-[1rem] top-[5rem] md:top-[5rem] shadow-lg   w-[10%] md:w-[18rem] rounded-2xl'>
+            <div className=' hidden md:block h-[90vh] mt-[1rem] bg-white absolute left-[.5rem] md:left-[1rem] top-[5rem] md:top-[5rem] shadow-lg   w-[10%] md:w-[18rem] rounded-2xl'>
                 <ul className=' mt-[.5rem] md:mt-[2rem] gap-[.5rem] md:gap-[2rem] flex justify-center items-center flex-col'>
                     <li onClick={() => {
                         setwindow('profile')
@@ -210,7 +209,7 @@ console.log(itemlist)
                
                 {
               window!=='pend-orders' && window!=='orders'&& window!=='cancel-orders' && window !== 'profile'?
-                <div onClick={()=>{setedititem(null);setAdditem(true)}} className='absolute right-[1rem] bg-white md:right-[3%] h-[2rem] md:h-[3rem] top-[4.8rem] md:top-[10%] p-2 md:p-3 rounded-4xl shadow-2xl justify-center items-center border-1 border-green-100 cursor-pointer hover:bg-gray-300'>
+                <div onClick={()=>{setedititem(null);setAdditem(true)}} className='absolute  right-[1rem] bg-white md:right-[3%] h-[2rem] md:h-[3rem] top-[4.8rem] md:top-[15%] p-2 md:p-3 rounded-4xl shadow-2xl justify-center items-center border-1 border-green-100 cursor-pointer hover:bg-gray-300'>
                  <div className='flex w-[100%] h-[100%] justify-center items-center'>   <h2 className='flex gap-1 md:gap-1 rounded-2xl justify-center text-sm md:text-lg items-center text-blue-800'>Add<Plus className='w-[30%] h-[30%]'/></h2>
                 </div></div>:''
                 }

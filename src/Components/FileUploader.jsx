@@ -13,24 +13,26 @@ const [imageselect,setselected]=useState(false)
     }
   };
 
-  useEffect(() => {
-    console.log(previews.length)
-    console.log(tempimage)
+ useEffect(() => {
+ 
+
+  // RESET
+  if (resettrigger) {
+   if(!tempimage){ setPreviews([]);
     if (fileref?.current) fileref.current.value = null;
-    if (resettrigger) {
-      setPreviews([]);
-      return;
-    }
-   
-    if(tempimage && imageselect===false){
-setPreviews(tempimage);
-onFileselect(tempimage)
-    } 
-    return ()=>{
-      setselected(false)
-    }
-    
-  }, [resettrigger]);
+    setselected(false);
+    return;
+   }
+  }
+
+  // EDIT MODE (show backend images)
+  if (tempimage && !imageselect) {
+    setPreviews(tempimage);
+  }
+
+  // ❌ DO NOT clear previews here
+}, [tempimage, resettrigger]);
+
 
   return (
     <div className="w-full flex flex-col items-center gap-2">
@@ -38,7 +40,8 @@ onFileselect(tempimage)
         htmlFor="fileUpload"
         className="cursor-pointer border-2 border-dashed border-gray-400 rounded-xl p-6 text-center hover:bg-gray-100 transition"
       >
-        {previews.length > 0 ? (
+        
+        {previews[0]&&previews.length > 0 ? (
           <div className="flex flex-wrap justify-center gap-2">
             {previews.map((src, index) => (
               <img
