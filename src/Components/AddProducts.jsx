@@ -91,7 +91,7 @@ function AddProducts({setAdditem,edititem}) {
 
                 let res=''
                 if(edititem){
-                        res= await api.patch(`${productapi}${edititem.id}/`, productFormdata, {
+                        res= await api.put(`${productapi}${edititem.id}/`, productFormdata, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 })

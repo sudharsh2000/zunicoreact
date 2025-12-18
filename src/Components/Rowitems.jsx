@@ -59,7 +59,7 @@ function Rowitems({ali_type,Title}) {
   loadPage();
 
  
-}, [userInfo?.userid]);
+}, [userInfo?.userid,cartpopup]);
 
 
 useEffect(()=>{
@@ -108,9 +108,15 @@ const Addcart=async(prod,type,index)=>{
   }
   console.log(Cartdata)
   try{
- 
+  
+ if(quantityTocart[index]===1&&type==='dec'){
+  const res=await addTocart(Cartdata,'delete',carts[index].id)
+ }
+ else{
+
   const res=await addTocart(Cartdata,'post',userInfo.userid)
    console.log(res)
+ }
   setQuantityToCart(prev=>({
     ...prev,[index]:(prev[index]||0)+addquantity
    }))
@@ -158,10 +164,10 @@ const Addcart=async(prod,type,index)=>{
         {products &&
         products.map((product,i)=>{
         
-          return <div key={product.id}  className={`flex outline-0 border-0 flex-nowrap  gap-4 rounded-x w-[46%] ${ali_type==='row'?'md:min-w-[22rem]':'md:w-[28%] '}  m-1 rounded-lg justify-between p-2  items-center-safe flex-col bg-gradient-to-r from-emerald-100 to-emerald-200 cursor-pointer hover:scale-105 transition-transform`}>
+          return <div key={product.id}  className={`flex outline-0 border-0 flex-nowrap max-h-[17rem]   gap-4 rounded-x w-[46%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]':'md:w-[28%] md:max-h-[40rem]  '}  m-1 rounded-lg justify-between p-2  items-center flex-col bg-gradient-to-r from-emerald-100 to-emerald-200 cursor-pointer hover:scale-105 transition-transform`}>
           <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] h-[50%] md:h-[70%] md:w-[25rem] '/>
          
-<h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words whitespace-normal text-xs md:text-xl  hover:text-black '>{product.name}</h2>
+<h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words  text-[10px] truncate  md:text-xl  hover:text-black '>{product.name}</h2>
             
         {userInfo?.userid ? ali_type==='row'?'':<div className='flex w-full justify-center gap-2 md:gap-4'>
           <p onClick={()=>{console.log(quantityTocart[i]);
@@ -175,8 +181,8 @@ const Addcart=async(prod,type,index)=>{
         }
         </div>:''
         }  
-          <h3 onClick={()=>navigate(`/detail/${product.id}`)} className='bg-yellow-400 p-1 justify-center rounded-2xl w-[100%] text-[10px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5 font-extrabold'/> {product.price}</h3>
-        </div>
+         { <h3 onClick={()=>navigate(`/detail/${product.id}`)} className='bg-yellow-400 p-1 justify-center rounded-2xl w-[100%] text-[10px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5 font-extrabold'/> {product.price}</h3>
+        }</div>
         })
         }
         

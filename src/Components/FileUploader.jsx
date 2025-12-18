@@ -29,6 +29,7 @@ const [imageselect,setselected]=useState(false)
   if (tempimage && !imageselect) {
     setPreviews(tempimage);
   }
+ 
 
   // ❌ DO NOT clear previews here
 }, [tempimage, resettrigger]);
