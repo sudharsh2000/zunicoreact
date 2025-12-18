@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuth } from '../Redux/AuthProvider';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
@@ -37,6 +37,11 @@ function Addaddress() {
         pincode:'',
         address_type:''
     })
+
+    useEffect(()=>{
+    if(address){
+      setAdress({...address,full_name:userInfo?.username,email:userInfo?.email})}
+    },[userInfo?.username])
 
     const SaveAdress=async()=>{
         try{
