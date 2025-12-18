@@ -106,7 +106,7 @@ const Addcart=async(products)=>{
             <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] rounded-sm bg-white'>
              {loading?
              <div className='h-[90vh]'><LoadingScreen /></div>: products.length>0? products.map((item)=>{
-return <div onClick={()=>navigate(`/detail/${item.id}`)} key={item.id} className='border-y-2 w-[100%] p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
+return <div  key={item.id} className='border-y-2 w-[100%] p-1 md:p-5 min-h-[9rem] border-gray-300 flex-row flex justify-around'>
 
                     <div  className='flex w-[70%]  gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
                         <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[25%] md:w-[15%] h-[5rem] md:h-[10rem] cursor-pointer hover:scale-105 transition-transform '/>
