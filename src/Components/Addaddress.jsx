@@ -40,7 +40,10 @@ function Addaddress() {
 
     const SaveAdress=async()=>{
         try{
-            const res=await api.post(AddressApi,address)
+            const res=await api.post(AddressApi,address,{
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    withCredentials: true
+                })
             console.log(res.data)
             toast.success('Saved')
             navigate('/cart')
