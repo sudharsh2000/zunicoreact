@@ -51,7 +51,7 @@ function Addaddress() {
                 })
             console.log(res.data)
             toast.success('Saved')
-            navigate('/cart')
+            navigate(-1)
         }
         catch(er){
             console.log(er)

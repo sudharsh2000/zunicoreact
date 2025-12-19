@@ -147,7 +147,7 @@ const Addcart=async(prod,type,index)=>{
        
 
       <div  className='flex items-center justify-between px-2 md:px-5 gap-2 md:gap-5 '> 
-         <h1  className='text-lg md:text-3xl pt-2 md:pt-8 ml-4 md:ml-8 my-2 md:my-8 font-bold overflow-auto'>{Title}</h1>
+         <h1  className='text-lg md:text-3xl pt-2 md:pt-8 ml-4 md:ml-8 my-2 md:my-8 font-bold '>{Title}</h1>
          <p onClick={()=>navigate(`/list?search=`)} className='text-blue-700 cursor-pointer hover:text-blue-300 flex text-sm md:text-lg'>View More </p>
       
       </div>

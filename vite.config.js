@@ -9,7 +9,7 @@ export default defineConfig({
       VitePWA({
       registerType: 'autoUpdate',
 
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png','splash-icon.png', 'masked-icon.svg'],
 
       manifest: {
         name: 'Wisedecore',
@@ -17,7 +17,7 @@ export default defineConfig({
         description: 'A sample PWA React application',
 
         theme_color: '#ffffff',
-        background_color: '#ffffff',
+        background_color: '#84C2A4',
         display: 'standalone',
         orientation: 'portrait',
 
@@ -28,7 +28,7 @@ export default defineConfig({
             type: 'image/png'
           },
           {
-            src: 'appicon.jpg',
+            src: 'splash-icon.png',
             sizes: '512x512',
             type: 'image/png'
           },

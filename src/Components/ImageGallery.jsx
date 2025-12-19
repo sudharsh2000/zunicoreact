@@ -13,7 +13,7 @@ setmainimage(images[0].image)
   return (
     <div className='w-[100%] md:w-[82%] flex flex-col gap-2 md:gap-5 '>
 
-        <div className={`flex border-1 bg-white shadow-2xl md:h-[70%] rounded-lg border-blue-300 justify-center items-center  p-1 md:p-6 `}>
+        <div className={`flex border-1 bg-white shadow-2xl  md:min-h-[60%] md:h-[80%] rounded-lg border-blue-300 justify-center items-center  p-1 md:p-6 `}>
             <img src={mainImage} className='h-[100%] transition-transform  hover:scale-105 hover:z-50 '/>
         </div>
        {images&&images.length>1&& <div className='flex bg-white shadow-lg gap-3 md:gap-8 border-0 p-2 h-[6rem] md:p-3 md:h-[20%] rounded-lg'>

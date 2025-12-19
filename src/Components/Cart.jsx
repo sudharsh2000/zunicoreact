@@ -30,9 +30,9 @@ const res=await addTocart(null,'get',userInfo.userid);
       
      setCarts(res[0].items)
    
-     setPriceTotal(res[0].total_price)
-     setDiscount(res[0].total_discount)
-     setFinalAmount(res[0].final_price)
+     setPriceTotal(res[0].total_price.toFixed(2))
+     setDiscount(res[0].total_discount.toFixed(2))
+     setFinalAmount(res[0].final_price.toFixed(2))
   
       if(userInfo.userid){
        
@@ -162,7 +162,7 @@ const Addcart=async(Cart,type)=>{
                 
                 <div className='flex flex-col items-center gap-2 md:gap-5 justify-center w-[60%]'>
                     <h3 onClick={()=>navigate(`/detail/${cart.Product.id}`)} className='text-sm md:text-2xl hover:text-blue-400 cursor-pointer'>{cart.Product.name}</h3>
-                    <h2 className='flex text-xl items-center justify-center gap-1 md:gap-1'><h1 className='text-green-500 mr-1.5 md:mr-6'>{cart.price}</h1> <h1>Total </h1> <IndianRupeeIcon className='w-5 h-12'/> {cart.quantity * cart.price}</h2>
+                    <h2 className='flex text-xl items-center justify-center gap-1 md:gap-1'><h1 className='text-green-500 mr-1.5 md:mr-6'>{cart.quantity * cart.price}</h1> <h1>Total </h1> <IndianRupeeIcon className='w-5 h-12'/> {(cart.quantity * cart.price) - (cart.quantity * (cart.price*cart.Product.discount/100) )}</h2>
                     <p className='text-green-600'>{cart.Product.discount} % off</p>
                 </div>
                 <div className='flex justify-center items-center w-[10%]'>

@@ -53,10 +53,10 @@ const SearchProducts=async()=>{
 
   return (
     <div className='hidden md:block sticky w-auto py-2  mx-3 top-0 z-30'>
-    <div className='flex flex-row bg-gradient-to-r rounded-xl from-emerald-200 to-emerald-700 w-[100%] h-[3.5rem] justify-between px-[2%] items-center gap-2 md:h-[4.5rem] md:gap-8 '>
-        <div className='flex gap-2 md:gap-14 justify-center items-center'>
-            <img onClick={()=>navigate('/')} src={wise} className='w-[25%] md:w-[12rem] h-[100%] p-0' />
-         {cururl.pathname==='/'&&   <div className='shadow-lg flex flex-row border-1 w-[70%] h-[2rem] rounded-md md:w-[40rem] md:h-[2.6rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>
+    <div className='flex flex-row bg-gradient-to-r rounded-xl from-emerald-200 to-emerald-700 w-[100%] h-[3.5rem]  px-[2%] items-center gap-2 md:h-[4.5rem] md:gap-8 '>
+        <div className='flex gap-2 md:gap-14  items-center w-[60%]'>
+            <img onClick={()=>navigate('/')} src={wise} className='max-w-[25%] w-auto md:max-w-[12rem] h-[100%] p-0' />
+         {cururl.pathname==='/'&&   <div className='shadow-lg flex flex-row border-1 w-[70%] h-[2rem] rounded-md md:w-[70%] md:h-[2.6rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>
             <input onBlur={()=>setsearchval('')} onKeyDown={(e)=>{
                 setcursor(-1);
                 if(e.key=='Enter'){
@@ -103,7 +103,7 @@ const SearchProducts=async()=>{
                 </div>
             }
         </div>
-        <ul className='hidden  md:flex flex-row justify-end items-center w-[30%] gap-[3rem]'>
+        <ul className='hidden  md:flex flex-row justify-end items-center w-[40%] gap-[7%]'>
         
            {!accesstoken?
            <li onClick={()=>navigate('/signin')} className='relative p-2 rounded-md border-gray-700 hover:shadow-lg hover:border-1  text-white font-extrabold text-md  cursor-pointer '>Log in</li>:

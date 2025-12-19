@@ -39,9 +39,9 @@ const res=await addTocart(null,'get',userInfo.userid);
    
      setCarts(res[0].items)
     console.log('a')
-     setPriceTotal(res[0].total_price)
-     setDiscount(res[0].total_discount)
-     setFinalAmount(res[0].final_price)
+     setPriceTotal(res[0].total_price.toFixed(2))
+     setDiscount(res[0].total_discount.toFixed(2))
+     setFinalAmount(res[0].final_price.toFixed(2))
    }
    else{
     const res=await api.get(`${OrderApi}?id=${product_id}`);

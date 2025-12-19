@@ -126,7 +126,7 @@ catch (er){
     }
   }
   return (
-    <div className='flex pb-[6rem] flex-col md:flex-row justify-around p-3 md:p-8 gap-3 w-[100%] md:gap-10 h-auto md:h-[100vh]'>
+    <div className='flex pb-[6rem] md:pb-0 flex-col md:flex-row justify-around p-3 md:px-5 md:py-2 gap-3 w-[100%] md:gap-10 h-auto md:h-[100vh]'>
           <ImageGallery images={products.images} className='w-[100%] md:w-[52%]'/>
         <div className='flex flex-col justify-center mb-[2rem] w-[100%] md:w-[50%] gap-3 md:gap-4'>
           <h2 className=' font-bold text-[22px] md:text-4xl'> {products.name}</h2>
