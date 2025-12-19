@@ -164,16 +164,16 @@ const Addcart=async(prod,type,index)=>{
         {products &&
         products.map((product,i)=>{
         
-          return <div key={product.id}  className={`flex outline-0 border-0 flex-nowrap max-h-[17rem]   gap-4 rounded-x w-[46%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]':'md:w-[28%] md:max-h-[40rem]  '}  m-1 rounded-lg justify-between p-2  items-center flex-col bg-gradient-to-r from-emerald-100 to-emerald-200 cursor-pointer hover:scale-105 transition-transform`}>
-          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] h-[50%] md:h-[70%] md:w-[25rem] '/>
+          return <div key={product.id}  className={`flex outline-0 border-0 flex-nowrap max-h-[17rem]   gap-4 rounded-x w-[46%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]': 'px-2 md:px-8 md:w-[28%] md:max-h-[30rem] lg:max-h-[40rem]  '}  m-1 rounded-xl shadow-2xl md:shadow-none justify-between p-2  items-center flex-col bg-gradient-to-r cursor-pointer hover:shadow-2xl hover:scale-105 transition-transform`}>
+          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[70%] h-[50%] md:h-[50%] md:w-[25rem] '/>
          
 <h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words  text-[10px] truncate  md:text-xl  hover:text-black '>{product.name}</h2>
             
         {userInfo?.userid ? ali_type==='row'?'':<div className='flex w-full justify-center gap-2 md:gap-4'>
           <p onClick={()=>{console.log(quantityTocart[i]);
-           quantityTocart[i]===0?'': Addcart(product,'dec',i)}} className='rounded-full   bg-white hover:bg-emerald-200   shadow-2xl border-none  hover:border-cyan-600 w-[23%]  md:w-[10%] cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center  shadow-gray-500'>-</p>
-          <input type="number"  value={quantityTocart[i] || 0} className='bg-white w-[40%]  md:w-[30%] text-center rounded-xl outline-none px-2 md:px-3 flex justify-center items-center'/>
-           <p onClick={()=>Addcart(product,'inc',i)} className='rounded-full hover:border-cyan-700 bg-white hover:bg-emerald-200   shadow-2xl border-none  w-[23%]  md:w-[10%]  cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center '>+</p>
+           quantityTocart[i]===0?'': Addcart(product,'dec',i)}} className='rounded-full  bg-white hover:bg-emerald-200   shadow-2xl   hover:border-cyan-600 w-[23%]  md:w-[12%]  cursor-pointer items-center border-1 border-gray-400 p-1 md:p-2 flex justify-center  shadow-gray-700'>-</p>
+          <input type="number"  value={quantityTocart[i] || 0} className='bg-white w-[40%]  md:w-[30%] text-center border-1 border-gray-400 rounded-xl outline-none px-2 md:px-3 flex justify-center items-center'/>
+           <p onClick={()=>Addcart(product,'inc',i)} className='rounded-full hover:border-cyan-700 bg-white hover:bg-emerald-200   shadow-2xl   w-[23%]  md:w-[12%]  cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center '>+</p>
         
        {cartpopup[i]&& <div className='absolute bg-[#1d1818c2] p-1 md:p-2 rounded-xl'>
           <button className='text-white flex'>{cartstatus}<Loader className='animate-spin'/> </button>
