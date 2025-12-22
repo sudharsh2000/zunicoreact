@@ -109,11 +109,11 @@ const CancellOrder=async(orderid,nowstatus)=>{
                     
                 </div>
                 <div className='flex flex-col md:flex-row items-center gap-2 md:gap-5 justify-center w-[25%]'>
-                 {cart.order_status==='Processing' ? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-gray-500'/> Yor item is Processing</p>:cart.order_status==='Confirmed'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-green-600'/> Your Item has been Confirmed</p>:cart.order_status==='Cancelled'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/>Your Item has been Cancelled</p>:<p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/> {cart.order_status}</p>}
+                 {cart.order_status==='Processing' ? <p className='flex gap-1 md:gap-2 text-[10px] md:text-base'> <CircleDot className='text-gray-500'/> Yor item is Processing</p>:cart.order_status==='Confirmed'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-green-600'/> Your Item has been Confirmed</p>:cart.order_status==='Cancelled'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/>Your Item has been Cancelled</p>:<p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/> {cart.order_status}</p>}
                   </div>
               {cart.order_status!=='Cancelled' && <div className='flex justify-center items-center w-[15%]'>
                     <h2 onClick={()=>{CancellOrder(cart.id,'Cancelled')
-                      }} disabled={cart.order_status==='Cancelled'}  className={`${cart.order_status==='Cancelled'?'border-0 text-gray-500':'border-1 shadow-lg rounded-xl    hover:border-red-900 cursor-pointer border-red-600 '} text-sm md:text-base px-1 md:px-3 py-1 md:py-2 `}> Cancel Order</h2>
+                      }} disabled={cart.order_status==='Cancelled'}  className={`${cart.order_status==='Cancelled'?'border-0 text-gray-500':'border-1 shadow-lg rounded-xl    hover:border-red-900 cursor-pointer border-red-600 '} text-[7px] md:text-base px-1 md:px-3 py-1 md:py-2 `}> Cancel</h2>
                 </div>
                     }
 

@@ -78,8 +78,8 @@ setPriceTotal(parseFloat(res.data[0].order_items[0].total_price).toFixed(2))
      loadapi(); 
 
      return async()=>{
-      const ress=await api.delete(`${OrderDeleteApi}?user_id=${userInfo.userid}&order_status=DRAFT`)
-      console.log(ress.status)
+      const ress=await api.delete(`${OrderDeleteApi}?user=${userInfo.userid}&order_status=DRAFT`)
+      console.log(ress)
      }
   
     
