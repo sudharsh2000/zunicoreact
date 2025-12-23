@@ -29,7 +29,7 @@ export default defineConfig({
           },
           {
             src: 'splash-icon.png',
-            sizes: '512x512',
+            sizes: '256x256',
             type: 'image/png'
           },
           {

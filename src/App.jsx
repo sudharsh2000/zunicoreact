@@ -28,12 +28,13 @@ import Wishlist from './Pages/Wishlist'
 import WishlistPage from './Pages/Wishlist'
 
 export const Flashcontext=createContext(null)
+
 function App() {
     const [flash,setFlash]=useState(false)
   const auth=useAuth()
   
   const {login,logout}=useAuth()
-
+const {userInfo}=useAuth()
 useEffect(()=>{
 
  
@@ -45,12 +46,12 @@ try{
   const res=await api.post(refreshapi,{},{withCredentials:true})
 
 console.log(res)
-  const decode=jwtDecode(res.data.access_token)
+  const decode=res.data.user;
   
   login(res.data.access_token, {
             'username':decode.username,
-        'userid':decode.user_id,
-        'superuser':decode.superuser
+        'userid':decode.userid,
+        'superuser':decode.is_superuser
             
           });
 setFlash(false)

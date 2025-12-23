@@ -37,13 +37,13 @@ function SigninPage() {
         setLoading(true)
       const res=await axios.post(signinapi,signdata,{withCredentials:true})
       console.log(res.data.access_token)
-      const decode=jwtDecode(res.data.access_token)
+      const decode=res.data.user;
       console.log(decode)
       login(res.data.access_token,{
         'username':decode.username,
-        'userid':decode.user_id,
+        'userid':decode.userid,
         'mobile':decode.mobile,
-        'email':decode.Email_address,
+        'email':decode.email,
         'superuser':false
       })
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ArrowBigDown, ArrowDown, ArrowDown01, ArrowDown01Icon, ArrowDownNarrowWide, Bell, ChevronDown, DotIcon, DotSquare, Heart, ListOrdered, Menu, MoreHorizontal, MoreVertical, Search, Settings, Settings2, Settings2Icon, SettingsIcon, ShoppingCart, Store, StoreIcon, User, UserCircle } from 'lucide-react'
 
 import wise from '../assets/wise.png'
@@ -19,6 +19,7 @@ function Navbar() {
     const [cursor,setcursor]=useState(0)
     const listref=useRef(null)
     const cururl=useLocation()
+    const [username,setusername]=useState('')
 const logoutfunction=async()=>{
     try{
         const res=axios.post(Logoutapi,{},{withCredentials:true})
@@ -50,6 +51,9 @@ const SearchProducts=async()=>{
     }
 
 }
+useEffect(()=>{
+   setusername(userInfo?.username)
+},[userInfo?.username])
 
   return (
     <div className='hidden md:block sticky w-auto py-2  mx-3 top-0 z-30'>
@@ -113,7 +117,7 @@ const SearchProducts=async()=>{
 
                 
                 <User/>
-               {userInfo.username}
+               Me
                 
                 <ChevronDown/>
                 </div>

@@ -30,16 +30,16 @@ export const setupInterceptors = (auth) => {
           const res = await plainAxios.post(refreshapi, { withCredentials: true });
        
           const newAccess = res.data.access_token;
-
-          const decode = jwtDecode(newAccess);
+          console.log('res',res.data)
+          const decode = res.data.user;
           
           login(newAccess, {
             'username':decode.username,
-        'userid':decode.user_id,
+        'userid':decode.userid,
         
         'mobile':decode.mobile,
-        'email':decode.Email_address,
-        'superuser':decode.superuser
+        'email':decode.email,
+        'superuser':decode.is_superuser
             
           });
         

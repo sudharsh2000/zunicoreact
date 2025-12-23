@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import demo from '../assets/demo.jpg'
 import { Heart, IndianRupee, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useLocation, useNavigate, useParams } from 'react-router'
@@ -19,11 +19,18 @@ function Productlist() {
   const [categorylist,setCategorylist]=useState([])
   const [categoryfilter,setcategoryfilter]=useState()
   const [sort,setSort]=useState('')
+  const [count,setcount]=useState(0)
   const [loading,SetLoading]=useState(false)
   const navigate=useNavigate()
+  const [pagenum,setpagenum]=useState()
+  const currentref=useRef(null)
   useEffect(()=>{
    
-    const Loadapi=async()=>{
+
+    Loadapi(1);
+
+  },[category,categoryfilter, search,sort])
+    const Loadapi=async(pagenum)=>{
        setcategoryfilter(category)
       try{
         let val=''
@@ -34,8 +41,9 @@ function Productlist() {
           val=`?search=${search}&ordering=${sort}`
         }
         SetLoading(true)
-        const res=await api.get(`${productapi}${val}`)
+        const res=await api.get(`${productapi}${val}?page=${pagenum}`,{withCredentials:true})
         console.log(res.data)
+        setcount(res.data.count)
         setproducts(res.data.results)
         const rescateg=await api.get(`${categoryapi}`,{withCredentials:true})
         setCategorylist(rescateg.data)
@@ -45,12 +53,15 @@ function Productlist() {
       catch(er){
 console.error(er)
       }
-
+      if(pagenum){
+        currentref.current?.scrollIntoView({behavior:'smooth'})
+      }
     }
-    Loadapi();
 
-  },[category,categoryfilter, search,sort])
-
+const pages=[]
+for(let i=1;i<=Math.ceil(count/12);i++){
+  pages.push(i)
+}
 
 const Addcart=async(products)=>{
   const Cartdata={
@@ -73,9 +84,9 @@ const Addcart=async(products)=>{
 
 
   return (
-    <div className='w-full mx-0 my-1 md:mx-3.5 md:my-1 '>
+    <div ref={currentref} className='w-full mx-0 my-1 md:mx-3.5 md:my-1 mb-[1rem] '>
 
-            <div className='flex gap-0 md:gap-[3rem]  md:my-[1rem] md:items-center py-1 md:px-[1rem] flex-between md:justify-start justify-center md:mx-8 rounded-sm shadow-lg bg-white'>
+            <div  className='flex gap-0 md:gap-[3rem]  md:my-[1rem] md:items-center py-1 md:px-[1rem] flex-between md:justify-start justify-center md:mx-8 rounded-sm shadow-lg bg-white'>
                 <div className='flex w-[50%] md:w-[30%] row gap-1 md:gap-4 justify-center items-center rounded-lg'>
                     <h2 className='font-extrabold text-xs md:text-lg'>Sort by</h2>
                     <select value={sort} onChange={(s)=>setSort(s.target.value)} className='border-1 max-w-[70%] md:w-[100%] border-gray-100 text-xs md:text-lg shadow-lg p-1 md:p-4 rounded-lg'>
@@ -97,19 +108,18 @@ const Addcart=async(products)=>{
                        
                         })}
                         
-                        
                     </select>
                     
                 </div>
 
             </div>
-            <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] w-[100%] md:w-auto rounded-sm flex flex-wrap justify-start items-start flex-row md:flex-col bg-white'>
+            <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] w-[100%] md:w-auto rounded-sm flex flex-wrap justify-center items-start flex-row md:flex-col bg-white'>
              {loading?
              <div className='h-[90vh]'><LoadingScreen /></div>: products.length>0? products.map((item)=>{
-return <div  key={item.id} className='border-1 md:border-y-2 w-[50%] h-[18rem] md:h-auto md:w-[100%]  p-1 md:p-5 min-h-[9rem] border-gray-300 flex-col md:flex-row flex justify-center md:justify-around'>
+return <div  key={item.id} className='border-1 md:border-0 rounded-xl md:shadow-xl w-[50%] h-[18rem] md:h-auto md:w-[100%]  p-1 md:p-5 min-h-[9rem] border-gray-300 flex-col md:flex-row flex justify-center md:justify-around'>
 
                     <div  className='flex w-[100%] md:w-[70%] flex-col md:flex-row gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>
-                        <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[100%] md:w-[15%] h-[5rem] md:h-[10rem] cursor-pointer hover:scale-105 transition-transform '/>
+                        <img onClick={()=>navigate(`/detail/${item.id}`)} src={item.images[0].image} className='w-[100%] md:w-[15%] h-[10rem] md:h-[10rem] cursor-pointer hover:scale-105 transition-transform '/>
                       <div className='flex flex-col justidy-start gap-1 w-[75%] md:gap-[2rem]'> 
                         <h2 onClick={()=>navigate(`/detail/${item.id}`)}  className='hover:text-blue-400 text-xs break-words truncate md:text-2xl w-[100%] cursor-pointer text-center font-semibold'>{item.name}</h2>
                         <p className='hidden md:block w-[100%] break-words line-clamp-3 truncate overflow-y-auto max-h-[3rem] md:max-h-fit text-xs md:text-lg'>{item.description}
@@ -138,9 +148,29 @@ return <div  key={item.id} className='border-1 md:border-y-2 w-[50%] h-[18rem] m
              }   
                
                
-              
+                <div className='bg-[#ffffffc8] rounded-lg w-full py-1 md:py-2 xl shadow-gray-400 shadow-lg my-2 md:my-4 md:px-[1rem]'>
+              <div className='flex justify-center gap-2 md:gap-4'>
+                {pages.map((pg)=>{
+                  return <button key={pg} onClick={()=>{
+                    let val=''
+                    if(categoryfilter){
+                      val=`?category=${categoryfilter}&page=${pg}&ordering=${sort}`
+                      }
+                      if(search){
+                        val=`?search=${search}&page=${pg}&ordering=${sort}`
+                      }
+                      else{
+                        val=`?search=`
+                      }
+                    setpagenum(pg)
+                    Loadapi(pg)}} className={`mx-1 md:mx-2 shadow-lg py-1 md:py-2 px-2 md:px-4 rounded-full ${!pagenum?pg===1?'bg-gray-400':'bg-emerald-400':''} ${pagenum===pg?'bg-gray-400 text-white':'bg-emerald-500 text-white'}  font-bold text-sm md:text-lg hover:text-blue-100`}>{pg}</button>
+                })}
+              </div>
 
             </div>
+
+            </div>
+          
     </div>
   )
 }

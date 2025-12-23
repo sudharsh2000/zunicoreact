@@ -25,15 +25,17 @@ function Rowitems({ali_type,Title}) {
     const [prev,setPrev]=useState(null)
     const [cartstatus,setcartstatus]=useState(null)
     const scrollref=useRef(null)
-    const loadPage = async (url = `${productapi}`) => {
+    const [pagenum,setpagenum]=useState()
+    const [count,setcount]=useState(0)
+    const loadPage = async (pagenum) => {
    
      try {
-      console.log("FLASH ON");
-      const productRes = await api.get(url, { withCredentials: true });
-      console.log(productRes.data);
+    
+      const productRes = await api.get(`${productapi}?page=${pagenum}`, { withCredentials: true });
+      
       setProducts(productRes.data.results);
-    setNext(productRes.data.next);
-    setPrev(productRes.data.previous);
+    
+    setcount(productRes.data.count)
      
       if (userInfo?.userid) {
         const cartRes = await api.get(`${CartApi}?user=${userInfo.userid}`, { withCredentials: true });
@@ -43,7 +45,7 @@ function Rowitems({ali_type,Title}) {
     } catch (err) {
       console.error(err);
     } finally {
-      console.log(`FLASH OFF`);
+ 
    
         setFlash(false);
       
@@ -56,7 +58,7 @@ function Rowitems({ali_type,Title}) {
  useEffect(() => {
 
 
-  loadPage();
+  loadPage(1);
 
  
 }, [userInfo?.userid,cartpopup]);
@@ -75,11 +77,13 @@ useEffect(()=>{
     setQuantityToCart(q);
 
   }
-  if(prev){
+  if(pagenum){
+  if((count/11)>1){
   if(products.length>0){
      scrollref.current?.scrollIntoView({behavior:'smooth'})
   }
 }
+  }
 },[products,carts])
 const Addcart=async(prod,type,index)=>{
   setcartpopup({...cartpopup,[index]:true})
@@ -139,6 +143,12 @@ const Addcart=async(prod,type,index)=>{
            curwidth.scrollBy({left:-300,behavior:'smooth'}) 
         }
     }
+
+const pages=[]
+for(let i=1;i<=Math.ceil(count/12);i++){
+  pages.push(i)
+}
+
   return (
     <div className={`min-h-[12rem] md:min-h-[40rem] ${ali_type==='row'?'hidden md:block':''}`}>
       {loading?
@@ -197,13 +207,15 @@ const Addcart=async(prod,type,index)=>{
       </div>:''}
        {
           ali_type!=='row'&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
-          <button className={`cursor-pointer  ${prev?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={prev?false:true} onClick={() =>{ loadPage(prev);}}>
-        Previous
-      </button>
-
-      <button className={`cursor-pointer  ${next?'hover:text-blue-500 text-black':'text-gray-400'}`} disabled={next?false:true} onClick={() =>{ loadPage(next);}}>
-        Next
-      </button>
+          {
+            pages.map((pg)=>{
+              return <button key={pg} onClick={()=>{
+                setpagenum(pg)
+                  loadPage(pg)
+                
+              }} className={` hover:bg-emerald-600 text-white font-bold rounded-full p-1 md:px-3 md:p-2 ${!pagenum?pg===1?'bg-gray-400':'bg-emerald-400':''} ${pagenum===pg?'bg-gray-400':'bg-emerald-400'} `}>{pg}</button>
+            })  
+          }
 
         </div>
 }
