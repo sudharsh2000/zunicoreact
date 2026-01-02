@@ -5,7 +5,7 @@ import Navbar from './Components/Navbar'
 import Homepage from './Pages/Homepage'
 
 import SignupPage from './Pages/Signup'
-import { BrowserRouter,Routes,Route, useNavigate } from 'react-router-dom'
+import { BrowserRouter,Routes,Route, useNavigate, Navigate } from 'react-router-dom'
 import Signin from './Pages/Signin'
 import AdminLogin from './Pages/AdminLogin'
 import AdminHome from './Pages/AdminHome'
@@ -94,7 +94,10 @@ useEffect(() => {
       <Route path="/signup" element={ <SignupPage/>} />
       <Route path="/signin" element={ <Signin/>} />
       <Route path="/admin/signin" element={ <AdminLogin/>} />
-
+     <Route
+        path="/admin"
+        element={<Navigate to="/admin/dashboard" replace />}
+      />
       <Route path="/admin/dashboard" element={<AdminHome/>}/>
 
       <Route path='/detail/:id' element={<ProductDetail/>} />

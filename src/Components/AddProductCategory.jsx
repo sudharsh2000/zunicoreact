@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { LoaderCircle } from 'lucide-react'
 import loadingimg from '../assets/loadingimg.png'
 function AddProductCategory({edititem,setAdditem}) {
-    console.log('edititem',edititem)
+    
         const fileref = useRef(null)
         const [resetTrigger, setTrigger] = useState(false)
           const [images, setImages] = useState([])
@@ -20,32 +20,46 @@ const CategoryFormdata = new FormData()
             CategoryFormdata.append('image', category.image)
    
    
-    const saveCategory = async () => {
+const saveCategory = async () => {
 
-        if (validationCategory()) {
-            try {
-                setloading(true)
-                let res=''
-                if(edititem){
-         res= await api.patch(`${categoryapi}${edititem.id}/`, CategoryFormdata, { withCredentials: true });
-                }
-                else{
-            res = await api.post(categoryapi, CategoryFormdata, { withCredentials: true });
-                }
-                
-                
-                setloading(false)
-                clearfunction();
-             toast.success('Added')
-             setAdditem(false)
-            }
-            catch (er) {
-               
-                setloading(false)
-                toast.error('Some error occured')
-            }
-        }
+  if (!validationCategory()) return;
+
+  try {
+    setloading(true)
+
+    const CategoryFormdata = new FormData();
+    CategoryFormdata.append("name", category.name);
+
+    // ✅ image only if user selected new one
+    if (category.image instanceof File) {
+      CategoryFormdata.append("image", category.image);
     }
+
+    let res;
+    if (edititem) {
+      res = await api.patch(
+        `${categoryapi}${edititem.id}/`,
+        CategoryFormdata,
+        { withCredentials: true }
+      );
+    } else {
+      res = await api.post(
+        categoryapi,
+        CategoryFormdata,
+        { withCredentials: true }
+      );
+    }
+
+    setloading(false);
+    clearfunction();
+    toast.success(edititem ? "Updated" : "Added");
+    setAdditem(false);
+
+  } catch (er) {
+    setloading(false);
+    toast.error("Some error occurred");
+  }
+};
      const clearfunction = () => {
         
             setcategory({

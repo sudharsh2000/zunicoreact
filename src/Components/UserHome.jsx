@@ -1,7 +1,7 @@
-import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, BookOpenText, ChevronRight, Heart, LoaderCircle, LucideShoppingCart, Power, Store, User2Icon, UserCircle2Icon, UserCircleIcon } from 'lucide-react'
+import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, BookOpenIcon, BookOpenText, ChevronRight, Heart, LoaderCircle, LucideShoppingCart, Power, Store, User2Icon, UserCircle2Icon, UserCircleIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import api from '../Redux/Interceptor'
-import { Logoutapi, usersapi } from '../Redux/api'
+import { AddressApi, Logoutapi, usersapi } from '../Redux/api'
 import LoadingScreen from './LoadingPage'
 import { useAuth } from '../Redux/AuthProvider'
 import { toast } from 'react-toastify'
@@ -22,8 +22,10 @@ function UserHome() {
     const [updateloading,setUpdateLoading]=useState(false)
     const {userInfo,logout,login}=useAuth()
     const navigate=useNavigate()
-    const [profiletyepe,setProfiletype]=useState('useredit')
-
+    const urlvalue=new URLSearchParams(location.search)
+    const tab=urlvalue.get('tab')
+    const [profiletyepe,setProfiletype]=useState(tab ||'useredit')
+    const[addresses,setAddresses]=useState([])  
      const validation=()=>{
         const email_expression = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let statement=true;
@@ -76,6 +78,22 @@ function UserHome() {
         }
         loaduser();
     },[userInfo?.userid])
+
+    useEffect(()=>{
+        const loadaddresses=async()=>{
+            try{
+                if(userInfo?.userid){
+                    const res=await api.get(`${AddressApi}?user=${userInfo.userid}`,{withCredentials:true})
+                    setAddresses(res.data)
+                    console.log(res.data)   
+                }
+            }
+            catch(er){
+                console.error(er)
+            }
+        }
+        loadaddresses()
+    },[userInfo?.userid])
     const updateUser=async()=>{
        if(validation()) {
         setUpdateLoading(true)
@@ -124,7 +142,7 @@ console.error('logourt error')
 
         {
             loading?<LoadingScreen/>:
-       <div className='w-full h-[80vh] flex justify-center  flex-col md:flex-row gap-2 md:gap-[3rem] md:p-5'>
+       <div className='w-full h-[100vh] md:h-[85vh] flex justify-center items-center  flex-col md:flex-row gap-2 md:gap-[3rem] md:p-5'>
         <div className=' hidden md:flex w-[20%] h-[100%] gap-3 md:gap-[3rem] justify-center items-center   flex-col   '>
             <div className='bg-[#ffffff4b] rounded-lg h-[12%] shadow-xl  px-2 gap-8 w-[100%] flex justify-center items-center'>
             <img src={man} className='h-[85%] w-[20%] text-emerald-600  '/>
@@ -135,13 +153,13 @@ console.error('logourt error')
                     <div className='w-[20%] h-[100%] flex justify-center items-center '>
                         <UserCircleIcon className={`h-[100%] hover:text-sky-600 w-[60%] cursor-pointer ${profiletyepe==='useredit'?'text-sky-300':'text-emerald-600'}   `}/>
                     </div>
-                    <h2 onClick={()=>setProfiletype('useredit')} className={`text-xl  hover:text-sky-600 cursor-pointer font-semibold w-[80%] font-serif ${profiletyepe==='useredit'?'text-sky-300':'text-gray-500'} `}>Profile information</h2>
+                    <h2 onClick={()=>{setProfiletype('useredit'); navigate('/profile?tab=useredit')}} className={`text-xl  hover:text-sky-600 cursor-pointer font-semibold w-[80%] font-serif ${profiletyepe==='useredit'?'text-sky-300':'text-gray-500'} `}>Profile information</h2>
                 </div>
                 <div className='flex gap-4 w-[100%] px-2 justify-center items-center  '>
                     <div className='w-[20%] h-[100%] flex justify-center items-center '>
                         <BookOpenText className={`h-[100%] hover:text-sky-600 cursor-pointer w-[60%] ${profiletyepe==='address'?'text-sky-300':'text-emerald-600'}   `}/>
                     </div>
-                    <h2 onClick={()=>setProfiletype('address')} className={ `text-xl text-gray-500 cursor-pointer hover:text-sky-600 font-semibold w-[80%] font-serif ${profiletyepe==='address'?'text-sky-300':'text-gray-500'}`}>Manage Address</h2>
+                    <h2 onClick={()=>{setProfiletype('address'); navigate('/profile?tab=address')}} className={ `text-xl text-gray-500 cursor-pointer hover:text-sky-600 font-semibold w-[80%] font-serif ${profiletyepe==='address'?'text-sky-300':'text-gray-500'}`}>Manage Address</h2>
                 </div>
                 <div className='flex gap-4 w-[100%] px-2 justify-center items-center  '>
                     <div className='w-[20%] h-[100%] flex justify-center items-center '>
@@ -152,9 +170,9 @@ console.error('logourt error')
                 </div>
             </div>
         </div>
-          <div className=' w-[100%] h-[50%] md:h-[100%] md:w-[60%] gap-3 md:gap-[3rem] flex justify-center p-3 md:p-4  flex-col items-center md:rounded-xl shadow-xl bg-white '>
-                        
-                        <div className='w-[100%] md:w-[70%] flex flex-col  justify-center gap-7 md:gap-[4rem]'>
+          <div className=' w-[100%] h-[50%] md:h-[100%] md:w-[60%] gap-3 md:gap-[3rem] flex justify-center items-center  p-3 md:p-4  flex-col md:rounded-xl shadow-xl bg-white '>
+                 {profiletyepe==='useredit'?      
+                        <div className='w-[100%] md:w-[70%] flex flex-col h-full  justify-center gap-7 md:gap-[4rem]'>
                             <div className='flex flex-row justify-around items-center gap-3 md:gap-5'>
                                 <p className='text-xs md:text-lg font-medium w-[30%] '>Username </p>
                                 <p> :</p>
@@ -189,12 +207,46 @@ console.error('logourt error')
                 <LoaderCircle  className='text-yellow-600 w-[2rem] h-[2rem] animate-spin'/>
                 </div>}
                             </div>
+                        </div>:
+                        profiletyepe==='address'?
+                    <div className='md:w-[100%] h-[100%] flex px-2 md:px-5 flex-col'>
+                        <div className='w-[100%] md:w-[100%] md:h-[10%] flex p-2 md:p-3 md:px-4 rounded-lg shadow-xl  justify-between gap-7 md:gap-[4rem]'>
+                            <h2 className='text-[10px] md:text-2xl font-medium text-center text-[#05162fb9]'>Add new Address</h2>
+                            <button onClick={()=>navigate('/address')} className='w-[10rem] text-[10px] md:w-[15rem] bg-[#1c600f63] p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800 flex justify-center items-center gap-2'> <ArrowDownRight className='w-[1.2rem] h-[1.2rem]'/> Add Address</button>
                         </div>
+                        <div className='w-[100%] md:w-[100%] flex flex-col h-[100%] md:h-[90%] justify-start gap-7 md:gap-[2rem] mt-5 overflow-y-auto'>
+                            {
+                                addresses.map((addr)=>{ 
+                                    return <div key={addr.id} className='w-[100%] md:w-[100%] rounded-lg shadow-xl  flex p-2 md:p-3 md:px-4  justify-between gap-3 md:gap-[1rem]'>
+                                    <div className='flex flex-col gap-2 md:gap-3'>
+                                        <h2 className='text-xs text-gray-600 md:text-xl font-semibold '> {addr.address_type} </h2>
+                                       
+                                        <p className='text-[9px] md:text-base '> {addr.house_name} ,{addr.landmark} ,{addr.street}  </p>
+                                        <p className='text-[9px] md:text-base '> {addr.city} ,{addr.pincode} </p>
+                                         <p className=' text-[9px] md:text-base '> {addr.district} ,{addr.state} </p>
+                                        <p className=' text-[9px] md:text-base '> Mobile : {addr.phone} </p>
+                                    </div>
+                                    <div className='flex flex-col justify-center items-center gap-3 md:gap-5'>
+                                        <button onClick={()=>navigate(`/editaddress/${addr.id}`)} className='w-[3rem] md:w-[10rem] text-[10px] md:text-lg bg-blue-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-blue-800'>Edit</button>
+                                        <button className='w-[3rem] md:w-[10rem] text-[10px] md:text-lg bg-red-600 p-2 text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Delete</button>
+                                    </div>
+                                </div>
+                                })
+                            }
+                            </div>
+                        </div>
+                        :''}
 
                     </div>
+                    
+
                     <div className=' md:hidden w-[100%] h-[50%] md:h-auto md:w-[60%] gap-3 md:gap-[3rem] flex py-5 items-center p-3 md:p-4  flex-col  rounded-xl shadow-xl bg-white '>
                         
                         <div className='w-[100%] md:w-[60%] flex flex-col  gap-6 md:gap-9 p-2'>
+                          <div onClick={()=>{setProfiletype('address'); navigate('/profile?tab=address')}} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
+                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Manage address </p>
+                                <BookOpenIcon className='text-yellow-600 w-[20%]'/>
+                            </div>
                             <div onClick={()=>navigate('/orders')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Orders </p>
                                 <Store className='text-yellow-600 w-[20%]'/>

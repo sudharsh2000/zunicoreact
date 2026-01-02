@@ -112,12 +112,21 @@ const Addcart=async(prod,type,index)=>{
   }
   console.log(Cartdata)
   try{
+
   
  if(quantityTocart[index]===1&&type==='dec'){
-  const res=await addTocart(Cartdata,'delete',carts[index].id)
+  console.log(prod)
+  console.log(carts)
+  carts?.forEach(async element => {
+    if(element.Product.id===prod.id){
+     const res=await addTocart(Cartdata,'delete',element.id)
+    }
+    
+  });
+  
  }
  else{
-
+console.log('Y')
   const res=await addTocart(Cartdata,'post',userInfo.userid)
    console.log(res)
  }
@@ -130,6 +139,7 @@ const Addcart=async(prod,type,index)=>{
   
   catch(er){
     console.error(er)
+    setcartpopup({...cartpopup,[index]:false})
   }
 
 }
@@ -206,14 +216,14 @@ for(let i=1;i<=Math.ceil(count/12);i++){
         </div>
       </div>:''}
        {
-          ali_type!=='row'&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
+          ali_type!=='row'&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg py-2 w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
           {
             pages.map((pg)=>{
-              return <button key={pg} onClick={()=>{
+              return <button key={pg} onClick={pagenum===pg?'':()=>{
                 setpagenum(pg)
                   loadPage(pg)
                 
-              }} className={` hover:bg-emerald-600 text-white font-bold rounded-full p-1 md:px-3 md:p-2 ${!pagenum?pg===1?'bg-gray-400':'bg-emerald-400':''} ${pagenum===pg?'bg-gray-400':'bg-emerald-400'} `}>{pg}</button>
+              }} className={` hover:bg-emerald-600 text-white font-bold rounded-full  py-1 px-2 md:px-3 md:p-2 ${!pagenum?pg===1?'bg-gray-400':'bg-emerald-400':''} ${pagenum===pg?'bg-gray-400':'bg-emerald-400'} `}>{pg}</button>
             })  
           }
 

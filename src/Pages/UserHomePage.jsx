@@ -10,9 +10,9 @@ function UserHomePage() {
   const navigate=useNavigate()
   useEffect(()=>{
     if(!userInfo?.userid){
-      navigate('/signin')
+      navigate('/admin/signin')
     }
-  },[userInfo,login])
+  },[userInfo?.userid,login])
   return (
     <div className='min-h-[100vh] h-auto bg-gradient-to-r from-amber-100 to-blue-300 '>
         <Navbar/>

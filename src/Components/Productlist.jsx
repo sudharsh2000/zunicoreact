@@ -113,7 +113,7 @@ const Addcart=async(products)=>{
                 </div>
 
             </div>
-            <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] w-[100%] md:w-auto rounded-sm flex flex-wrap justify-center items-start flex-row md:flex-col bg-white'>
+            <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] w-[100%] md:w-auto rounded-sm flex flex-wrap  flex-row md:flex-col bg-white'>
              {loading?
              <div className='h-[90vh]'><LoadingScreen /></div>: products.length>0? products.map((item)=>{
 return <div  key={item.id} className='border-1 md:border-0 rounded-xl md:shadow-xl w-[50%] h-[18rem] md:h-auto md:w-[100%]  p-1 md:p-5 min-h-[9rem] border-gray-300 flex-col md:flex-row flex justify-center md:justify-around'>
@@ -145,13 +145,11 @@ return <div  key={item.id} className='border-1 md:border-0 rounded-xl md:shadow-
              </div>
              
              
-             }   
-               
-               
-                <div className='bg-[#ffffffc8] rounded-lg w-full py-1 md:py-2 xl shadow-gray-400 shadow-lg my-2 md:my-4 md:px-[1rem]'>
+             }     
+            {pages.length>1&&   <div className='bg-[#ffffffc8] rounded-lg w-full py-1 md:py-2 xl shadow-gray-400 shadow-lg my-2 md:my-4 md:px-[1rem]'>
               <div className='flex justify-center gap-2 md:gap-4'>
                 {pages.map((pg)=>{
-                  return <button key={pg} onClick={()=>{
+                  return <button key={pg} onClick={pagenum===pg?'':()=>{
                     let val=''
                     if(categoryfilter){
                       val=`?category=${categoryfilter}&page=${pg}&ordering=${sort}`
@@ -163,11 +161,11 @@ return <div  key={item.id} className='border-1 md:border-0 rounded-xl md:shadow-
                         val=`?search=`
                       }
                     setpagenum(pg)
-                    Loadapi(pg)}} className={`mx-1 md:mx-2 shadow-lg py-1 md:py-2 px-2 md:px-4 rounded-full ${!pagenum?pg===1?'bg-gray-400':'bg-emerald-400':''} ${pagenum===pg?'bg-gray-400 text-white':'bg-emerald-500 text-white'}  font-bold text-sm md:text-lg hover:text-blue-100`}>{pg}</button>
+                    Loadapi(pg)}} className={`mx-1 min-w-[3rem] md:mx-2 shadow-lg py-1 md:py-2 px-8 md:px-4 rounded-full ${!pagenum?pg===1?'bg-gray-400':'bg-emerald-400':''} ${pagenum===pg?'bg-gray-400 text-white':'bg-emerald-500 text-white'}  font-bold text-sm md:text-lg cursor-pointer hover:text-blue-100`}>{pg}</button>
                 })}
               </div>
 
-            </div>
+            </div>}
 
             </div>
           

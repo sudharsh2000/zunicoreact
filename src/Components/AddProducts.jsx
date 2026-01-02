@@ -68,6 +68,8 @@ function AddProducts({setAdditem,edititem}) {
 
 
       const saveProducts = async () => {
+        if(!validation()) return;
+        
         const productFormdata = new FormData
             productFormdata.append('name', products.name)
             productFormdata.append('category', products.category)
@@ -77,6 +79,9 @@ function AddProducts({setAdditem,edititem}) {
             productFormdata.append('discount', products.discount || 0)
             productFormdata.append('stock', products.stock)
             productFormdata.append('main_image', products.image)
+            if(products.image instanceof File){
+                productFormdata.append('main_image', products.image)
+            }
             images?.forEach((img) => {
         
                 productFormdata.append('images', img)

@@ -112,7 +112,7 @@ useEffect(()=>{
            {!accesstoken?
            <li onClick={()=>navigate('/signin')} className='relative p-2 rounded-md border-gray-700 hover:shadow-lg hover:border-1  text-white font-extrabold text-md  cursor-pointer '>Log in</li>:
    
-           <li onMouseEnter={()=>setopen(true)} onMouseLeave={()=>setopen(false)} className='relative p-2 rounded-md border-gray-700 hover:shadow-lg hover:border-1  text-white font-extrabold text-md  cursor-pointer '> 
+           <li onMouseEnter={()=>setopen(true)} onMouseLeave={()=>setopen(false)} className='relative p-2 rounded-md border-gray-700 hover:shadow-lg hover:border-1  text-white font-medium text-md  cursor-pointer '> 
                 <div className='flex gap-1 '>
 
                 
@@ -121,41 +121,16 @@ useEffect(()=>{
                 
                 <ChevronDown/>
                 </div>
-    {open&&
-
-<div onMouseEnter={()=>setopen(true)}  className=' w-[11rem] absolute z-50 bg-white shadow-lg rounded-lg top-[2.6rem] right-[0rem]'>
-        <ul className='text-black  font-medium flex flex-col py-4 justify-center items-center '>
-            <li onClick={()=>{
-                console.log(userInfo)
-                userInfo.superuser?navigate('/admin/dashboard'):navigate('/profile')}} className='w-full text-center flex justify-center gap-2 md:gap-0 px-2  items-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' >
-                    <div className='w-[50%] flex justify-center'>
-                        <UserCircle/> 
-                        </div>
-                        <div className='w-[50%] flex justify-start'>Profile</div>
-                    </li>
-            <li onClick={()=>navigate('/orders')} className='w-full text-center flex justify-center gap-2 md:gap-0 px-2 items-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'><div className='w-[50%] flex justify-center'>
-                        <StoreIcon/> 
-                        </div>
-                        <div className='w-[50%] flex justify-start'>Orders</div></li>
-            <li onClick={()=>navigate('/wishlist')} className='w-full text-center  transform-3d transition-transform flex justify-center gap-2 md:gap-0 px-2  items-center hover:bg-gray-100 py-2.5 cursor-pointer'>
-                <div className='w-[50%] flex justify-center'>
-                        <Heart/> 
-                        </div>
-                        <div className='w-[50%] flex justify-start'>Wishlist</div>
-            </li>
-
-        </ul>
-    </div>
-}
+    
         
                  </li>
                  }
  {accesstoken&&          
-<li onClick={()=>navigate('/cart')} className='text-white font-extrabold text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
+<li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
                <Bell/> 
             </li>}
 {accesstoken&&
-<li onClick={()=>navigate('/cart')} className='text-white font-extrabold text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
+<li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
                <ShoppingCart/> 
             </li>
 
@@ -180,7 +155,36 @@ useEffect(()=>{
     </div>
 }
             </li>
+             {open&&
+<div onMouseLeave={()=>setopen(false)} onMouseEnter={()=>setopen(true)} className='w-[18rem] absolute top[13%] right-[6%] pt-[5%]'>
+<div   className=' w-[16rem] absolute z-50 bg-white shadow-lg rounded-xl top-[77%]  right-[8%]'>
+        <ul className='text-black  font-medium flex flex-col py-4 justify-center items-center '>
+            <li onClick={()=>{
+                console.log(userInfo)
+                userInfo.superuser?navigate('/admin/dashboard'):navigate('/profile')}} className='w-full text-center flex justify-center gap-2 md:gap-0 px-2  items-center transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer' >
+                    <div className='w-[40%] flex justify-start px-1 md:px-3'>
+                        <UserCircle/> 
+                        </div>
+                        <div className='w-[60%] flex justify-start'>Profile</div>
+                    </li>
+            <li onClick={()=>navigate('/orders')} className='w-full text-center flex justify-center gap-2 md:gap-0 px-2 items-center  transform-3d transition-transform  hover:bg-gray-100 py-2.5 cursor-pointer'>
+                <div className='w-[40%] flex justify-start px-1 md:px-3'>
+                        <StoreIcon/> 
+                        </div>
+                        <div className='w-[60%] flex justify-start'>Orders</div></li>
+            <li onClick={()=>navigate('/wishlist')} className='w-full text-center  transform-3d transition-transform flex justify-center gap-2 md:gap-0 px-2  items-center hover:bg-gray-100 py-2.5 cursor-pointer'>
+                <div className='w-[40%] flex justify-start px-1 md:px-3'>
+                        <Heart/> 
+                        </div>
+                        <div className='w-[60%] flex justify-start'>Wishlist</div>
+            </li>
+
         </ul>
+    </div>
+    </div>
+}
+        </ul>
+       
        
 
  

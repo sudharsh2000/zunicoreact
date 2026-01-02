@@ -7,7 +7,7 @@ export const addTocart=async(cartdata,apitype,id)=>{
     try{
         let res='';
         let retundata=''
-       
+       console.log(apitype)
         if(apitype==='post'){
             console.log(cartdata)
          res=await api.post(CartApi,cartdata,{withCredentials:true})
@@ -19,6 +19,7 @@ export const addTocart=async(cartdata,apitype,id)=>{
              retundata=res.data
         }
         if(apitype==='delete'){
+            console.log('delete call')
             res=await api.delete(`${CartItemApi}${id}/`) 
              retundata=res.status
         }
