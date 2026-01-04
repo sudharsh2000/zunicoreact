@@ -178,14 +178,14 @@ for(let i=1;i<=Math.ceil(count/12);i++){
           ali_type==='row'&&
           <button onClick={()=>scrollfn('right')}  className='hidden md:block  bg-[#ffff] absolute right-[1rem] md:right-[3.5rem]  w-[1.6rem] h-[2rem] md:w-[2rem] md:h-[6rem] rounded-lg z-index:10 hover:bg-emerald-100 hover:scale-125 duration-300 transform-3d  transition-transform  shadow-2xl'>&#9654;</button>
 }
-        <div ref={ref} className={`flex    md:mr-[3rem] md:ml-[4rem] p-2 md:p-4 gap-[.5rem] flex-wrap ${ali_type==='row'?'overflow-x-auto md:gap-[6.5rem] md:flex-nowrap ':'md:flex-wrap md:gap-[4.5rem]'}  flex-1 whitespace-nowrap no-scrollbar`}>
+        <div ref={ref} className={`flex    md:mr-[3rem] md:ml-[4rem] py-2 md:p-4 gap-[.2rem] flex-wrap ${ali_type==='row'?'overflow-x-auto md:gap-[6.5rem] md:flex-nowrap ':'md:flex-wrap md:gap-[4.5rem]'}  flex-1 whitespace-nowrap no-scrollbar`}>
     
     
         {products &&
         products.map((product,i)=>{
         
-          return <div key={product.id}  className={`flex outline-0 border-0 flex-nowrap max-h-[17rem]   gap-4 rounded-x w-[46%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]': 'px-2 md:px-8 md:w-[28%] md:max-h-[30rem] lg:max-h-[40rem]  '}  m-1 rounded-xl shadow-2xl md:shadow-none justify-between p-2  items-center flex-col bg-gradient-to-r cursor-pointer hover:shadow-2xl hover:scale-105 transition-transform`}>
-          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[70%] h-[50%] md:h-[50%] md:w-[25rem] '/>
+          return <div key={product.id}  className={`flex bg-blue-100 md:bg-white  outline-0 border-0 flex-nowrap max-h-[17rem]   gap-4 rounded-x w-[49%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]': 'px-2 md:px-8 md:w-[28%] md:max-h-[30rem] lg:max-h-[40rem]  '}  m-0 rounded-xl shadow-2xl md:shadow-none justify-between p-2  items-center flex-col bg-gradient-to-r cursor-pointer hover:shadow-2xl hover:scale-105 transition-transform`}>
+          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[25rem] h-[8rem] md:h-[10rem] md:w-[25rem] '/>
          
 <h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words  text-[10px] truncate  md:text-xl  hover:text-black '>{product.name}</h2>
             

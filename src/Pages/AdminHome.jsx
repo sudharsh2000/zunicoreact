@@ -7,15 +7,15 @@ import { useNavigate } from 'react-router'
 import { Flashcontext } from '../App'
 
 function AdminHome() {
-  const {userInfo}=useAuth()
+  const {userInfo,loading}=useAuth()
   const navigate=useNavigate()
-  const {flash,setFlash}=useContext(Flashcontext)
-  useEffect(()=>{
-    console.log(userInfo?.userid)
-    if (!flash&&!userInfo?.userid) {
-    navigate('/admin/signin');
-  }
-  },[userInfo?.userid])
+ useEffect(() => {
+    if (!loading && !userInfo?.userid) {
+      navigate('/admin/signin');
+    }
+  }, [loading, userInfo?.userid]);
+
+  if (loading) return null; 
   return (
     <div className='min-h-[100vh] md:pb-[1rem] bg-gradient-to-r from-amber-100 to-blue-300'>
         <Navbar/>

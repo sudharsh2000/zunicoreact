@@ -33,37 +33,33 @@ function App() {
     const [flash,setFlash]=useState(false)
   const auth=useAuth()
   
-  const {login,logout}=useAuth()
-const {userInfo}=useAuth()
-useEffect(()=>{
-
- 
- 
-
-const load=async()=>{
-try{
-   setFlash(true)
-  const res=await api.post(refreshapi,{},{withCredentials:true})
-
-console.log(res)
-  const decode=res.data.user;
   
-  login(res.data.access_token, {
-            'username':decode.username,
-        'userid':decode.userid,
-        'superuser':decode.is_superuser
-            
-          });
-setFlash(false)
-}
-catch(e){
-console.error(e)
-setFlash(false)
-}
+const {userInfo}=useAuth()
+const { login,logout, setLoading } = useAuth();
 
+useEffect(() => {
+  const load = async () => {
+    try {
+      setFlash(true);
 
-}
-load();
+      const res = await api.post(refreshapi, {}, { withCredentials: true });
+
+      const decode = res.data.user;
+
+      login(res.data.access_token, {
+        username: decode.username,
+        userid: decode.userid,
+        superuser: decode.is_superuser,
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setFlash(false);
+      setLoading(false); // ✅ VERY IMPORTANT
+    }
+  };
+
+  load();
 },[])
 useEffect(() => {
   setupInterceptors(auth);

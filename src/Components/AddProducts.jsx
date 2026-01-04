@@ -78,7 +78,7 @@ function AddProducts({setAdditem,edititem}) {
             productFormdata.append('cost_price', products.cost || 0)
             productFormdata.append('discount', products.discount || 0)
             productFormdata.append('stock', products.stock)
-            productFormdata.append('main_image', products.image)
+          
             if(products.image instanceof File){
                 productFormdata.append('main_image', products.image)
             }

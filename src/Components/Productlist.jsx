@@ -40,8 +40,12 @@ function Productlist() {
         if(search){
           val=`?search=${search}&ordering=${sort}`
         }
+        else{
+          val=`?ordering=${sort}`
+        }
         SetLoading(true)
-        const res=await api.get(`${productapi}${val}?page=${pagenum}`,{withCredentials:true})
+        console.log(`${productapi}${val}&page=${pagenum}`)
+        const res=await api.get(`${productapi}${val}&page=${pagenum}`,{withCredentials:true})
         console.log(res.data)
         setcount(res.data.count)
         setproducts(res.data.results)

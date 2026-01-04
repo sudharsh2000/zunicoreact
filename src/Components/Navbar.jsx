@@ -157,7 +157,7 @@ useEffect(()=>{
             </li>
              {open&&
 <div onMouseLeave={()=>setopen(false)} onMouseEnter={()=>setopen(true)} className='w-[18rem] absolute top[13%] right-[6%] pt-[5%]'>
-<div   className=' w-[16rem] absolute z-50 bg-white shadow-lg rounded-xl top-[77%]  right-[8%]'>
+<div   className=' w-[16rem] absolute transition-opacity duration-300 z-50 bg-white shadow-lg rounded-xl top-[77%]  right-[8%]'>
         <ul className='text-black  font-medium flex flex-col py-4 justify-center items-center '>
             <li onClick={()=>{
                 console.log(userInfo)
