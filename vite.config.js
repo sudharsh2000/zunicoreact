@@ -17,7 +17,7 @@ export default defineConfig({
         description: 'A sample PWA React application',
 
         theme_color: '#ffffff',
-        background_color: '#84C2A4',
+        background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
 
