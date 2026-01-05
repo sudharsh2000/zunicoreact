@@ -119,7 +119,7 @@ const Addcart=async(products)=>{
             </div>
             <div className='my-2 md:mx-8 p-1 md:p-5 min-h-[95vh] w-[100%] md:w-auto rounded-sm flex flex-wrap  flex-row md:flex-col bg-white'>
              {loading?
-             <div className='h-[90vh]'><LoadingScreen /></div>: products.length>0? products.map((item)=>{
+             <div className='h-[90vh] w-full flex justify-center items-center'><LoadingScreen /></div>: products.length>0? products.map((item)=>{
 return <div  key={item.id} className='border-1 md:border-0 rounded-xl md:shadow-xl w-[50%] h-[18rem] md:h-auto md:w-[100%]  p-1 md:p-5 min-h-[9rem] border-gray-300 flex-col md:flex-row flex justify-center md:justify-around'>
 
                     <div  className='flex w-[100%] md:w-[70%] flex-col md:flex-row gap-2 md:gap-[9rem] px-2 md:px-[2rem] justify-center md:justify-around items-center'>

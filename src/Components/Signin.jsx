@@ -38,18 +38,20 @@ function SigninPage() {
       const res=await axios.post(signinapi,signdata,{withCredentials:true})
       console.log(res.data.access_token)
       const decode=res.data.user;
-     
-      login(res.data.access_token,{
-        'username':decode.username,
+     console.log('decoded',decode)
+    login(res.data.access_token, {
+            'username':decode.username,
         'userid':decode.userid,
+        
         'mobile':decode.mobile,
         'email':decode.email,
-        'superuser':false
-      })
+        'superuser':decode.is_superuser
+            
+          });
 
   
 
-      // console.log(userInfo)
+   
        navigate('/')
       }
       catch(er){
