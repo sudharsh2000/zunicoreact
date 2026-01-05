@@ -202,12 +202,27 @@ function AddProducts({setAdditem,edititem}) {
                                     <p></p>
                                 </div>
                                 <div className='w-full gap-5'>
-                                    <input type="number" value={products.discount} onChange={(e) => setProducts({ ...products, discount: e.target.value ? parseFloat(e.target.value) : '' })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Product discount' />
+                                    <input type="text"
+  pattern="[0-9]*"
+  inputmode="numeric"value={products.discount} onChange={(e) =>
+  {
+    const val = e.target.value;
+    if (val === "" || Number(val) >= 0) {
+   setProducts({ ...products, discount: e.target.value ? parseFloat(e.target.value) : '' })
+}
+   } }className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Product discount' />
 
                                     <p></p>
                                 </div>
                                 <div className='w-full gap-5'>
-                                    <input type="number" value={products.stock} onChange={(e) => setProducts({ ...products, stock: e.target.value ? parseFloat(e.target.value) : '' })} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Product Stock' />
+                                    <input type="text"
+  pattern="[0-9]*"
+  inputmode="numeric" value={products.stock} onChange={(e) =>{
+        const val = e.target.value;
+    if (val === "" || Number(val) >= 0) {
+setProducts({ ...products, stock: e.target.value ? parseFloat(e.target.value) : '' })
+    }
+   }} className='w-full shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] md:h-[2.5rem] ' Placeholder='Product Stock' />
                                     <p></p>
                                 </div>
                                 <div className='w-full  gap-5'>

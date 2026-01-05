@@ -125,10 +125,10 @@ useEffect(()=>{
         
                  </li>
                  }
- {accesstoken&&          
+ {/* {accesstoken&&          
 <li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
                <Bell/> 
-            </li>}
+            </li>} */}
 {accesstoken&&
 <li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
                <ShoppingCart/> 
@@ -144,7 +144,7 @@ useEffect(()=>{
 
 <div onMouseEnter={()=>setopen2(true)}  className=' w-[10rem] absolute z-50 bg-white shadow-lg rounded-lg top-[2rem] right-[0rem]'>
         <ul className='text-black flex flex-col p-4 justify-center items-center gap-3.5'>
-            <li className='transform-3d transition-transform hover:scale-115 cursor-pointer' >More</li>
+            {/* <li className='transform-3d transition-transform hover:scale-115 cursor-pointer' >More</li> */}
             <li className='transform-3d transition-transform hover:scale-115 cursor-pointer'>About</li>
             <li className='transform-3d transition-transform hover:scale-115 cursor-pointer'>Help</li>
          
