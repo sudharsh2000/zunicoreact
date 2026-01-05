@@ -10,7 +10,7 @@ function UserHomePage() {
   const navigate=useNavigate()
   useEffect(()=>{
     if(!userInfo?.userid){
-      navigate('/admin/signin')
+      navigate('/signin')
     }
   },[userInfo?.userid,login])
   return (
