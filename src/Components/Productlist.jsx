@@ -37,7 +37,7 @@ function Productlist() {
         if(category){
         val=`?category=${category}&ordering=${sort}`
         }
-        if(search){
+        else if(search){
           val=`?search=${search}&ordering=${sort}`
         }
         else{
@@ -88,9 +88,9 @@ const Addcart=async(products)=>{
 
 
   return (
-    <div ref={currentref} className='w-full mx-0 my-1 md:mx-3.5 md:my-1 mb-[1rem] '>
+    <div  className='w-full mx-0 my-1 md:mx-3.5 md:my-1 mb-[1rem] '>
 
-            <div  className='flex gap-0 md:gap-[3rem]  md:my-[1rem] md:items-center py-1 md:px-[1rem] flex-between md:justify-start justify-center md:mx-8 rounded-sm shadow-lg bg-white'>
+            <div ref={currentref}  className='flex gap-0 md:gap-[3rem]  md:my-[1rem] md:items-center py-1 md:px-[1rem] flex-between md:justify-start justify-center md:mx-8 rounded-sm shadow-lg bg-white'>
                 <div className='flex w-[50%] md:w-[30%] row gap-1 md:gap-4 justify-center items-center rounded-lg'>
                     <h2 className='font-extrabold text-xs md:text-lg'>Sort by</h2>
                     <select value={sort} onChange={(s)=>setSort(s.target.value)} className='border-1 max-w-[70%] md:w-[100%] border-gray-100 text-xs md:text-lg shadow-lg p-1 md:p-4 rounded-lg'>
