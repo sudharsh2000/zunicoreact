@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import FileUploader from './FileUploader'
 import axios from 'axios'
-import { bannerapi, categoryapi, OrderApi, productapi, usersapi } from '../Redux/api'
+import { bannerapi, categoryapi, notificationApi, OrderApi, productapi, usersapi } from '../Redux/api'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usersave } from '../Redux/UserSlice'
@@ -59,6 +59,14 @@ const ConfirmOrder=async(orderid,nowstatus)=>{
             'order_status':nowstatus
         })
         console.log(res.data)
+
+        const addnotify=await api.post(`${notificationApi}`,{
+            'title':'Order Update',
+            'message':`Your order with Order ID:${res.data.id} has been ${nowstatus}.`,
+            'is_read':false
+        })
+        console.log(addnotify.data)
+        toast.success(`Order ${nowstatus} Successfully`)
     }
     catch(er){
         console.log(er)
@@ -294,7 +302,7 @@ if(userInfo?.userid) {
                                 
                                 }} className=' text-[10px] md:text-base mx-1 md:mx-3 px-2 md:px-4 py-1 md:py-2 bg-red-300 shadow-2xl rounded-lg hover:bg-red-500'>Cancel Order </button> 
                             }
-                            {console.log(orderstatus)}
+                           
                             { 
                                 window==='orders'&&<div className='px-0 md:px-2 py-1 md:py-2 border-blue-400 border-1 shadow-lg rounded-lg'>
                                     <select  onChange={(e)=>setOrderstatus()} className='text-[8px] px-0 md:text-base outline-none border-none'>

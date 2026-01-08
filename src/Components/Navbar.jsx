@@ -5,7 +5,7 @@ import wise from '../assets/wise.png'
 import { useLocation, useNavigate, useSearchParams } from 'react-router'
 import { useAuth } from '../Redux/AuthProvider'
 import axios from 'axios'
-import { Logoutapi, productapi } from '../Redux/api'
+import { Logoutapi, notificationApi, productapi } from '../Redux/api'
 import api from '../Redux/Interceptor'
 function Navbar() {
     const navigate=useNavigate()
@@ -20,6 +20,8 @@ function Navbar() {
     const listref=useRef(null)
     const cururl=useLocation()
     const [username,setusername]=useState('')
+    const [notificationOn,setnotificationOn]=useState(false)
+    const [notificationdata,setnotificationdata]=useState([])
 const logoutfunction=async()=>{
     try{
         const res=axios.post(Logoutapi,{},{withCredentials:true})
@@ -53,6 +55,20 @@ const SearchProducts=async()=>{
 }
 useEffect(()=>{
    setusername(userInfo?.username)
+   const loadnotifications=async()=>{   
+   try{
+    const res=await api.get(`${notificationApi}?username=${userInfo?.username}&is_read=false`)
+    console.log(res.data)
+    setnotificationdata(res.data)
+   
+
+   }
+   catch(e){
+    console.error(e)
+   }
+}
+loadnotifications()
+
 },[userInfo?.username])
 
   return (
@@ -125,10 +141,20 @@ useEffect(()=>{
         
                  </li>
                  }
- {/* {accesstoken&&          
-<li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
+ {accesstoken&&          
+<li onClick={()=>setnotificationOn(true)} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
                <Bell/> 
-            </li>} */}
+            </li>}
+            {notificationOn&&notificationdata.length>0&&
+                <div   className='absolute w-[35%] h-full overflow-x-auto  right-[6.5%] top-[81%] rounded-lg shadow-lg bg-emerald-50 max-h-[22rem] md:h-auto flex flex-col'>
+                    {
+                        notificationdata.map((not,i)=>{
+                            return <p key={i} className={`items-center border-b-1 border-gray-300  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{not.message}</p >
+                        })
+                    }
+
+                </div>
+            }
 {accesstoken&&
 <li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
                <ShoppingCart/> 
