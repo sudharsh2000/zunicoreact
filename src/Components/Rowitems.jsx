@@ -215,8 +215,8 @@ for(let i=1;i<=Math.ceil(count/12);i++){
 
         </div>
       </div>:''}
-       {
-          ali_type!=='row'&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg py-2 w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
+       {console.log(count)}
+          {ali_type!=='row'&&Math.ceil(count/12)>=1&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg py-2 w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
           {
             pages.map((pg)=>{
               return <button key={pg} onClick={pagenum===pg?'':()=>{

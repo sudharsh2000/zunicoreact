@@ -142,19 +142,10 @@ loadnotifications()
                  </li>
                  }
  {accesstoken&&          
-<li onClick={()=>setnotificationOn(true)} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
+<li onClick={()=>navigate('/profile?tab=notification')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
                <Bell/> 
             </li>}
-            {notificationOn&&notificationdata.length>0&&
-                <div   className='absolute w-[35%] h-full overflow-x-auto  right-[6.5%] top-[81%] rounded-lg shadow-lg bg-emerald-50 max-h-[22rem] md:h-auto flex flex-col'>
-                    {
-                        notificationdata.map((not,i)=>{
-                            return <p key={i} className={`items-center border-b-1 border-gray-300  text-center py-1 md:py-3 hover:bg-gray-200 cursor-pointer ${cursor===i?'bg-gray-200':''} `}>{not.message}</p >
-                        })
-                    }
-
-                </div>
-            }
+         
 {accesstoken&&
 <li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
                <ShoppingCart/> 

@@ -22,7 +22,7 @@ function Searchbar() {
     }
   }
   return (
-    <div className='flex justify-center items-center pt-[1rem] md:hidden'>
+    <div className='flex justify-center pl-[.5rem] items-center pt-[1rem] md:hidden'>
 <div className='flex gap-4 w-full'>
    {isSearch&& <button onClick={()=>setSearch(false)}><ArrowLeftIcon/> </button>}
 <div onClick={()=>navigate('/searchsuggest')} className='shadow-lg flex flex-row border-2 w-[98%] h-[2.8rem] rounded-md md:w-[40rem] md:h-[2.5rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>

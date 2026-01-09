@@ -1,7 +1,7 @@
-import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, BookOpenIcon, BookOpenText, ChevronRight, Heart, LoaderCircle, LucideShoppingCart, Power, Store, User2Icon, UserCircle2Icon, UserCircleIcon } from 'lucide-react'
+import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, Bell, BookOpenIcon, BookOpenText, ChevronRight, Heart, LoaderCircle, LucideShoppingCart, Power, Store, User2Icon, UserCircle2Icon, UserCircleIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import api from '../Redux/Interceptor'
-import { AddressApi, Logoutapi, usersapi } from '../Redux/api'
+import { AddressApi, Logoutapi, notificationApi, usersapi } from '../Redux/api'
 import LoadingScreen from './LoadingPage'
 import { useAuth } from '../Redux/AuthProvider'
 import { toast } from 'react-toastify'
@@ -26,6 +26,7 @@ function UserHome() {
     const tab=urlvalue.get('tab')
     const [profiletyepe,setProfiletype]=useState(tab ||'useredit')
     const[addresses,setAddresses]=useState([])  
+    const [notifications,setNotifications]=useState([])
      const validation=()=>{
         const email_expression = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let statement=true;
@@ -83,8 +84,15 @@ function UserHome() {
         const loadaddresses=async()=>{
             try{
                 if(userInfo?.userid){
+                    if(profiletyepe==='address'){
                     const res=await api.get(`${AddressApi}?user=${userInfo.userid}`,{withCredentials:true})
                     setAddresses(res.data)
+                    }
+                    if(profiletyepe==='notification'){
+                        const res=await api.get(`${notificationApi}?username=${userInfo?.username}`)
+                        setNotifications(res.data)
+                        console.log(res.data)
+                    }
                     console.log(res.data)   
                 }
             }
@@ -93,7 +101,7 @@ function UserHome() {
             }
         }
         loadaddresses()
-    },[userInfo?.userid])
+    },[userInfo?.userid,profiletyepe,userInfo?.username])
     const updateUser=async()=>{
        if(validation()) {
         setUpdateLoading(true)
@@ -160,6 +168,12 @@ console.error('logourt error')
                         <BookOpenText className={`h-[100%] hover:text-sky-600 cursor-pointer w-[60%] ${profiletyepe==='address'?'text-sky-300':'text-emerald-600'}   `}/>
                     </div>
                     <h2 onClick={()=>{setProfiletype('address'); navigate('/profile?tab=address')}} className={ `text-xl text-gray-500 cursor-pointer hover:text-sky-600 font-semibold w-[80%] font-serif ${profiletyepe==='address'?'text-sky-300':'text-gray-500'}`}>Manage Address</h2>
+                </div>
+                <div className='flex gap-4 w-[100%] px-2 justify-center items-center  '>
+                    <div className='w-[20%] h-[100%] flex justify-center items-center '>
+                        <Bell className={`h-[100%] hover:text-sky-600 cursor-pointer w-[60%] ${profiletyepe==='notification'?'text-sky-300':'text-emerald-600'}   `}/>
+                    </div>
+                    <h2 onClick={()=>{setProfiletype('notification'); navigate('/profile?tab=notification')}} className={ `text-xl text-gray-500 cursor-pointer hover:text-sky-600 font-semibold w-[80%] font-serif ${profiletyepe==='notification'?'text-sky-300':'text-gray-500'}`}>Notifications</h2>
                 </div>
                 <div className='flex gap-4 w-[100%] px-2 justify-center items-center  '>
                     <div className='w-[20%] h-[100%] flex justify-center items-center '>
@@ -235,7 +249,33 @@ console.error('logourt error')
                             }
                             </div>
                         </div>
-                        :''}
+                        :profiletyepe==='notification'&&
+                        <div className='md:w-[100%] h-[100%] flex px-2 md:px-5 flex-col'>
+                        <div className='w-[100%] md:w-[100%] md:h-[10%] flex p-2 md:p-3 md:px-4   justify-between gap-7 md:gap-[4rem]'>
+                            <h2 className='text-[10px] md:text-2xl font-medium text-center text-[#05162fb9]'>Notifications</h2>
+                           
+                        </div>
+                        <div className='w-[100%] md:w-[100%] flex flex-col h-[100%] md:h-[90%] justify-start gap-7 md:gap-[2rem] mt-5 overflow-y-auto'>
+                            {
+                                notifications.length===0?<h2 className='text-center text-gray-600 font-semibold text-xl'>No Notifications</h2>:
+                                notifications.map((notif)=>{ 
+                                    return <div key={notif.id} className='w-[100%] md:w-[100%] bg-gray-200 rounded-sm shadow-lg  flex p-2 md:p-3 md:px-4  justify-between gap-3 md:gap-[1rem]'>
+                                    <div className='flex flex-col gap-2 md:gap-3'>
+                                        <h2 className='text-xs text-gray-600 md:text-xl font-semibold '> {notif.title} </h2>
+                                       
+                                        <p className='text-[9px] md:text-base '> {notif.message}  </p>
+                                        <p className=' text-[9px] md:text-base '> {new Date(notif.date).toLocaleString()} </p>
+                                       
+                                    </div>
+                                    
+                                </div>
+                                })
+                            }
+                            </div>
+                        </div>
+                        
+                        
+                        }
 
                     </div>
                     

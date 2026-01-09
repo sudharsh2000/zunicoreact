@@ -53,7 +53,7 @@ function Admindashboard() {
     const [itemlist,setlist]=useState()
 
     // Functions Start from here
-const ConfirmOrder=async(orderid,nowstatus)=>{
+const ConfirmOrder=async(orderid,nowstatus,userid)=>{
     try{
         const res=await api.patch(`${OrderApi}${orderid}/`,{
             'order_status':nowstatus
@@ -61,7 +61,8 @@ const ConfirmOrder=async(orderid,nowstatus)=>{
         console.log(res.data)
 
         const addnotify=await api.post(`${notificationApi}`,{
-            'title':'Order Update',
+            'user_id':userid,
+            'title':'Order Update', 
             'message':`Your order with Order ID:${res.data.id} has been ${nowstatus}.`,
             'is_read':false
         })
@@ -291,7 +292,7 @@ if(userInfo?.userid) {
 
                            {window==='pend-orders'&&<button onClick={()=>{
                                 setlist(prev=>prev.filter(it=>it.id!==item.id))
-                                ConfirmOrder(item.id,'Confirmed')
+                                ConfirmOrder(item.id,'Confirmed',item?.user?.id)
                                 
                                 }} className='text-[10px]   md:text-base mx-1 md:mx-3 px-2 md:px-4 py-1 md:py-2 bg-green-300 shadow-2xl rounded-lg hover:bg-green-500 '>Confirm Order </button> 
                        
