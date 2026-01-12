@@ -150,7 +150,7 @@ console.error('logourt error')
 
         {
             loading?<LoadingScreen/>:
-       <div className='w-full h-[100vh] md:h-[85vh] flex justify-center items-center  flex-col md:flex-row gap-2 md:gap-[3rem] md:p-5'>
+       <div className='w-full h-[100vh] md:h-[85vh] flex justify-center  flex-row md:flex-row gap-2 md:gap-[3rem] md:p-5'>
         <div className=' hidden md:flex w-[20%] h-[100%] gap-3 md:gap-[3rem] justify-center items-center   flex-col   '>
             <div className='bg-[#ffffff4b] rounded-lg h-[12%] shadow-xl  px-2 gap-8 w-[100%] flex justify-center items-center'>
             <img src={man} className='h-[85%] w-[20%] text-emerald-600  '/>
@@ -184,14 +184,58 @@ console.error('logourt error')
                 </div>
             </div>
         </div>
-          <div className=' w-[100%] h-[50%] md:h-[100%] md:w-[60%] gap-3 md:gap-[3rem] flex justify-center items-center  p-3 md:p-4  flex-col md:rounded-xl shadow-xl bg-white '>
+         <div className=' md:hidden w-[14%] h-[90%] md:h-auto md:w-[60%] gap-2 md:gap-[3rem] flex py-5 items-center p-1 md:p-4  flex-col  rounded-xl shadow-xl bg-white '>
+                        
+                        <div className='w-[100%] md:w-[60%] flex flex-col  gap-4 md:gap-9 '>
+                          <div onClick={()=>{setProfiletype('useredit'); navigate('/profile?tab=useredit')}} className={`flex flex-col ${profiletyepe==='useredit'?'bg-gray-200':'bg-white'} justify-between items-center gap-1 py-1 md:gap-5 shadow-lg rounded-lg `}>
+                                 <BookOpenIcon className='text-yellow-600 w-[100%]'/>
+                                <p className='text-[9px] md:text-lg font-extrabold w-[80%] '>Profile </p>
+                               
+                            </div>
+                          <div onClick={()=>{setProfiletype('address'); navigate('/profile?tab=address')}} className={`flex flex-col ${tab==='address'?'bg-gray-200':'bg-white'} justify-between items-center gap-1 py-1 md:gap-5 shadow-lg rounded-lg `}>
+                                 <BookOpenIcon className='text-yellow-600 w-[100%]'/>
+                                <p className='text-[9px] md:text-lg font-extrabold w-[80%] '>address </p>
+                               
+                            </div>
+                            <div onClick={()=>{setProfiletype('notification'); navigate('/profile?tab=notification')}} className={`flex flex-col ${tab==='notification'?'bg-gray-200':'bg-white'} justify-between items-center gap-1 py-1 md:gap-5 shadow-lg  rounded-lg `}>
+                               <Bell className='text-yellow-600 w-[100%]'/>
+                                <p className='text-[9px] md:text-lg font-extrabold w-[80%] text-center '>Notify </p>
+                                
+                            </div>
+                            <div onClick={()=>navigate('/orders')} className='flex flex-col justify-between items-center  gap-1 py-1 md:gap-5 shadow-lg  rounded-lg '>
+                                <Store className='text-yellow-600 w-[100%]'/>
+                                <p className='text-[9px] md:text-lg font-extrabold w-[80%] '>Orders </p>
+                                
+                            </div>
+                            <div onClick={()=>navigate('/cart')} className='flex flex-col justify-between items-center gap-1 md:gap-5 shadow-lg py-1  rounded-lg '>
+                               <LucideShoppingCart className='text-yellow-600 w-[100%]'/>
+                                <p className='text-[9px] md:text-lg font-extrabold text-center w-[80%] '>Cart </p>
+                                
+                            </div>
+                            <div onClick={()=>navigate('/wishlist')} className='flex flex-col justify-between items-center gap-1 md:gap-5 shadow-lg py-1  rounded-lg '>
+                                <Heart className='text-yellow-600 w-[100%]'/>
+                                <p className='text-[9px] md:text-lg font-extrabold w-[80%] '>Wishlist </p>
+                                  
+                            </div>
+                            <div onClick={()=>logoutfunction()}  className='flex flex-col justify-between items-center gap-1 md:gap-5 shadow-lg py-1  rounded-lg '>
+                              <Power className='text-yellow-600 w-[100%]'/>
+                                <p className='text-[9px] md:text-lg font-extrabold w-[80%] '>Logout </p>
+                                  
+                            </div>
+                            
+                            
+                            
+                        </div>
+
+                    </div>
+          <div className=' w-[85%] h-[90%] md:h-[100%] md:w-[60%] gap-3 md:gap-[3rem] flex justify-center items-center  p-3 md:p-4  flex-col md:rounded-xl shadow-xl bg-white '>
                  {profiletyepe==='useredit'?      
                         <div className='w-[100%] md:w-[70%] flex flex-col h-full  justify-center gap-7 md:gap-[4rem]'>
                             <div className='flex flex-row justify-around items-center gap-3 md:gap-5'>
                                 <p className='text-xs md:text-lg font-medium w-[30%] '>Username </p>
                                 <p> :</p>
                                <div className='w-full flex flex-col gap-2 md:gap-4'>
-                                 <input value={profile.username || ''} onChange={(e) => setProfile({ ...profile, username: e.target.value })} className='w-full outline-0 shadow-2xl border-gray-500 border-1  text-gray-800  rounded-md pl-3 h-[2rem] md:h-[3.5rem] ' />
+                                 <input value={profile.username || ''} onChange={(e) => setProfile({ ...profile, username: e.target.value })} className='w-full outline-0 shadow-2xl text-xs md:text-base border-gray-500 border-1  text-gray-800  rounded-md pl-3 h-[2rem] md:h-[3.5rem] ' />
                                 <p className='text-red-800'>{error.name}</p>
                                 </div>
                             </div>
@@ -199,7 +243,7 @@ console.error('logourt error')
                                 <p className='text-xs md:text-lg font-medium w-[30%] '>E-Mail </p>
                                 <p> :</p>
                                <div className='w-full flex flex-col gap-2 md:gap-4'>
-                                <input value={profile.email || ''} onChange={(e) => setProfile({ ...profile, email: e.target.value })} className='w-full outline-0 shadow-2xl border-gray-500 border-1 rounded-md pl-3 text-gray-800 h-[2rem] md:h-[3.5rem] ' />
+                                <input value={profile.email || ''} onChange={(e) => setProfile({ ...profile, email: e.target.value })} className='w-full outline-0 shadow-2xl text-xs md:text-base border-gray-500 border-1 rounded-md pl-3 text-gray-800 h-[2rem] md:h-[3.5rem] ' />
                                 <p className='text-red-800'>{error.email}</p>
                                 </div>                            
                             </div>
@@ -207,7 +251,7 @@ console.error('logourt error')
                                 <p className='text-xs md:text-lg font-medium w-[30%] '>Mobile Number </p>
                                 <p> :</p>
                                 <div className='w-full flex flex-col gap-2 md:gap-4'>
-                                <input value={profile.mobile || ''} onChange={(e) => setProfile({ ...profile, mobile: e.target.value })} className='w-full outline-0 shadow-2xl border-gray-500 border-1 rounded-md pl-3 h-[2rem] text-gray-800 md:h-[3.5rem] ' />
+                                <input value={profile.mobile || ''} onChange={(e) => setProfile({ ...profile, mobile: e.target.value })} className='w-full outline-0 shadow-2xl text-xs md:text-base border-gray-500 border-1 rounded-md pl-3 h-[2rem] text-gray-800 md:h-[3.5rem] ' />
                                 <p className='text-red-800'>{error.mobile}</p>
         
                                 </div>
@@ -288,39 +332,7 @@ console.error('logourt error')
                     </div>
                     
 
-                    <div className=' md:hidden w-[100%] h-[55%] md:h-auto md:w-[60%] gap-2 md:gap-[3rem] flex py-5 items-center p-3 md:p-4  flex-col  rounded-xl shadow-xl bg-white '>
-                        
-                        <div className='w-[100%] md:w-[60%] flex flex-col  gap-4 md:gap-9 p-2'>
-                          <div onClick={()=>{setProfiletype('address'); navigate('/profile?tab=address')}} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
-                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Manage address </p>
-                                <BookOpenIcon className='text-yellow-600 w-[20%]'/>
-                            </div>
-                            <div onClick={()=>setProfiletype('notification')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
-                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Notifications </p>
-                                <Bell className='text-yellow-600 w-[20%]'/>
-                            </div>
-                            <div onClick={()=>navigate('/orders')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
-                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Orders </p>
-                                <Store className='text-yellow-600 w-[20%]'/>
-                            </div>
-                            <div onClick={()=>navigate('/cart')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
-                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Cart </p>
-                                <LucideShoppingCart className='text-yellow-600 w-[20%]'/>
-                            </div>
-                            <div onClick={()=>navigate('/wishlist')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
-                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Wishlist </p>
-                                  <Heart className='text-yellow-600 w-[20%]'/>
-                            </div>
-                            <div onClick={()=>logoutfunction()}  className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
-                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Logout </p>
-                                  <Power className='text-yellow-600 w-[20%]'/>
-                            </div>
-                            
-                            
-                            
-                        </div>
-
-                    </div>
+                   
                     </div>
                     } 
     </div>
