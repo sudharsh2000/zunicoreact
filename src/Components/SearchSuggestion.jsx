@@ -42,7 +42,7 @@ function SearchSuggestion() {
   }, []);
   return (
     <div className='flex justify-center h-[100vh] gap-[1rem] flex-col items-center bg-gray-200   md:hidden'>
-<div className='flex justify-center  w-full h-[8%] gap-4 items-center bg-gradient-to-r from-amber-100 to-blue-300'>
+<div className='flex justify-center  w-full h-[8%] gap-4 items-center  bg-gradient-to-r from-emerald-200 to-emerald-600'>
    <button onClick={()=>navigate(-1)}><ArrowLeftIcon/> </button>
 <div onClick={()=>setSearch(true)} className='shadow-lg flex flex-row border-2 w-[86%] h-[2.8rem] rounded-md md:w-[40rem] md:h-[2.5rem] md:rounded-4xl border-gray-300 bg-[#88dbde2e]'>
             

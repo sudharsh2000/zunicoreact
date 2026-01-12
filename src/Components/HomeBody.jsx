@@ -4,13 +4,14 @@ import Carousel from './Carousel'
 import demo from '../assets/demo.jpg'
 import Rowitems from './Rowitems'
 import Searchbar from './Searchbar'
+import Headerbar from './Headerbar'
 
 function HomeBody() {
 
   return (
    
-     <div className='mx-0 md:mx-10 min-h-[100vh] pb-[5rem] md:pb-0 '>
-      <Searchbar/>
+     <div className='mx-0 md:mx-10 min-h-[100vh] pb-[.5rem] md:pb-0 '>
+      <Headerbar/>
       <Categories  />
       <Carousel/>
       <Rowitems  ali_type={'row'} Title={'Best Deals'} />

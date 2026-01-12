@@ -250,21 +250,29 @@ console.error('logourt error')
                             </div>
                         </div>
                         :profiletyepe==='notification'&&
-                        <div className='md:w-[100%] h-[100%] flex px-2 md:px-5 flex-col'>
+                        <div className='md:w-[100%] w-full h-[100%] flex px-2 md:px-5 flex-col'>
                         <div className='w-[100%] md:w-[100%] md:h-[10%] flex p-2 md:p-3 md:px-4   justify-between gap-7 md:gap-[4rem]'>
                             <h2 className='text-[10px] md:text-2xl font-medium text-center text-[#05162fb9]'>Notifications</h2>
                            
                         </div>
-                        <div className='w-[100%] md:w-[100%] flex flex-col h-[100%] md:h-[90%] justify-start gap-7 md:gap-[2rem] mt-5 overflow-y-auto'>
+                        <div className='w-[100%] overflow-x-auto md:w-[100%] flex flex-col h-[100%] md:h-[90%] justify-start gap-7 md:gap-[2rem] mt-5 overflow-y-auto'>
                             {
                                 notifications.length===0?<h2 className='text-center text-gray-600 font-semibold text-xl'>No Notifications</h2>:
-                                notifications.map((notif)=>{ 
-                                    return <div key={notif.id} className='w-[100%] md:w-[100%] bg-gray-200 rounded-sm shadow-lg  flex p-2 md:p-3 md:px-4  justify-between gap-3 md:gap-[1rem]'>
+                                notifications.map((notif,index)=>{ 
+                                    const formatted = new Date(notif.created_at).toLocaleString("en-IN", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true
+});
+                                    return <div key={index} className='w-[100%] md:w-[100%] bg-gray-200 rounded-sm shadow-lg  flex p-2 md:p-3 md:px-4  justify-between gap-3 md:gap-[1rem]'>
                                     <div className='flex flex-col gap-2 md:gap-3'>
                                         <h2 className='text-xs text-gray-600 md:text-xl font-semibold '> {notif.title} </h2>
                                        
                                         <p className='text-[9px] md:text-base '> {notif.message}  </p>
-                                        <p className=' text-[9px] md:text-base '> {new Date(notif.date).toLocaleString()} </p>
+                                        <p className=' text-[9px] md:text-base '> {formatted} </p>
                                        
                                     </div>
                                     
@@ -280,12 +288,16 @@ console.error('logourt error')
                     </div>
                     
 
-                    <div className=' md:hidden w-[100%] h-[50%] md:h-auto md:w-[60%] gap-3 md:gap-[3rem] flex py-5 items-center p-3 md:p-4  flex-col  rounded-xl shadow-xl bg-white '>
+                    <div className=' md:hidden w-[100%] h-[55%] md:h-auto md:w-[60%] gap-2 md:gap-[3rem] flex py-5 items-center p-3 md:p-4  flex-col  rounded-xl shadow-xl bg-white '>
                         
-                        <div className='w-[100%] md:w-[60%] flex flex-col  gap-6 md:gap-9 p-2'>
+                        <div className='w-[100%] md:w-[60%] flex flex-col  gap-4 md:gap-9 p-2'>
                           <div onClick={()=>{setProfiletype('address'); navigate('/profile?tab=address')}} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Manage address </p>
                                 <BookOpenIcon className='text-yellow-600 w-[20%]'/>
+                            </div>
+                            <div onClick={()=>setProfiletype('notification')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
+                                <p className='text-xs md:text-lg font-extrabold w-[80%] '>Notifications </p>
+                                <Bell className='text-yellow-600 w-[20%]'/>
                             </div>
                             <div onClick={()=>navigate('/orders')} className='flex flex-row justify-between items-center gap-3 md:gap-5 shadow-lg py-2 px-6 rounded-lg '>
                                 <p className='text-xs md:text-lg font-extrabold w-[80%] '>Orders </p>

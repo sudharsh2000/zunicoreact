@@ -51,7 +51,20 @@ function Admindashboard() {
     
 
     const [itemlist,setlist]=useState()
-
+const addnotification=async(userid,message)=>{
+    try{
+        const res=await api.post(`${notificationApi}`,{
+            'user_id':userid,
+            'title':'Order Update', 
+            'message':message,
+            'is_read':false
+        })
+        console.log(res.data)
+    }
+    catch(er){
+        console.log(er)
+    }
+}
     // Functions Start from here
 const ConfirmOrder=async(orderid,nowstatus,userid)=>{
     try{
@@ -59,20 +72,34 @@ const ConfirmOrder=async(orderid,nowstatus,userid)=>{
             'order_status':nowstatus
         })
         console.log(res.data)
-
-        const addnotify=await api.post(`${notificationApi}`,{
-            'user_id':userid,
-            'title':'Order Update', 
-            'message':`Your order with Order ID:${res.data.id} has been ${nowstatus}.`,
-            'is_read':false
-        })
-        console.log(addnotify.data)
+        addnotification(userid,`Your order with Order ID:${res.data.id} has been ${nowstatus}.`)
+      
         toast.success(`Order ${nowstatus} Successfully`)
     }
     catch(er){
         console.log(er)
     }
 }
+const changeorder=async(userid,orderid,newstatus)=>{  
+
+    try{
+        const res=await api.patch(`${OrderApi}${orderid}/`,{
+            'order_status':newstatus
+        })
+        console.log(res.data)
+        addnotification(userid,`Your order with Order ID:${res.data.id} has been ${newstatus}.`)
+        toast.success('Order Status Updated Successfully')
+        setlist(prev=>prev.map((it)=>{
+            if(it.id===orderid){
+                return {...it,order_status:newstatus}
+            }
+            return it
+        }))
+    }
+    catch(er){
+        console.error(er)
+    }
+ }
 
     useEffect(() => {
         
@@ -112,7 +139,7 @@ if(userInfo?.userid) {
                         }
                 if(window==='orders'){
                     
-                        const res = await api.get(`${OrderApi}?order_status=Confirmed`,{withCredentials:true})
+                        const res = await api.get(`${OrderApi}?order_status!=Pending&order_status!=Cancelled`,{withCredentials:true})
                        console.log(res.data)
                        setlist(res.data)
                         res.data.forEach((it)=>{
@@ -214,7 +241,7 @@ if(userInfo?.userid) {
                 </ul>
             </div>
 
-            <div className={`w-[99%] md:w-[80%] md:mt-[.5rem] flex justify-center ${window==='pend-orders' ||window==='orders'||window==='cancel-orders' ?'items-start':' items-center'} min-h-[90vh] max-h-auto bg-white shadow-lg md:ml-[20rem] rounded-2xl `}>
+            <div className={`w-[99%] md:w-[80%] md:mt-[.5rem] flex justify-center overflow-y-auto max-h-[90vh] ${window==='pend-orders' ||window==='orders'||window==='cancel-orders' ?'items-start':' items-center'} min-h-[90vh] max-h-auto bg-white shadow-lg md:ml-[20rem] rounded-2xl `}>
                
                 {
               window!=='pend-orders' && window!=='orders'&& window!=='cancel-orders' && window !== 'profile'?
@@ -227,7 +254,7 @@ if(userInfo?.userid) {
                
                 window === 'profile' ?
                   <AdminProfile profile={profile} setProfile={setProfile}/>  : window==='pend-orders' ||window==='orders'||window==='cancel-orders' ?
-                  <div className='w-[100%] mt-[.5rem] md:mt-[1.5rem] flex flex-col gap-3 md:gap-6'>
+                  <div className='w-[100%] overflow-y-auto max-h-[80rem] mt-[.5rem] md:mt-[1.5rem] flex flex-col gap-3 md:gap-6'>
                     <div className='   w-[100%] flex ml-4 md:ml-10  '>
                 <ul className=' w-[100%]  gap-[.5rem] md:gap-[2rem] flex justify-start items-center'>
                      <li onClick={() =>{
@@ -248,7 +275,7 @@ if(userInfo?.userid) {
                 </ul>
 
             </div>
-                  <table className='w-[100%]  max-h-[80vh] h-[100%] gap-3 md:mt-[0rem] '>
+                  <table className='w-[100%] overflow-y-auto  max-h-[80vh] h-[100%] gap-3 md:mt-[0rem] '>
                     <thead className='w-[100%] py-1 md:py-3'>
                         <tr className='border-collapse border-y-1 h-[1rem] md:h-[3rem]'>
                             <td className='w-[10%] text-[12px] px-1  md:text-xl items-center text-center'>Order Id</td>
@@ -306,11 +333,12 @@ if(userInfo?.userid) {
                            
                             { 
                                 window==='orders'&&<div className='px-0 md:px-2 py-1 md:py-2 border-blue-400 border-1 shadow-lg rounded-lg'>
-                                    <select  onChange={(e)=>setOrderstatus()} className='text-[8px] px-0 md:text-base outline-none border-none'>
-                                        <option className='Confirmed'>Confirm</option>
-                                        <option className='Packed'>Packed</option>
-                                        <option className='Shipped'>Shipped</option>
-                                        <option className='Delivered'>Delivered</option>
+                                    <select value={item.order_status}  onChange={(e)=>changeorder(item?.user?.id,item.id,e.target.value)} className='text-[8px] px-0 md:text-base outline-none border-none'>
+                                     {console.log(item.order_status)}
+                                        <option value='Confirmed'>Confirm</option>
+                                        <option value='Packed'>Packed</option>
+                                        <option value='Shipped'>Shipped</option>
+                                        <option value='Delivered'>Delivered</option>
                                     </select>
                                 </div>
                             }

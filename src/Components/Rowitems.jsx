@@ -163,7 +163,7 @@ for(let i=1;i<=Math.ceil(count/12);i++){
     <div className={`min-h-[12rem] md:min-h-[40rem] ${ali_type==='row'?'hidden md:block':''}`}>
       {loading?
       <div className='h-[30vh]'><LoadingScreen/></div>:
-        products.length>0?<div ref={scrollref} className={`bg-white  my-2 ${ali_type==='row'?'hidden md:block':'mt-[3rem] md:mt-[8rem]'} `}>
+        products.length>0?<div ref={scrollref} className={`bg-white  my-2 ${ali_type==='row'?'hidden md:block':'mt-[1rem] md:mt-[8rem]'} `}>
        
 
       <div  className='flex items-center justify-between px-2 md:px-5 gap-2 md:gap-5 '> 
@@ -184,8 +184,8 @@ for(let i=1;i<=Math.ceil(count/12);i++){
         {products &&
         products.map((product,i)=>{
         
-          return <div key={product.id}  className={`flex bg-blue-100 md:bg-white  outline-0 border-0 flex-nowrap max-h-[17rem]   gap-4 rounded-x w-[49%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]': 'px-2 md:px-8 md:w-[28%] md:max-h-[30rem] lg:max-h-[40rem]  '}  m-0 rounded-xl shadow-2xl md:shadow-none justify-between p-2  items-center flex-col bg-gradient-to-r cursor-pointer hover:shadow-2xl hover:scale-105 transition-transform`}>
-          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[25rem] h-[8rem] md:h-[10rem] md:w-[25rem] '/>
+          return <div key={product.id}  className={`flex bg-white md:bg-white mt-2 outline-0 border-0 flex-nowrap max-h-[19rem]   gap-4 rounded-md md:rounded-lg w-[49%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]': 'px-2 md:px-8 md:w-[28%] md:max-h-[30rem] lg:max-h-[40rem]  '}  m-0  shadow-2xl md:shadow-none justify-between p-2  items-center flex-col bg-gradient-to-r cursor-pointer hover:shadow-2xl hover:scale-105 transition-transform`}>
+          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[25rem] h-[10rem] md:h-[10rem] md:w-[25rem] '/>
          
 <h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words  text-[10px] truncate  md:text-xl  hover:text-black '>{product.name}</h2>
             

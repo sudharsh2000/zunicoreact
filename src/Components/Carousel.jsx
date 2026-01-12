@@ -27,7 +27,7 @@ catch(er){
 },[])
 
   return (
-    <div className='relative w-full py-[1rem]'>
+    <div className='relative w-full py-0 md:py-[1rem]'>
         <Swiper  spaceBetween={50}
         autoplay={{delay:2000}}
         

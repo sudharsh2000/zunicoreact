@@ -28,8 +28,8 @@ function Categories() {
     },[])
 
   return (
-    <div className=' bg-white rounded-md md:px-[1rem]'>
-      <div className=' w-full rounded-sm gap-[1.5rem] md:gap-[4rem] my-5 py-3.5 pl-[1rem]    flex flex-row md:justify-start items-center overflow-x-auto '>
+    <div className=' bg-white rounded-md md:px-[1rem] mt-0'>
+      <div className=' w-full rounded-sm gap-[1.5rem] md:gap-[4rem] my-3 py-3.5 pl-[1rem]    flex flex-row md:justify-start items-center overflow-x-auto '>
    {loading?<LoadingScreen/>:
      categories&&
    categories.map((categ)=>{
