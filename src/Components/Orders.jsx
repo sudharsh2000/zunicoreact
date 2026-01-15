@@ -94,32 +94,34 @@ const CancellOrder=async(orderid,nowstatus)=>{
             <div className='w-full flex flex-col gap-2 md:gap-6    overflow-x-auto  mt-3 md:mt-[3rem] md:px-2 '>
               {
               Carts &&
-              Carts.map((cart)=>{
-                {console.log(cart)}
+              Carts.map((cartOrder)=>{
+            return  cartOrder.order_items.map((cart,index)=>{
+                {console.log(Carts[index])}
              
                 return <div key={cart.id} className='flex bg-white px-2 rounded-xl  md:px-8 py-2 w-full   shadow-lg ' >
               <div className='flex flex-col w-[20%] items-center gap-2 md:gap-4 justify-center'>
-                <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.order_items[0].Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
+                <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
               
               </div>
                 
                 <div className='flex flex-col md:flex-row items-center gap-2 md:gap-5 justify-center w-[50%]'>
-                    <h3 onClick={()=>navigate(`/detail/${cart.order_items[0].Product.id}`)} className='md:w-[80%] text-center text-sm md:text-xl hover:text-blue-400 cursor-pointer'>{cart.order_items[0].Product.name}</h3>
-                    <h2 className='md:w-[20%] flex text-lg items-center  justify-center gap-1 md:gap-0'><IndianRupeeIcon className='w-5 h-12'/>{cart.total_amount}</h2>
+                    <h3 onClick={()=>navigate(`/detail/${cart.Product.id}`)} className='md:w-[80%] w-[80%] text-center break-words truncate text-sm md:text-xl hover:text-blue-400 cursor-pointer'>{cart.Product.name}</h3>
+                    <h2 className='md:w-[20%] flex text-xs md:text-lg items-center  justify-center gap-1 md:gap-0'><IndianRupeeIcon className='w-3 h-4 md:w-5 md:h-12'/>{cart.total_price}</h2>
                     
                 </div>
                 <div className='flex flex-col md:flex-row items-center gap-2 md:gap-5 justify-center w-[25%]'>
-                 {cart.order_status==='Processing' ? <p className='flex gap-1 md:gap-2 text-[10px] md:text-base'> <CircleDot className='text-gray-500'/> Yor item is Processing</p>:cart.order_status==='Confirmed'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-green-600'/> Your Item has been Confirmed</p>:cart.order_status==='Cancelled'? <p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/>Your Item has been Cancelled</p>:<p className='flex gap-1 md:gap-2'> <CircleDot className='text-blue-600'/> {cart.order_status}</p>}
+                 {cartOrder.order_status==='Processing' ? <p className='flex gap-1   md:gap-2 text-[10px] md:text-base'> <CircleDot className='text-gray-500'/> Yor item is Processing</p>:cartOrder.order_status==='Confirmed'? <p className='flex text-[10px] md:text-base gap-1 md:gap-2'> <CircleDot className='text-green-600'/> Your Item has been Confirmed</p>:cartOrder.order_status==='Cancelled'? <p className='flex text-[10px] md:text-base gap-1 md:gap-2'> <CircleDot className='text-blue-600'/>Your Item has been Cancelled</p>:<p className='flex gap-1 text-[10px] md:text-base md:gap-2'> <CircleDot className='text-blue-600'/> Your Item has been {cartOrder.order_status}</p>}
                   </div>
-              {cart.order_status!=='Cancelled' && <div className='flex justify-center items-center w-[15%]'>
+              {cartOrder.order_status!=='Cancelled' && <div className='flex justify-center items-center w-[15%]'>
                     <h2 onClick={()=>{CancellOrder(cart.id,'Cancelled')
-                      }} disabled={cart.order_status==='Cancelled'}  className={`${cart.order_status==='Cancelled'?'border-0 text-gray-500':'border-1 shadow-lg rounded-xl    hover:border-red-900 cursor-pointer border-red-600 '} text-[7px] md:text-base px-1 md:px-3 py-1 md:py-2 `}> Cancel</h2>
+                      }} disabled={cartOrder.order_status==='Cancelled'}  className={`${cartOrder.order_status==='Cancelled'?'border-0 text-gray-500':'border-1 shadow-lg rounded-xl    hover:border-red-900 cursor-pointer border-red-600 '} text-[7px] md:text-base px-1 md:px-3 py-1 md:py-2 `}> Cancel</h2>
                 </div>
                     }
 
             </div>
           
               })
+            })
 
             }
           </div>

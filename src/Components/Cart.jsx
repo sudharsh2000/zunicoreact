@@ -134,7 +134,7 @@ const Addcart=async(Cart,type)=>{
     {
      loading?<div className='h-[90vh] bg-white w-[100%]'><LoadingScreen/></div>: Carts?.length>0?    <div className='bg-gray-200 shadow-lg rounded-2xl flex flex-col w-[100%] md:w-[69%] gap-2 md:gap-5'>
 
-            <div className='bg-white rounded-lg min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
+            {/* <div className='bg-white rounded-lg min-h-[10%] px-2 md:px-8 py-2 md:py-4 flex items-center '>
               <div className='w-[80%]'>
                 {address?<div className='text-xs md:text-lg text-black flex gap-2  flex-col'>
                   <div>{address.full_name } {address.house_name},{address.landmark},{address.street} {address.district}  {address.state}</div>
@@ -145,7 +145,7 @@ const Addcart=async(Cart,type)=>{
               </div>
              {!address? <button onClick={()=>navigate('/address')} className='flex p-1 md:p-2 rounded-lg hover:border-[1px] hover:shadow-lg border-blue-300 '> Add <PlusIcon/> </button>:
              <button  className='flex p-1 md:p-2 rounded-lg border-[1px] text-sm md:text-base md:border-0 hover:border-[1px] hover:shadow-lg border-blue-300 '> Change </button> }
-            </div>
+            </div> */}
             <div className='w-full max-h-[60vh]   overflow-x-auto bg-white'>
               {Carts &&
               Carts.map((cart)=>{
@@ -154,16 +154,16 @@ const Addcart=async(Cart,type)=>{
               <div className='flex flex-col w-[30%] items-center gap-2 md:gap-4 justify-center'>
                 <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
                 <div className='flex justify-center items-center gap-2 md:gap-4'>
-                    <button onClick={()=>{handleIncreaseDecrease(cart.Product.id,'decrease');Addcart(cart,'dec')}} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>-</button>
-                    <input value={cart.quantity} type="number" className='text-center w-[40%] md:w-[30%] p-1 border-gray-500 border-1 rounded-md '/>
-                    <button onClick={()=>{handleIncreaseDecrease(cart.Product.id,'increase');Addcart(cart,'inc')}} className='shadow-lg hover:border-blue-500 border-1 border-red-400 rounded-full w-8 h-8'>+</button>
+                    <button onClick={()=>{handleIncreaseDecrease(cart.Product.id,'decrease');Addcart(cart,'dec')}} className='shadow-lg hover:border-blue-500 border-1 text-xs md:text-lg border-red-400 rounded-full w-5 h-5 md:w-8 md:h-8'>-</button>
+                    <input value={cart.quantity} type="number" className='text-center text-xs md:text-lg w-[40%] md:w-[30%] p-0.5 border-gray-500 border-1 rounded-md '/>
+                    <button onClick={()=>{handleIncreaseDecrease(cart.Product.id,'increase');Addcart(cart,'inc')}} className='shadow-lg hover:border-blue-500 border-1 border-red-400 text-xs md:text-lg rounded-full w-5 h-5 md:w-8 md:h-8'>+</button>
                 </div>
               </div>
                 
                 <div className='flex flex-col items-center gap-2 md:gap-5 justify-center w-[60%]'>
-                    <h3 onClick={()=>navigate(`/detail/${cart.Product.id}`)} className='text-sm md:text-2xl hover:text-blue-400 cursor-pointer'>{cart.Product.name}</h3>
-                    <h2 className='flex text-xl items-center justify-center gap-1 md:gap-1'><h1 className='text-green-500 mr-1.5 md:mr-6'>{cart.quantity * cart.price}</h1> <h1>Total </h1> <IndianRupeeIcon className='w-5 h-12'/> {(cart.quantity * cart.price) - (cart.quantity * (cart.price*cart.Product.discount/100) )}</h2>
-                    <p className='text-green-600'>{cart.Product.discount} % off</p>
+                    <h3 onClick={()=>navigate(`/detail/${cart.Product.id}`)} className='text-sm md:text-xl hover:text-blue-400 cursor-pointer'>{cart.Product.name}</h3>
+                    <h2 className='flex text-xs md:text-lg items-center justify-center gap-2 md:gap-2'><h1 className='text-gray-500 text-decoration-line: line-through mr-1.5 font-s md:mr-6'>{parseFloat(cart.quantity * cart.price).toFixed(2)}</h1> <h1 className='flex justify-center items-center gap-1 md:gap-2'>Total <h1 className='flex justify-center items-center'> <IndianRupeeIcon className='w-3 md:w-5 h-6 md:h-12'/> {(cart.quantity * cart.price) - (cart.quantity * (cart.price*cart.Product.discount/100) )}</h1></h1></h2>
+                    <p className='text-xs md:text-lg text-green-600'>{cart.Product.discount} % off</p>
                 </div>
                 <div className='flex justify-center items-center w-[10%]'>
                     <Trash2 onClick={()=>{

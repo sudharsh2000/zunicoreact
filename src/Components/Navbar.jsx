@@ -72,7 +72,7 @@ loadnotifications()
 },[userInfo?.username])
 
   return (
-    <div className='hidden md:block sticky w-auto py-2  mx-3 top-0 z-30'>
+    <nav className='hidden md:block sticky w-auto py-2  mx-3 top-0 z-50'>
     <div className='flex flex-row bg-gradient-to-r rounded-xl from-emerald-200 to-emerald-700 w-[100%] h-[3.5rem]  px-[2%] items-center gap-2 md:h-[4.5rem] md:gap-8 '>
         <div className='flex gap-2 md:gap-14  items-center w-[60%]'>
             <img onClick={()=>navigate('/')} src={wise} className='max-w-[25%] w-auto md:max-w-[12rem] h-[100%] p-0' />
@@ -128,7 +128,7 @@ loadnotifications()
            {!accesstoken?
            <li onClick={()=>navigate('/signin')} className='relative p-2 rounded-md border-gray-700 hover:shadow-lg hover:border-1  text-white font-extrabold text-md  cursor-pointer '>Log in</li>:
    
-           <li onMouseEnter={()=>setopen(true)} onMouseLeave={()=>setopen(false)} className='relative p-2 rounded-md border-gray-700 hover:shadow-lg hover:border-1  text-white font-medium text-md  cursor-pointer '> 
+           cururl.pathname==='/'&&<li onMouseEnter={()=>setopen(true)} onMouseLeave={()=>setopen(false)} className='relative p-2 rounded-md border-gray-700 hover:shadow-lg hover:border-1  text-white font-medium text-md  cursor-pointer '> 
                 <div className='flex gap-1 '>
 
                 
@@ -141,12 +141,12 @@ loadnotifications()
         
                  </li>
                  }
- {accesstoken&&          
+ {accesstoken&& cururl.pathname==='/'&&         
 <li onClick={()=>navigate('/profile?tab=notification')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>
                <Bell/> 
             </li>}
-         
-{accesstoken&&
+        
+{accesstoken&&cururl.pathname==='/'&&
 <li onClick={()=>navigate('/cart')} className='text-white font-medium text-md cursor-pointer flex gap-1 transition-transform hover:scale-105 '>Cart
                <ShoppingCart/> 
             </li>
@@ -155,7 +155,7 @@ loadnotifications()
 }
 
             
-            <li onMouseEnter={()=>setopen2(true)} onMouseLeave={()=>setopen2(false)} className='text-white relative p-1 hover:border-1 hover:shadow-lg border-gray-600 '>
+           {cururl.pathname==='/'&& <li onMouseEnter={()=>setopen2(true)} onMouseLeave={()=>setopen2(false)} className='text-white relative p-1 hover:border-1 hover:shadow-lg border-gray-600 '>
                 <MoreVertical/>
                  {open2&&
 
@@ -165,13 +165,13 @@ loadnotifications()
             <li className='transform-3d transition-transform hover:scale-115 cursor-pointer'>About</li>
             <li className='transform-3d transition-transform hover:scale-115 cursor-pointer'>Help</li>
          
-{accesstoken&&<li onClick={logoutfunction} className='transform-3d transition-transform hover:scale-115 cursor-pointer'>Logout</li>}
+{accesstoken&&cururl.pathname==='/'&&<li onClick={logoutfunction} className='transform-3d transition-transform hover:scale-115 cursor-pointer'>Logout</li>}
         
 
         </ul>
     </div>
 }
-            </li>
+            </li>}
              {open&&
 <div onMouseLeave={()=>setopen(false)} onMouseEnter={()=>setopen(true)} className='w-[18rem] absolute top[13%] right-[6%] pt-[5%]'>
 <div   className=' w-[16rem] absolute transition-opacity duration-300 z-50 bg-white shadow-lg rounded-xl top-[77%]  right-[8%]'>
@@ -213,7 +213,7 @@ loadnotifications()
 
 
     </div>
-    </div>
+    </nav>
   )
 }
 
