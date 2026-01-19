@@ -152,7 +152,7 @@ console.log(data)
       theme: { color: "#3399cc" },
     };
     console.log(options)
-    const rzp = new window.Razorpay(options);
+    const rzp = await new window.Razorpay(options);
     rzp.open();
     
   }

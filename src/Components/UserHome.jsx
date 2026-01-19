@@ -276,7 +276,7 @@ console.error('logourt error')
                             {
                                 addresses.map((addr)=>{ 
                                     return <div key={addr.id} className='w-[100%] md:w-[100%] rounded-lg shadow-xl  flex p-2 md:p-3 md:px-4  justify-between gap-3 md:gap-[1rem]'>
-                                    <div className='flex flex-col gap-2 md:gap-3'>
+                                    <div className='flex flex-col gap-2 md:gap-0'>
                                         <h2 className='text-xs text-gray-600 md:text-xl font-semibold '> {addr.address_type} </h2>
                                        
                                         <p className='text-[9px] md:text-base '> {addr.house_name} ,{addr.landmark} ,{addr.street}  </p>

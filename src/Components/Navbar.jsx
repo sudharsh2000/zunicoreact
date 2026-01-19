@@ -7,6 +7,7 @@ import { useAuth } from '../Redux/AuthProvider'
 import axios from 'axios'
 import { Logoutapi, notificationApi, productapi } from '../Redux/api'
 import api from '../Redux/Interceptor'
+import UseDebounce from '../Hooks/UseDebounce'
 function Navbar() {
     const navigate=useNavigate()
     const {accesstoken}=useAuth()
@@ -22,6 +23,7 @@ function Navbar() {
     const [username,setusername]=useState('')
     const [notificationOn,setnotificationOn]=useState(false)
     const [notificationdata,setnotificationdata]=useState([])
+    const debouncesearch=UseDebounce(searchval,300)
 const logoutfunction=async()=>{
     try{
         const res=axios.post(Logoutapi,{},{withCredentials:true})
@@ -41,10 +43,13 @@ console.error('logourt error')
 }
 
 const SearchProducts=async()=>{
+
     try{
-        const res=await api.get(`${productapi}?search=${searchval}`)
+        if(debouncesearch){
+        const res=await api.get(`${productapi}?search=${debouncesearch}`)
         SetlistProducts(res.data.results)
         console.log(res.data)
+}
 
     }
     catch(er){

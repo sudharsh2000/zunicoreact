@@ -8,6 +8,7 @@ import LoadingScreen from './LoadingPage'
 import { Flashcontext } from '../App'
 import { useAuth } from '../Redux/AuthProvider'
 import { addTocart } from '../Hooks/Addcart'
+import UseDebounce from '../Hooks/UseDebounce'
 
 
 function Rowitems({ali_type,Title}) {
@@ -27,34 +28,29 @@ function Rowitems({ali_type,Title}) {
     const scrollref=useRef(null)
     const [pagenum,setpagenum]=useState()
     const [count,setcount]=useState(0)
-    const loadPage = async (pagenum) => {
-   
-     try {
-    
-      const productRes = await api.get(`${productapi}?page=${pagenum}`, { withCredentials: true });
-      
-      setProducts(productRes.data.results);
-    
-    setcount(productRes.data.count)
-     
-      if (userInfo?.userid) {
-        const cartRes = await api.get(`${CartApi}?user=${userInfo.userid}`, { withCredentials: true });
-        setcarts(cartRes.data[0]?.items || []);
-      }
+    const [isCartProcessing, setIsCartProcessing] = useState(false);
+    const [isqtyprocessing, setIsQtyProcessing] = useState(true);   // LOCK state
+  const loadPage = async (pagenum) => {
+  try {
+    const [productRes, cartRes] = await Promise.all([
+      api.get(`${productapi}?page=${pagenum}`),
+      userInfo?.userid
+        ? api.get(`${CartApi}?user=${userInfo.userid}`)
+        : Promise.resolve({ data: [] })
+    ]);
 
-    } catch (err) {
-      console.error(err);
-    } finally {
- 
-   
-        setFlash(false);
-      
-    }
+    setProducts(productRes.data.results);
+    setcount(productRes.data.count);
+    setcarts(cartRes.data[0]?.items || []);
 
- 
-
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setFlash(false);
     setLoading(false);
-  };
+  }
+};
+
  useEffect(() => {
 
 
@@ -64,19 +60,16 @@ function Rowitems({ali_type,Title}) {
 }, [userInfo?.userid]);
 
 
-useEffect(()=>{
-   if (products.length > 0 && carts.length > 0) {
-    const q = {};
+useEffect(() => {
+  const q = {};
 
-    products.forEach((product, index) => {
-      const found = carts.find(cart => cart.Product.id === product.id);
-      
-      q[index] = found ? found?.quantity : 0;
-    });
-   
-    setQuantityToCart(q);
+  products.forEach((product, index) => {
+    const found = carts.find(cart => cart.Product.id === product.id);
+    q[index] = found ? found.quantity : 0;
+  });
 
-  }
+  setQuantityToCart(q);
+
   if(pagenum){
   if((count/11)>1){
   if(products.length>0){
@@ -84,65 +77,60 @@ useEffect(()=>{
   }
 }
   }
+  setIsQtyProcessing(false);
 },[products,carts])
-const Addcart=async(prod,type,index)=>{
-  setcartpopup({...cartpopup,[index]:true})
-  let addquantity=0
-  if(type==='inc'){
-    setcartstatus('adding to cart')
-    addquantity=1
 
-  }
-  else{
-    setcartstatus('removing from cart')
-    addquantity=-1
-  }
-  const Cartdata={
-    'user':parseInt( userInfo.userid),
-    'items':[
-     { 'Product_id':prod.id,
-      'quantity':addquantity,
-      'price':prod.price,
-      'total_price':prod.price,
-      
-     'discount':(parseFloat(prod.discount)*parseFloat(prod.price))/100
+
+const Addcart = async (prod, type, index) => {
+
+  // 🔒 BLOCK if another popup is running
+  if (isCartProcessing) return;
+
+  setIsCartProcessing(true);   // LOCK
+  setcartpopup(prev => ({ ...prev, [index]: true }));
+
+  let addquantity = type === 'inc' ? 1 : -1;
+  setcartstatus(type === 'inc' ? 'adding to cart' : 'removing from cart');
+
+  const Cartdata = {
+    user: Number(userInfo.userid),
+    items: [{
+      Product_id: prod.id,
+      quantity: addquantity,
+      price: prod.price,
+      total_price: prod.price,
+      discount: (prod.discount * prod.price) / 100
+    }]
+  };
+
+  try {
+
+    if (quantityTocart[index] === 1 && type === 'dec') {
+      const item = carts.find(c => c.Product.id === prod.id);
+      if (item) {
+        await addTocart(Cartdata, 'delete', item.id);
+      }
+    } else {
+      await addTocart(Cartdata, 'post', userInfo.userid);
     }
-    ]
 
-  }
-  console.log(Cartdata)
-  try{
+    setQuantityToCart(prev => ({
+      ...prev,
+      [index]: (prev[index] || 0) + addquantity
+    }));
 
-  
- if(quantityTocart[index]===1&&type==='dec'){
-  console.log(prod)
-  console.log(carts)
-  carts?.forEach(async element => {
-    if(element.Product.id===prod.id){
-     const res=await addTocart(Cartdata,'delete',element.id)
-    }
-    
-  });
-  
- }
- else{
-console.log('Y')
-  const res=await addTocart(Cartdata,'post',userInfo.userid)
-   console.log(res)
- }
-  setQuantityToCart(prev=>({
-    ...prev,[index]:(prev[index]||0)+addquantity
-   }))
-  
-  setcartpopup({...cartpopup,[index]:false})
-  }
-  
-  catch(er){
-    console.error(er)
-    setcartpopup({...cartpopup,[index]:false})
-  }
+  } catch (er) {
+    console.error(er);
+  } finally {
 
-}
+    // ⏳ let popup stay for UX
+    setTimeout(() => {
+      setcartpopup(prev => ({ ...prev, [index]: false }));
+      setIsCartProcessing(false); // 🔓 UNLOCK
+    }, 700); // popup duration
+  }
+};
+
     const scrollfn=(dir)=>{
         
         const curwidth=ref.current
@@ -181,12 +169,15 @@ for(let i=1;i<=Math.ceil(count/12);i++){
         <div ref={ref} className={`flex    md:mr-[3rem] md:ml-[4rem] py-2 md:p-4 gap-[.2rem] flex-wrap ${ali_type==='row'?'overflow-x-auto md:gap-[6.5rem] md:flex-nowrap ':'md:flex-wrap md:gap-[4.5rem]'}  flex-1 whitespace-nowrap no-scrollbar`}>
     
     
-        {products &&
+        {!isqtyprocessing&& products &&
         products.map((product,i)=>{
         
           return <div key={product.id}  className={`flex bg-white md:bg-white mt-2 outline-0 border-0 flex-nowrap max-h-[19rem]   gap-4 rounded-md md:rounded-lg w-[49%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]': 'px-2 md:px-8 md:w-[28%] md:max-h-[30rem] lg:max-h-[40rem]  '}  m-0  shadow-2xl md:shadow-none justify-between p-2  items-center flex-col bg-gradient-to-r cursor-pointer hover:shadow-2xl hover:scale-105 transition-transform`}>
-          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[25rem] h-[10rem] md:h-[10rem] md:w-[25rem] '/>
-         
+          <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[18rem] h-[10rem] md:h-[18rem] md:w-[25rem] '/>
+         {cartpopup[i]&& <div className='absolute bg-[#1d1818c2] self-center md:top-[30%] p-1 md:p-2 rounded-xl'>
+          <button className='text-white flex  text-xs md:text-base flex-col justify-center items-center'><Loader className='animate-spin w-[100%] h-[100%]'/> {cartstatus}</button>
+        </div>
+        }
 <h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words  text-[10px] truncate  md:text-xl  hover:text-black '>{product.name}</h2>
             
         {userInfo?.userid ? ali_type==='row'?'':<div className='flex w-full justify-center gap-2 md:gap-4'>
@@ -195,10 +186,7 @@ for(let i=1;i<=Math.ceil(count/12);i++){
           <input type="number"  value={quantityTocart[i] || 0} className='bg-white w-[40%]  md:w-[30%] text-center border-1 border-gray-400 rounded-xl outline-none px-2 md:px-3 flex justify-center items-center'/>
            <p onClick={()=>Addcart(product,'inc',i)} className='rounded-full hover:border-cyan-700 bg-white hover:bg-emerald-200   shadow-2xl   w-[23%]  md:w-[12%]  cursor-pointer items-center border-1 border-gray-500 p-1 md:p-2 flex justify-center '>+</p>
         
-       {cartpopup[i]&& <div className='absolute bg-[#1d1818c2] p-1 md:p-2 rounded-xl'>
-          <button className='text-white flex'>{cartstatus}<Loader className='animate-spin'/> </button>
-        </div>
-        }
+       
         </div>:''
         }  
          { <h3 onClick={()=>navigate(`/detail/${product.id}`)} className='bg-yellow-400 p-1 justify-center rounded-2xl w-[100%] text-[10px] md:text-lg font-medium flex gap-1 items-center'> from <IndianRupeeIcon className='w-2 h-2 md:w-5 md:h-5 font-extrabold'/> {product.price}</h3>

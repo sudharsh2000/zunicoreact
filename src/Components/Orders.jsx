@@ -74,10 +74,12 @@ SetLoading(false)
   }
  
 const CancellOrder=async(orderid,nowstatus)=>{
+  console.log(orderid,nowstatus)
     try{
-        const res=await api.patch(`${OrderApi}${orderid}/`,{
-            'order_status':nowstatus
+          const res=await api.patch(`${OrderItemApi}${orderid}/`,{
+            'order_status':'Cancelled'
         })
+        toast.success('Order Cancelled')
         console.log(res.data)
     }
     catch(er){
