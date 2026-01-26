@@ -1,7 +1,8 @@
 
 
 
-export const homeapi=process.env.NODE_ENV === 'production'?'https://zunico.onrender.com/':'http://localhost:8000/'//zunico.onrender.com/'
+export const homeapi=process.env.NODE_ENV === 'production'?'https://zunico.onrender.com/':'https://zunico.onrender.com/'
+'http://localhost:8000/'//zunico.onrender.com/'
 // 
 
 export const signupapi=homeapi+'api/signup/'
