@@ -263,7 +263,18 @@ if(userInfo?.userid) {
                  <div className='flex w-[100%] h-[100%] justify-center items-center'>   <h2 className='flex gap-1 md:gap-1 rounded-2xl justify-center text-sm md:text-lg items-center text-blue-800'>Add<Plus className='w-[30%] h-[30%]'/></h2>
                 </div></div>:''
                 }
-                
+                <div className='w-full flex'>
+                    <ul className='flex gap-4'>
+                         <li onClick={() =>{
+                        setwindow('categories'); navigate('/admin/dashboard?tab=categories')}} className={`
+        ${window === 'categories' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer  text-[11px]  md:w-[80%] py-2 px-2  border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105`}>Product Category</li>
+ <li onClick={() =>{
+                        setwindow('subcategories'); navigate('/admin/dashboard?tab=subcategories')}} className={`
+        ${window === 'subcategories' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer  text-[11px]  md:w-[80%] py-2 px-2  border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105`}>Sub Category</li>
+
+                    </ul>
+
+                </div>
                 {
                
                 window === 'profile' ?
