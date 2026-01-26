@@ -21,5 +21,7 @@ export const OrderDeleteApi=homeapi+'api/orders/delete-draft'
 export const whishlistApi=homeapi+'api/wishlist/'
 export const notificationApi=homeapi+'api/notification/'
 export const VerifyApi=homeapi+'api/payment/verify/'
+export const SubcategoryApi=homeapi+'api/subcategory/'
+export const ProductBrandApi=homeapi+'api/ProductBrand/'
 
 

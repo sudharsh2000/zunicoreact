@@ -152,7 +152,7 @@ const Addcart=async(Cart,type)=>{
              
                 return <div key={cart.id} className='flex px-2 md:px-8 py-2 w-full border-b-1 shadow-lg border-gray-400' >
               <div className='flex flex-col w-[30%] items-center gap-2 md:gap-4 justify-center'>
-                <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
+                <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[8rem]  h-[6rem] md:w-[9rem] rounded-lg md:h-[7rem]' />
                 <div className='flex justify-center items-center gap-2 md:gap-4'>
                     <button onClick={()=>{handleIncreaseDecrease(cart.Product.id,'decrease');Addcart(cart,'dec')}} className='shadow-lg hover:border-blue-500 border-1 text-xs md:text-lg border-red-400 rounded-full w-5 h-5 md:w-8 md:h-8'>-</button>
                     <input value={cart.quantity} type="number" className='text-center text-xs md:text-lg w-[40%] md:w-[30%] p-0.5 border-gray-500 border-1 rounded-md '/>

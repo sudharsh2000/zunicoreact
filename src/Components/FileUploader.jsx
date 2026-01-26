@@ -49,7 +49,7 @@ const [imageselect,setselected]=useState(false)
                 key={index}
                 src={src}
                 alt={`Preview ${index + 1}`}
-                className="w-24 h-24 object-cover rounded-lg"
+                className="h-8 lg:w-18 lg:h-14 object-cover rounded-lg"
               />
             ))}
           </div>

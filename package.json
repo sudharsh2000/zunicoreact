@@ -12,17 +12,18 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/vite": "^4.1.14",
-    "axios": "^1.12.2",
+    "axios": "^1.13.2",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.544.0",
+    "node": "^25.4.0",
     "razorpay": "^2.9.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-redux": "^9.2.0",
     "react-router": "^7.9.3",
     "react-router-dom": "^7.9.4",
     "react-toastify": "^11.0.5",
-    "swiper": "^12.0.2",
+    "swiper": "^12.0.3",
     "tailwindcss": "^4.1.14"
   },
   "devDependencies": {

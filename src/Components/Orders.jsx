@@ -102,7 +102,7 @@ const CancellOrder=async(orderid,nowstatus)=>{
              
                 return <div key={cart.id} className='flex bg-white px-2 rounded-xl  md:px-8 py-2 w-full   shadow-lg ' >
               <div className='flex flex-col w-[20%] items-center gap-2 md:gap-4 justify-center'>
-                <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[8rem]  h-[6rem] md:w-[12rem] md:h-[9rem]' />
+                <img onClick={()=>navigate(`/detail/${cart.Product.id}`)} src={cart.Product.main_image} className='w-[7rem]  h-[3rem] md:w-[10rem] md:h-[6rem]' />
               
               </div>
                 

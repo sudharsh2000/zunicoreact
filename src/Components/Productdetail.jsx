@@ -80,10 +80,10 @@ catch (er){
  try{
       const res=await api.get(`${productapi}?id=${id}`,{withCredentials:true})
       
-      setProducts(res.data.results[0])
-      setdiscountprice(res.data.results[0].price-(parseFloat(res.data.results[0].price)*parseFloat(res.data.results[0].discount))/100)
+      setProducts(res.data[0])
+      setdiscountprice(res.data[0].price-(parseFloat(res.data[0].price)*parseFloat(res.data[0].discount))/100)
       if(userInfo?.userid){
-      const wisha= await api.get(`${whishlistApi}?Product_id=${res.data.results[0].id}&user=${userInfo.userid}`)
+      const wisha= await api.get(`${whishlistApi}?Product_id=${res.data[0].id}&user=${userInfo.userid}`)
       console.log(wisha)
       if(wisha.data.length>0){
         setwish(true);

@@ -168,7 +168,7 @@ function AddProducts({setAdditem,edititem}) {
             console.log(tempimage)
 
   return (
-     <div className='absolute w-[100%] h-[100%] bg-[#090909a3]'>
+     <div className='absolute w-[100%] inset-0 z-100 h-[100%] bg-[#090909a3]'>
         <div className='w-[100%] h-[100%] flex justify-center items-center'>
      <div className='w-[90%] md:w-[50%] min-h-[80%] flex justify-center flex-col items-center bg-white rounded-lg shadow-xl'>
                             <div className='w-[100%] md:w-[60%] gap-3 flex flex-col md:gap-[1rem] p-5' >
@@ -230,13 +230,13 @@ setProducts({ ...products, stock: e.target.value ? parseFloat(e.target.value) : 
                                         console.log(file); setImages(file); setProducts({ ...products, image: file[0] })
                                     }} />
                                 </div>
-                                <div className='flex justify-center mt-[2rem] gap-2 md:gap-4 '>
+                                <div className='flex justify-center mt-[1rem] gap-2 md:gap-4 '>
                                   {
-                                        edititem?<button onClick={saveProducts} className=' bg-green-600 py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg text-white font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Update Product</button>:
-                                      <button onClick={saveProducts} className=' bg-green-600  text-white text-sm py-1 px-3 md:px-5 md:py-2 md:text-lg font-extrabold rounded-lg cursor-pointer hover:bg-green-800'> Add Product</button>
+                                        edititem?<button onClick={saveProducts} className=' bg-green-600 py-1 px-3 md:px-3  text-sm md:text-base text-white font-semibold rounded-lg cursor-pointer hover:bg-green-800'> Update Product</button>:
+                                      <button onClick={saveProducts} className=' bg-green-600  text-white text-sm py-1 px-3  md:py-2 md:text-base font-semibold rounded-lg cursor-pointer hover:bg-green-800'> Add Product</button>
                                   }
-                                    <button onClick={() => clearfunction('products')} className=' bg-red-600 py-1 px-3 md:px-5 md:py-2 text-sm md:text-lg text-white font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
-                               <button onClick={() => setAdditem(false)} className=' bg-orange-700 py-1 px-3 md:px-5 md:py-2 text-white text-sm md:text-lg font-extrabold rounded-lg cursor-pointer hover:bg-red-800'>Close</button>
+                                    <button onClick={() => clearfunction('products')} className=' bg-red-600 py-1 px-3 md:px-3 text-sm md:text-base text-white font-semibold rounded-lg cursor-pointer hover:bg-red-800'>Clear</button>
+                               <button onClick={() => setAdditem(false)} className=' bg-orange-700 py-1 px-3 md:px-3 text-white text-sm md:text-base font-semibold rounded-lg cursor-pointer hover:bg-red-800'>Close</button>
                                 </div>
 
                             </div>

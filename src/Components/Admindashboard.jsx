@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import FileUploader from './FileUploader'
 import axios from 'axios'
-import { bannerapi, categoryapi, notificationApi, OrderApi, productapi, usersapi } from '../Redux/api'
+import { bannerapi, categoryapi, notificationApi, OrderApi, productapi, SubcategoryApi, usersapi } from '../Redux/api'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usersave } from '../Redux/UserSlice'
@@ -102,15 +102,16 @@ const changeorder=async(userid,orderid,newstatus)=>{
  }
 
     useEffect(() => {
-        
+         console.log(window)
         const loadapi = async () => {
             try {
                 
 if(userInfo?.userid) {
-            
+           
                 if (window === 'products') {
                     const res = await api.get(productapi, {}, { withCredentials: true })
-                    setlist(res.data.results)
+                    console.log(res.data)
+                    setlist(res.data)
                  }
                 if (window === 'profile') {
                     if (userInfo) {
@@ -128,6 +129,12 @@ if(userInfo?.userid) {
                 }
                 if(window==='categories'){
                     const res = await api.get(`${categoryapi}`)
+                       
+                        setlist(res.data)
+                }
+                if(window==='subcategories'){
+                    const res = await api.get(`${SubcategoryApi}`)
+                    console.log(res.data)
                        
                         setlist(res.data)
                 }
@@ -162,7 +169,7 @@ if(userInfo?.userid) {
 
         }
         loadapi();
-    }, [window, userInfo?.userid,additem]);
+    }, [window,tab, userInfo?.userid,additem]);
 
    
     
@@ -188,8 +195,8 @@ if(userInfo?.userid) {
 
 
     return (
-        <div className=' w-full flex-col md:flex-row flex justify-center items-center'>
-            <div className=' hidden md:block h-[90vh] mt-[1rem] bg-white absolute left-[.5rem] md:left-[1rem] top-[5rem] md:top-[5rem] shadow-lg   w-[10%] md:w-[18rem] rounded-2xl'>
+        <div className=' w-full flex-col md:gap-[2rem] md:flex-row md:px-[1rem] flex justify-center items-center'>
+            <div className=' hidden md:block h-[90vh] mt-[1rem] bg-white absolute  left-[.5rem] md:left-[1rem] top-[5rem] md:top-[5rem] shadow-lg   w-[10%] md:w-[20%] rounded-2xl'>
                 <ul className=' mt-[.5rem] md:mt-[2rem] gap-[.5rem] md:gap-[2rem] flex justify-center items-center flex-col'>
                     <li onClick={() => {
                         setwindow('profile')
@@ -203,6 +210,10 @@ if(userInfo?.userid) {
                     <li onClick={() =>{
                         setwindow('categories'); navigate('/admin/dashboard?tab=categories')}} className={`
         ${window === 'categories' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer px-5 py-4 w-[3rem] md:w-[80%] border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105`}>Product Category</li>
+    
+    <li onClick={() =>{
+                        setwindow('subcategories'); navigate('/admin/dashboard?tab=subcategories')}} className={`
+        ${window === 'subcategories' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer px-5 py-4 w-[3rem] md:w-[80%] border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105`}>Sub Category</li>
      <li onClick={() =>{setwindow('products'); navigate('/admin/dashboard?tab=products')}} className={`
         ${window === 'products' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer px-5 py-4 w-[3rem] md:w-[80%] border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105`}>Products</li>
 <li onClick={() =>{
@@ -230,6 +241,9 @@ if(userInfo?.userid) {
                     <li onClick={() =>{
                         setwindow('categories'); navigate('/admin/dashboard?tab=categories')}} className={`
         ${window === 'categories' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer  text-[11px]  md:w-[80%] py-2 px-2  border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105`}>Product Category</li>
+ <li onClick={() =>{
+                        setwindow('subcategories'); navigate('/admin/dashboard?tab=subcategories')}} className={`
+        ${window === 'subcategories' ? 'bg-blue-300' : 'bg-yellow-50'} cursor-pointer  text-[11px]  md:w-[80%] py-2 px-2  border-gray-200 shadow-lg  hover:border-1 rounded-lg transition-transform hover:scale-105`}>Sub Category</li>
 
                     <li onClick={() =>{
                         setwindow('products'); navigate('/admin/dashboard?tab=products')}} className={`
@@ -241,11 +255,11 @@ if(userInfo?.userid) {
                 </ul>
             </div>
 
-            <div className={`w-[99%] md:w-[80%] md:mt-[.5rem] flex justify-center overflow-y-auto max-h-[90vh] ${window==='pend-orders' ||window==='orders'||window==='cancel-orders' ?'items-start':' items-center'} min-h-[90vh] max-h-auto bg-white shadow-lg md:ml-[20rem] rounded-2xl `}>
+            <div className={`w-[99%] md:w-[77%] md:mt-[.5rem] flex justify-center overflow-y-auto max-h-[90vh] ${window==='pend-orders' ||window==='orders'||window==='cancel-orders' ?'items-start':' items-start'} min-h-[90vh] max-h-auto bg-white shadow-lg rounded-2xl ml-[20%] `}>
                
                 {
               window!=='pend-orders' && window!=='orders'&& window!=='cancel-orders' && window !== 'profile'?
-                <div onClick={()=>{setedititem(null);setAdditem(true)}} className='absolute  right-[1rem] bg-white md:right-[3%] h-[2rem] md:h-[3rem] top-[4.8rem] md:top-[15%] p-2 md:p-3 rounded-4xl shadow-2xl justify-center items-center border-1 border-green-100 cursor-pointer hover:bg-gray-300'>
+                <div onClick={()=>{setedititem(null);setAdditem(true)}} className='absolute  right-[1rem] bg-white md:right-[3%] h-[2rem] md:h-[3rem] top-[4.8rem] md:top-[12%] p-2 md:p-3 rounded-4xl shadow-2xl justify-center items-center border-1 border-green-100 cursor-pointer hover:bg-gray-300'>
                  <div className='flex w-[100%] h-[100%] justify-center items-center'>   <h2 className='flex gap-1 md:gap-1 rounded-2xl justify-center text-sm md:text-lg items-center text-blue-800'>Add<Plus className='w-[30%] h-[30%]'/></h2>
                 </div></div>:''
                 }
@@ -365,7 +379,7 @@ if(userInfo?.userid) {
                                     setedititem(item)
                                     setAdditem(true);
 
-                                }} className='flex h-[2rem] cursor-pointer px-2 text-center items-center text-xs md:text-lg hover:bg-green-500 shadow-xl md:h-[3rem] gap-1 md:gap-3 border-1 border-green-400 p-x-2 md:px-4 py-2 rounded-lg'>edit<Pen className='w-[80%] h-[80%]'/> </button>
+                                }} className='flex h-[2rem] cursor-pointer px-2 text-center items-center justify-center text-xs md:text-lg hover:bg-green-200 shadow-xl md:h-[2.3rem] gap-1 md:gap-2 border-1 border-green-400  md:px-4 py-1 rounded-lg'>edit<Pen className='w-[50%] h-[50%]'/> </button>
                                 <button onClick={()=>{deleteAll(item.id);
                                     setlist(prev=>prev.filter(val=>val.id!==item.id))
                                 }} className='cursor-pointer text-red-500 md:text-black hover:text-red-500 shadow-xl'><Trash /></button>
