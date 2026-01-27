@@ -3,20 +3,23 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
+
+  "engines": {
+    "node": "18.x"
+  },
+
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",
-    "@tailwindcss/vite": "^4.1.14",
     "axios": "^1.13.2",
-    "esbuild-wasm": "^0.27.2",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.544.0",
-    "node": "^25.4.0",
     "razorpay": "^2.9.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -24,22 +27,22 @@
     "react-router": "^7.9.3",
     "react-router-dom": "^7.9.4",
     "react-toastify": "^11.0.5",
-    "swiper": "^12.0.3",
-    "tailwindcss": "^4.1.14"
+    "swiper": "^12.0.3"
   },
+
   "devDependencies": {
-    "@eslint/js": "^9.36.0",
-    "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",
+    "@tailwindcss/vite": "^4.1.14",
+    "tailwindcss": "^4.1.14",
+    "vite": "^5.2.0",
+    "vite-plugin-pwa": "^1.1.0",
+
+    "@eslint/js": "^9.36.0",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
-    "vite": "npm:rolldown-vite@7.1.14",
-    "vite-plugin-pwa": "^1.1.0"
-  },
-  "overrides": {
-    "vite": "npm:rolldown-vite@7.1.14"
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9"
   }
 }
