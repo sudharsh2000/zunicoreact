@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/vite": "^4.1.14",
     "axios": "^1.13.2",
+    "esbuild-wasm": "^0.27.2",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.544.0",
     "node": "^25.4.0",
