@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import store from './Redux/store.jsx'
 import { AuthProvider } from './Redux/AuthProvider.jsx'
 createRoot(document.getElementById('root')).render(
+  
   <StrictMode>
     <Provider store={store}>
       <AuthProvider>

@@ -21,7 +21,8 @@ const processQueue = (error, token = null) => {
 export const setupInterceptors = (auth) => {
 
   api.interceptors.request.use(config => {
-    const token = auth.accesstoken; // ✅ read LIVE value
+    const token = auth.accessTokenRef.current; // ✅ read LIVE value
+    console.log("Interceptor request token:", auth); // ✅ read LIVE value
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,6 +30,7 @@ export const setupInterceptors = (auth) => {
   });
 
   api.interceptors.response.use(
+    console.log("Interceptor response called"),
     response => response,
     async error => {
       const originalRequest = error.config;

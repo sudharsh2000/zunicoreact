@@ -40,9 +40,10 @@ const { login,logout, setLoading } = useAuth();
 useEffect(() => {
   const load = async () => {
     try {
+      logout()
       setFlash(true);
 
-      const res = await api.post(refreshapi, {}, { withCredentials: true });
+      const res = await axios.post(refreshapi, {}, { withCredentials: true });
 
       const decode = res.data.user;
       console.log('res',res.data.access_token )
@@ -65,12 +66,11 @@ login(res.data.access_token, {
 
   load();
 },[])
+// App.jsx
 useEffect(() => {
-  
-  if (auth && auth.accesstoken) { 
-    setupInterceptors(auth);
-  }
-}, [ ]); 
+  setupInterceptors(auth)
+}, []) // 👈 EMPTY dependency
+
   return (
     <>
      <ToastContainer
