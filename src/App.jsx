@@ -45,12 +45,16 @@ useEffect(() => {
       const res = await api.post(refreshapi, {}, { withCredentials: true });
 
       const decode = res.data.user;
-
-      login(res.data.access_token, {
-        username: decode.username,
-        userid: decode.userid,
-        superuser: decode.is_superuser,
-      });
+      console.log('res',res.data.access_token )
+login(res.data.access_token, {
+            username: decode.username,
+            userid: decode.userid,
+            email: decode.email,
+            mobile: decode.mobile,
+            superuser: decode.is_superuser,
+          })
+          console.log('User logged in from refresh token');
+      
     } catch (e) {
       console.error(e);
     } finally {
@@ -62,8 +66,11 @@ useEffect(() => {
   load();
 },[])
 useEffect(() => {
-  setupInterceptors(auth);
-}, []); 
+  
+  if (auth && auth.accesstoken) { 
+    setupInterceptors(auth);
+  }
+}, [ ]); 
   return (
     <>
      <ToastContainer

@@ -1,12 +1,13 @@
-import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, Bell, BookOpenIcon, BookOpenText, ChevronRight, Heart, LoaderCircle, LucideShoppingCart, Power, Store, User2Icon, UserCircle2Icon, UserCircleIcon } from 'lucide-react'
+import { ArrowBigRight, ArrowDownRight, ArrowRight, ArrowRightFromLine, Bell, BookOpenIcon, BookOpenText, ChevronRight, Heart, LoaderCircle, LucideShoppingCart, Power, Store, User2Icon, UserCircle2Icon, UserCircleIcon, Users } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import api from '../Redux/Interceptor'
-import { AddressApi, Logoutapi, notificationApi, usersapi } from '../Redux/api'
+import { AddressApi, Logoutapi, notificationApi, Usersapi } from '../Redux/api'
 import LoadingScreen from './LoadingPage'
 import { useAuth } from '../Redux/AuthProvider'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router'
 import man from '../assets/man.png'
+import axios from 'axios'
 function UserHome() {
     const [profile,setProfile]=useState({
         username:'',
@@ -20,7 +21,7 @@ function UserHome() {
     })
     const [loading,setLoading]=useState()
     const [updateloading,setUpdateLoading]=useState(false)
-    const {userInfo,logout,login}=useAuth()
+    const {userInfo,accesstoken, logout,login}=useAuth()
     const navigate=useNavigate()
     const urlvalue=new URLSearchParams(location.search)
     const tab=urlvalue.get('tab')
@@ -63,22 +64,25 @@ function UserHome() {
         const loaduser=async()=>{
             
                 setLoading(true)
-              try{  if (userInfo?.userid) {
-                        console.log('info', userInfo)
-                        const res = await api.get(`${usersapi}?id=${userInfo.userid}`)
-                        
-                        setProfile(res.data[0])
-                    }
-              }
-              catch(er){
-                console.error(er)
-              }
+             if (userInfo?.userid) {  
+                try {
+                    console.log(accesstoken)
+  const response = await api.get(`${Usersapi}`);
+ 
+  setProfile(response.data[0])
+  
+}
+ catch (er) {
+  console.log("ERROR STATUS 👉", er.response?.status)
+  console.log("ERROR DATA 👉", er.response?.data)
+}
 
+            }
             
             setLoading(false)
         }
         loaduser();
-    },[userInfo?.userid])
+    },[userInfo?.userid,profiletyepe])
 
     useEffect(()=>{
         const loadaddresses=async()=>{
@@ -93,7 +97,7 @@ function UserHome() {
                         setNotifications(res.data)
                         console.log(res.data)
                     }
-                    console.log(res.data)   
+                    
                 }
             }
             catch(er){
@@ -105,7 +109,7 @@ function UserHome() {
     const updateUser=async()=>{
        if(validation()) {
         setUpdateLoading(true)
-       try{ const res=await api.patch(`${usersapi}${profile.id}/`,profile)
+       try{ const res=await api.patch(`${Usersapi}${profile.id}/`,profile)
         console.log(res.data)
        if(res?.data && userInfo?.accesstoken){ console.log(userInfo.accesstoken,{'username':res.data.username,
         'userid':res.data.id,

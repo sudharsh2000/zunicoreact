@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router'
 function UserHomePage() {
   const {userInfo,login}=useAuth()
   const navigate=useNavigate()
-  useEffect(()=>{
-    if(!userInfo?.userid){
-      navigate('/signin')
-    }
-  },[userInfo?.userid,login])
+  // useEffect(()=>{
+  //   if(!userInfo?.userid){
+  //     navigate('/signin')
+  //   }
+  // },[userInfo?.userid,login])
   return (
     <div className='min-h-[100vh] h-auto bg-gradient-to-r from-amber-100 to-blue-300 '>
         <Navbar/>

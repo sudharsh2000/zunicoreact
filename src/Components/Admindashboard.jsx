@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import FileUploader from './FileUploader'
 import axios from 'axios'
-import { bannerapi, categoryapi, notificationApi, OrderApi, productapi, SubcategoryApi, usersapi } from '../Redux/api'
+import { bannerapi, categoryapi, notificationApi, OrderApi, productapi, SubcategoryApi, Usersapi } from '../Redux/api'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usersave } from '../Redux/UserSlice'
@@ -116,8 +116,8 @@ if(userInfo?.userid) {
                 if (window === 'profile') {
                     if (userInfo) {
                    
-                        const res = await api.get(`${usersapi}?id=${userInfo.userid}`)
-                        
+                        const res = await api.get(`${Usersapi}`)
+                        console.log(res.data[0])
                         setProfile(res.data[0])
                     }
 
@@ -263,6 +263,8 @@ if(userInfo?.userid) {
                  <div className='flex w-[100%] h-[100%] justify-center items-center'>   <h2 className='flex gap-1 md:gap-1 rounded-2xl justify-center text-sm md:text-lg items-center text-blue-800'>Add<Plus className='w-[30%] h-[30%]'/></h2>
                 </div></div>:''
                 }
+              {
+                window==='subcategories'&&
                 <div className='w-full flex'>
                     <ul className='flex gap-4'>
                          <li onClick={() =>{
@@ -275,6 +277,7 @@ if(userInfo?.userid) {
                     </ul>
 
                 </div>
+}
                 {
                
                 window === 'profile' ?

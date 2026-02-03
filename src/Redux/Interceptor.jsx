@@ -1,56 +1,79 @@
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { refreshapi, homeapi } from "./api";
+// Interceptor.js
+import axios from "axios"
+import { refreshapi, homeapi } from "./api"
 
-const api = axios.create({ baseURL: homeapi, withCredentials: true });
-const plainAxios = axios.create({ withCredentials: true }); // retry without interceptor
+const api = axios.create({
+  baseURL: homeapi,
+  withCredentials: true,
+})
+
+let isRefreshing = false
+let failedQueue = []
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) prom.reject(error)
+    else prom.resolve(token)
+  })
+  failedQueue = []
+}
 
 export const setupInterceptors = (auth) => {
-  const { accesstoken, login, logout } = auth;
 
-  api.interceptors.request.use(
-    (config) => {
-      if(auth?.access_token){
-      if (accesstoken) config.headers.Authorization = `Bearer ${accesstoken}`;
-      }
-      return config;
-    },
-    (error) => Promise.reject(error)
-  );
+  api.interceptors.request.use(config => {
+    const token = auth.accesstoken; // ✅ read LIVE value
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
 
   api.interceptors.response.use(
-    (res) => res,
-    async (error) => {
+    response => response,
+    async error => {
       const originalRequest = error.config;
+
+      console.log("Interceptor error:", error.response?.status);
 
       if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
-        try {
-          const res = await plainAxios.post(refreshapi, { withCredentials: true });
-       
-          const newAccess = res.data.access_token;
-          console.log('res',res.data)
-          const decode = res.data.user;
-          
-          login(newAccess, {
-            'username':decode.username,
-        'userid':decode.userid,
-        
-        'mobile':decode.mobile,
-        'email':decode.email,
-        'superuser':decode.is_superuser
-            
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          }).then(token => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return api(originalRequest);
           });
-        
+        }
+
+        isRefreshing = true;
+
+        try {
+          console.log("Calling refresh API");
+
+          const res = await axios.post(
+            refreshapi,
+            {},
+            { withCredentials: true }
+          );
+
+          const newAccess = res.data.access_token;
+          const user = res.data.user;
+
+          login(newAccess, user);
+
+          processQueue(null, newAccess);
 
           originalRequest.headers.Authorization = `Bearer ${newAccess}`;
-    
-          return api(originalRequest); // ✅ retry without interceptor
+          return api(originalRequest);
+
         } catch (err) {
-          console.log('refresh error')
+          processQueue(err, null);
           logout();
           return Promise.reject(err);
+        } finally {
+          isRefreshing = false;
         }
       }
 
@@ -59,4 +82,5 @@ export const setupInterceptors = (auth) => {
   );
 };
 
-export default api;
+
+export default api

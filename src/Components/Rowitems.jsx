@@ -38,7 +38,7 @@ function Rowitems({ali_type,Title}) {
         ? api.get(`${CartApi}?user=${userInfo.userid}`)
         : Promise.resolve({ data: [] })
     ]);
-    console.log(productRes.data)
+  
    ali_type==='row'?setProducts(productRes.data): setProducts(productRes.data.results);
     setcount(productRes.data.count);
     setcarts(cartRes.data[0]?.items || []);
@@ -203,7 +203,7 @@ for(let i=1;i<=Math.ceil(count/12);i++){
 </div>
         </div>
       </div>:''}
-       {console.log(Math.ceil(count/12))}
+      
           {ali_type!=='row'&&Math.ceil(count/12)>1&& <div className='h-[2rem] md:h-[3rem] text-sm md:text-base rounded-lg py-2 w-full bg-white flex justify-center items-center gap-2 md:gap-4 my-4'>
           {
        pages.map((pg)=>{
