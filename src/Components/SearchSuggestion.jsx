@@ -13,8 +13,8 @@ function SearchSuggestion() {
   const SearchProducts=async()=>{
     try{
         const res=await api.get(`${productapi}?search=${searchval}`)
-        SetlistProducts(res.data.results)
-        console.log(res.data.results)
+        SetlistProducts(res.data)
+        console.log(res.data)
 
     }
     catch(er){

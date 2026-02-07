@@ -174,8 +174,8 @@ for(let i=1;i<=Math.ceil(count/12);i++){
         
           return <div key={product.id}  className={`flex bg-white md:bg-white mt-2 outline-0 border-0 flex-nowrap max-h-[19rem]   gap-4 rounded-md md:rounded-lg w-[50%] ${ali_type==='row'?'md:min-w-[22rem] md:max-h-[30rem]': 'px-2 md:ml-[2%] md:p-8 md:w-[30%] md:max-h-[30rem] lg:max-h-[40rem] hover:border-1 border-gray-200 '}  m-0  shadow-2xl md:shadow-none justify-between p-2  items-center flex-col bg-gradient-to-r cursor-pointer hover:shadow-2xl hover:scale-105 transition-transform`}>
           <img onClick={()=>navigate(`/detail/${product.id}`)} src={product.main_image} className='w-[10rem] lg:h-[18rem] h-[10rem] md:h-[15rem] md:w-[25rem] rounded-lg'/>
-         {cartpopup[i]&& <div className='absolute bg-[#1d1818c2] self-center md:top-[30%] p-1 md:p-2 rounded-xl'>
-          <button className='text-white flex  text-xs md:text-base flex-col justify-center items-center'><Loader className='animate-spin w-[100%] h-[100%]'/> {cartstatus}</button>
+         {cartpopup[i]&& <div className='absolute bg-[#1d1818c2] self-center md:top-[26%] p-1 md:p-2 rounded-xl'>
+          <button className='text-white flex text-xs md:text-base flex-col justify-center items-center'><Loader className='animate-spin w-[100%] h-[100%]'/></button>
         </div>
         }
 <h2 onClick={()=>navigate(`/detail/${product.id}`)} className='text-orange-900 font-bold max-w-[100%] md:max-w-[100%] text-center break-words  text-[10px] truncate  md:text-lg  hover:text-black '>{product.name}</h2>

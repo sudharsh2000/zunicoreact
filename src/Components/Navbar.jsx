@@ -47,7 +47,7 @@ const SearchProducts=async()=>{
     try{
         if(debouncesearch){
         const res=await api.get(`${productapi}?search=${debouncesearch}`)
-        SetlistProducts(res.data.results)
+        SetlistProducts(res.data)
         console.log(res.data)
 }
 

@@ -66,7 +66,7 @@ function UserHome() {
                 setLoading(true)
              if (userInfo?.userid) {  
                 try {
-                    console.log(accesstoken)
+                   
   const response = await api.get(`${Usersapi}`);
  
   setProfile(response.data[0])
@@ -82,7 +82,7 @@ function UserHome() {
             setLoading(false)
         }
         loaduser();
-    },[userInfo?.userid,profiletyepe])
+    },[])
 
     useEffect(()=>{
         const loadaddresses=async()=>{
@@ -105,7 +105,7 @@ function UserHome() {
             }
         }
         loadaddresses()
-    },[userInfo?.userid,profiletyepe,userInfo?.username])
+    },[])
     const updateUser=async()=>{
        if(validation()) {
         setUpdateLoading(true)
