@@ -85,26 +85,26 @@ function UserHome() {
     },[])
 
     useEffect(()=>{
-        const loadaddresses=async()=>{
-            try{
-                if(userInfo?.userid){
-                    if(profiletyepe==='address'){
-                    const res=await api.get(`${AddressApi}?user=${userInfo.userid}`,{withCredentials:true})
-                    setAddresses(res.data)
-                    }
-                    if(profiletyepe==='notification'){
-                        const res=await api.get(`${notificationApi}?username=${userInfo?.username}`)
-                        setNotifications(res.data)
-                        console.log(res.data)
-                    }
+        // const loadaddresses=async()=>{
+        //     try{
+        //         if(userInfo?.userid){
+        //             if(profiletyepe==='address'){
+        //             const res=await api.get(`${AddressApi}?user=${userInfo.userid}`,{withCredentials:true})
+        //             setAddresses(res?.data)
+        //             }
+        //             if(profiletyepe==='notification'){
+        //                 const res=await api.get(`${notificationApi}?username=${userInfo?.username}`)
+        //                 setNotifications(res?.data)
+        //                 console.log(res.data)
+        //             }
                     
-                }
-            }
-            catch(er){
-                console.error(er)
-            }
-        }
-        loadaddresses()
+        //         }
+        //     }
+        //     catch(er){
+        //         console.error(er)
+        //     }
+        // }
+        // loadaddresses()
     },[])
     const updateUser=async()=>{
        if(validation()) {
@@ -233,7 +233,7 @@ console.error('logourt error')
 
                     </div>
           <div className=' w-[85%] h-[90%] md:h-[100%] md:w-[60%] gap-3 md:gap-[3rem] flex justify-center items-center  p-3 md:p-4  flex-col md:rounded-xl shadow-xl bg-white '>
-                 {profiletyepe==='useredit'?      
+                 {profile&& profiletyepe==='useredit'?      
                         <div className='w-[100%] md:w-[70%] flex flex-col h-full  justify-center gap-7 md:gap-[4rem]'>
                             <div className='flex flex-row justify-around items-center gap-3 md:gap-5'>
                                 <p className='text-xs md:text-lg font-medium w-[30%] '>Username </p>
@@ -278,7 +278,7 @@ console.error('logourt error')
                         </div>
                         <div className='w-[100%] md:w-[100%] flex flex-col h-[100%] md:h-[90%] justify-start gap-7 md:gap-[2rem] mt-5 overflow-y-auto'>
                             {
-                                addresses.map((addr)=>{ 
+                              addresses && addresses.map((addr)=>{ 
                                     return <div key={addr.id} className='w-[100%] md:w-[100%] rounded-lg shadow-xl  flex p-2 md:p-3 md:px-4  justify-between gap-3 md:gap-[1rem]'>
                                     <div className='flex flex-col gap-2 md:gap-0'>
                                         <h2 className='text-xs text-gray-600 md:text-xl font-semibold '> {addr.address_type} </h2>

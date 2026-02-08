@@ -6,72 +6,51 @@ const api = axios.create({
   withCredentials: true,
 })
 
-let isRefreshing = false
-let failedQueue = []
-
-const processQueue = (error, token = null) => {
-  failedQueue.forEach(prom => {
-    if (error) prom.reject(error)
-    else prom.resolve(token)
-  })
-  failedQueue = []
-}
 
 export const setupInterceptors = (auth) => {
 
-  // REQUEST
-  api.interceptors.request.use(config => {
-    const token = auth.accessTokenRef.current
-    console.log("Request token:", token)
+  console.log("Interceptor setup complete")
 
+  // REQUEST
+api.interceptors.request.use(config => {
+  if (!config.headers.Authorization) {
+    const token = auth.accessTokenRef.current
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    return config
-  })
+  }
+  return config
+})
+
 
   // RESPONSE
 api.interceptors.response.use(
-  response => {
-    console.log("Interceptor response called")
-    return response
-  },
+  response => response,
   async error => {
+    console.log("Interceptor error:", error.config)
     const originalRequest = error.config
-    console.log("Interceptor error:", error.response?.status)
-    console.log(error.response.status )
-    // 🚨 refresh API itself failed
+
     if (
-      error.response?.status === 401 &&
+      error.response.status === 401 &&
       originalRequest.url.includes("refresh")
     ) {
       auth.logout()
       return Promise.reject(error)
     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true
 
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject })
-        }).then(token => {
-          originalRequest.headers.Authorization = `Bearer ${token}`
-          return api(originalRequest)
-        })
-      }
-
-      isRefreshing = true
-
       try {
-        console.log("Calling refresh API")
-
         const res = await axios.post(
           refreshapi,
           {},
           { withCredentials: true }
         )
-          console.log("Refresh API response:", res.data)
+
         const newAccess = res.data.access_token
         const decode = res.data.user
 
@@ -83,17 +62,15 @@ api.interceptors.response.use(
           superuser: decode.is_superuser
         })
 
-        processQueue(null, newAccess)
+        // VERY IMPORTANT
+        originalRequest.headers.Authorization =
+          `Bearer ${newAccess}`
 
-        originalRequest.headers.Authorization = `Bearer ${newAccess}`
         return api(originalRequest)
 
       } catch (err) {
-        processQueue(err, null)
         auth.logout()
         return Promise.reject(err)
-      } finally {
-        isRefreshing = false
       }
     }
 

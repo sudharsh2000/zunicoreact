@@ -26,7 +26,7 @@ function Navbar() {
     const debouncesearch=UseDebounce(searchval,300)
 const logoutfunction=async()=>{
     try{
-        const res=axios.post(Logoutapi,{},{withCredentials:true})
+        const res=api.post(Logoutapi,{},{withCredentials:true})
         logout()
        if(userInfo.superuser){
         navigate('/admin/signin')
@@ -58,23 +58,23 @@ const SearchProducts=async()=>{
     }
 
 }
-useEffect(()=>{
-   setusername(userInfo?.username)
-   const loadnotifications=async()=>{   
-   try{
-    const res=await api.get(`${notificationApi}?username=${userInfo?.username}&is_read=false`)
-    console.log(res.data)
-    setnotificationdata(res.data)
+// useEffect(()=>{
+//    setusername(userInfo?.username)
+//    const loadnotifications=async()=>{   
+//    try{
+//     const res=await api.get(`${notificationApi}?username=${userInfo?.username}&is_read=false`)
+  
+//     setnotificationdata(res.data)
    
 
-   }
-   catch(e){
-    console.error(e)
-   }
-}
-loadnotifications()
+//    }
+//    catch(e){
+//     console.error(e)
+//    }
+// }
+// loadnotifications()
 
-},[userInfo?.username])
+// },[userInfo?.username])
 
   return (
     <nav className='hidden md:block sticky w-auto py-2  mx-3 top-0 z-50'>

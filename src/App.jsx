@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useRef, useState } from 'react'
 
 import './App.css'
 import Navbar from './Components/Navbar'
@@ -32,7 +32,7 @@ export const Flashcontext=createContext(null)
 function App() {
     const [flash,setFlash]=useState(false)
   const auth=useAuth()
-  
+  const interceptorSetup = useRef(false)
   
 const {userInfo}=useAuth()
 const { login,logout, setLoading } = useAuth();
@@ -68,7 +68,10 @@ login(res.data.access_token, {
 },[])
 // App.jsx
 useEffect(() => {
-  setupInterceptors(auth)
+ if (!interceptorSetup.current) {
+    setupInterceptors(auth)
+    interceptorSetup.current = true
+  }
 }, []) // 👈 EMPTY dependency
 
   return (
